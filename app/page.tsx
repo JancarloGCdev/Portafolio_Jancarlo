@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
 import { GuidedTour } from "@/components/GuidedTour";
 import { HUDTabs } from "@/components/HUDTabs";
 import { LiveLogs } from "@/components/LiveLogs";
