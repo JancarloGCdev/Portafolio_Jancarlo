@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  @apply bg-surface text-zinc-200 antialiased selection:bg-accent-cyan/20 selection:text-cyan-100;
+}
+
+@layer utilities {
+  /* Do not use pointer-events: none — it blocks focus/clicks when applied to wrappers that contain inputs/buttons */
+  .crt-scan {
+    background: linear-gradient(rgba(18, 26, 32, 0) 50%, rgba(0, 0, 0, 0.12) 50%);
+    background-size: 100% 4px;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 18px rgba(34, 211, 238, 0.35);
+  }
+
+  .edge-shift {
+    stroke-dasharray: 6 14;
+    animation: edge-shift 2.8s linear infinite;
+  }
+}
+
+@keyframes edge-shift {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
