@@ -75,10 +75,10 @@ export function GuidedTour({ disabled, onStep, onComplete, onCancel, abortRef }:
 
   return (
     <motion.div
-      className="pointer-events-none fixed bottom-[max(2rem,env(safe-area-inset-bottom))] left-auto right-[max(0.75rem,env(safe-area-inset-right))] z-[44] flex justify-end sm:bottom-4 sm:right-6 md:bottom-5 md:right-8"
+      className="pointer-events-none fixed bottom-[max(2rem,env(safe-area-inset-bottom))] left-auto right-[max(0.75rem,env(safe-area-inset-right))] z-[44] flex w-[min(13rem,calc(50vw-1.125rem))] justify-end sm:bottom-4 sm:right-6 md:bottom-5 md:right-8 md:w-auto md:max-w-none"
       aria-hidden={false}
     >
-      <div className="pointer-events-auto flex flex-wrap items-center justify-center gap-2">
+      <div className="pointer-events-auto flex max-w-full min-w-0 flex-wrap items-center justify-end gap-2">
         {!running ? (
           <motion.button
             layout
@@ -86,26 +86,31 @@ export function GuidedTour({ disabled, onStep, onComplete, onCancel, abortRef }:
             disabled={disabled}
             onClick={() => void run()}
             whileTap={{ scale: 0.985 }}
-            className="inline-flex max-w-[calc(100vw-9rem)] items-center gap-3 rounded-full border border-accent-green/36 bg-accent-green/12 px-4 py-2 text-[12px] font-semibold uppercase tracking-[0.14em] text-accent-green shadow-glow backdrop-blur-md transition hover:border-accent-green/50 hover:bg-accent-green/18 disabled:cursor-not-allowed disabled:opacity-40 sm:max-w-none"
+            className="inline-flex min-w-0 max-w-full items-center gap-2 rounded-full border border-accent-green/36 bg-accent-green/12 px-3 py-2 text-[10px] font-semibold uppercase leading-tight tracking-[0.1em] text-accent-green shadow-glow backdrop-blur-md transition hover:border-accent-green/50 hover:bg-accent-green/18 disabled:cursor-not-allowed disabled:opacity-40 sm:gap-3 sm:px-4 sm:text-[12px] sm:tracking-[0.14em]"
             title={gt.startTooltip}
           >
             <Play className="h-4 w-4 shrink-0 fill-current text-accent-green" aria-hidden />
-            {gt.startLabel}
+            <span className="min-w-0 truncate">{gt.startLabel}</span>
           </motion.button>
         ) : (
-          <motion.div layout className="flex items-center gap-2 rounded-full border border-amber-500/35 bg-amber-500/12 px-1 py-1 pl-3 shadow-lg backdrop-blur-md">
-            <span className="hidden text-[10px] uppercase tracking-[0.2em] text-amber-200/90 sm:inline">{gt.runningBadge}</span>
-            <span className="max-w-[9rem] truncate text-[11px] leading-tight text-zinc-300 sm:max-w-none">{gt.runningSubtitle}</span>
+          <motion.div
+            layout
+            className="flex max-w-full min-w-0 items-center gap-1.5 overflow-hidden rounded-full border border-amber-500/35 bg-amber-500/12 px-1 py-1 pl-2.5 shadow-lg backdrop-blur-md sm:gap-2 sm:pl-3"
+          >
+            <span className="hidden shrink-0 text-[10px] uppercase tracking-[0.2em] text-amber-200/90 sm:inline">{gt.runningBadge}</span>
+            <span className="min-w-0 max-w-[6.5rem] truncate text-[10px] leading-tight text-zinc-300 sm:max-w-[10rem] sm:text-[11px] md:max-w-none">
+              {gt.runningSubtitle}
+            </span>
             <motion.button
               layout
               type="button"
               onClick={cancel}
               whileTap={{ scale: 0.97 }}
-              className="inline-flex shrink-0 items-center gap-2 rounded-full border border-amber-500/40 bg-black/55 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-amber-100 transition hover:border-amber-400/60 hover:bg-black/65"
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-amber-500/40 bg-black/55 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-amber-100 transition hover:border-amber-400/60 hover:bg-black/65 sm:gap-2 sm:px-3 sm:py-1.5 sm:text-[11px]"
               title={gt.cancelTooltip}
             >
-              <Square className="h-3.5 w-3.5 fill-current" aria-hidden />
-              {gt.cancelLabel}
+              <Square className="h-3 w-3 shrink-0 fill-current sm:h-3.5 sm:w-3.5" aria-hidden />
+              <span className="hidden text-[11px] sm:inline">{gt.cancelLabel}</span>
             </motion.button>
           </motion.div>
         )}

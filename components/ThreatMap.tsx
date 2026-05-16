@@ -91,7 +91,7 @@ function buildPositions(tier: DensityTier, topologyNodes: NodeCoordsSource): Rec
     const base = topologyNodes[id];
     let { x, y } = base;
     /** Mismo factor en X e Y para conservar simetría radial. */
-    const scale = tier === "tight" ? 0.88 : tier === "mid" ? 0.93 : 1;
+    const scale = tier === "tight" ? 0.935 : tier === "mid" ? 0.96 : 1;
     if (scale !== 1) {
       x = (x - cx) * scale + cx;
       y = (y - cy) * scale + cy;
@@ -159,11 +159,11 @@ export function ThreatMap({ onSelectNode, highlightNodeId, tourActive }: ThreatM
   const tierGeom = useMemo(() => {
     switch (tier) {
       case "wide":
-        return { coreGlow: 48, glow: 36, stroke: 1.65, iconCore: 28, icon: 21, foCore: 58, fo: 46, lbl: 12, sub: 9, pad: 58 };
+        return { coreGlow: 50, glow: 38, stroke: 1.68, iconCore: 30, icon: 22.5, foCore: 62, fo: 49, lbl: 12.5, sub: 9.35, pad: 61 };
       case "mid":
-        return { coreGlow: 44, glow: 32, stroke: 1.48, iconCore: 26, icon: 19.5, foCore: 54, fo: 42, lbl: 11.25, sub: 8.5, pad: 54 };
+        return { coreGlow: 46, glow: 35, stroke: 1.52, iconCore: 28, icon: 21, foCore: 58, fo: 45, lbl: 11.75, sub: 8.85, pad: 58 };
       default:
-        return { coreGlow: 38, glow: 26, stroke: 1.25, iconCore: 22, icon: 17.5, foCore: 48, fo: 38, lbl: 9.85, sub: 7.85, pad: 50 };
+        return { coreGlow: 46, glow: 32, stroke: 1.4, iconCore: 28, icon: 21.5, foCore: 60, fo: 48, lbl: 11.25, sub: 9, pad: 60 };
     }
   }, [tier]);
 
@@ -282,15 +282,15 @@ export function ThreatMap({ onSelectNode, highlightNodeId, tourActive }: ThreatM
   const mapCard = (
     <div
       ref={shellRef}
-      className="relative z-[1] mx-auto box-border w-full max-w-[min(100%,58rem)] rounded-2xl border border-cyan-500/14 bg-[#050913]/55 shadow-[0_30px_120px_-50px_rgba(0,0,0,.95),inset_0_1px_0_rgba(34,211,238,0.06)] backdrop-blur-md"
+      className="relative z-[1] mx-auto box-border w-full max-w-[min(100%,64rem)] rounded-2xl border border-cyan-500/14 bg-[#050913]/55 shadow-[0_30px_120px_-50px_rgba(0,0,0,.95),inset_0_1px_0_rgba(34,211,238,0.06)] backdrop-blur-md"
     >
       <div className="box-border flex w-full justify-center px-4 py-5 sm:px-6 md:px-7 md:py-7 lg:p-9">
-        <div className="relative mx-auto w-full max-w-[min(100%,940px)]">
+        <div className="relative mx-auto w-full max-w-[min(100%,min(1200px,calc(100vw-2.5rem)))]">
           <svg
             ref={svgRef}
             viewBox={viewBoxStr}
             preserveAspectRatio="xMidYMid meet"
-            className={`block aspect-[125/70] h-auto w-full max-h-[min(76vh,540px)] min-h-[208px] touch-manipulation [-webkit-tap-highlight-color:transparent] ${immersing ? "pointer-events-none select-none" : ""}`}
+            className={`block aspect-[125/70] h-auto w-full max-h-[min(90vh,760px)] min-h-[300px] touch-manipulation [-webkit-tap-highlight-color:transparent] sm:min-h-[340px] lg:min-h-[380px] ${immersing ? "pointer-events-none select-none" : ""}`}
             role="img"
             aria-label={tm.svgAriaLabel}
           >

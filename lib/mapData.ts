@@ -18,7 +18,7 @@ export type CaseActions = {
   github?: string;
   githubSecondary?: string;
   demo?: string;
-  pdf?: string;
+  linkedin?: string;
 };
 
 /** Ficha “case file” mostrada en el modal por nodo. */
@@ -27,15 +27,19 @@ export type CaseFile = {
   title: string;
   subtitle?: string;
   badge: CaseBadge;
-  /** Descripción breve recruiter-friendly */
+  /** Una o dos líneas: qué ves en este nodo */
   summary: string;
   features: string[];
   stack: string[];
+  /** Opcional · sustituye el rótulo del bloque de notas (por defecto `nodeModal.securityHeading`). */
+  insightsHeading?: string;
+  /** Notas puntuales; vacío ⇒ el modal no muestra el bloque */
   securityConsiderations: string[];
+  /** Vacío ⇒ se ocultan referencias · capturas */
   evidence: { src: string; alt: string }[];
   actions: CaseActions;
-  /** Exactamente dos líneas sugeridas */
-  learned: [string, string];
+  /** Bloque inferior; omitir cuando no suma información */
+  learned?: readonly [string, string];
 };
 
 /**
@@ -145,208 +149,157 @@ export const CASE_FILES: Record<TopologyNodeId, CaseFile> = {
     subtitle: PROFILE.name,
     badge: "completed",
     summary:
-      "Resumen de mi trayectoria en el cruce entre entrega de software y ciberseguridad con enfoque operativo. Desde aquí puedes navegar por proyectos, experiencia, laboratorios y forma de contacto.",
+      "Full-stack mantenimiento y producto: .NET/C# · Blazor Server, React/Next, SQL Server. Interés paralelo en redes, visibilidad y análisis de registros · Colombia · remoto.",
     features: [
-      "Vista única para revisar trayectoria y resultados sin perder el hilo",
-      "Prioridad a la claridad: mantenimiento, observación del sistema y acuerdos con equipos y clientes",
-      "Disponibilidad para equipos remotos que valoren documentación breve y concreta",
+      "Cada waypoint del mapa cubre una pieza diferente para evitar párrafos duplicados entre secciones.",
+      "Enlaces rápidos: repos públicos y LinkedIn. No hay CV descargable en abierto.",
     ],
-    stack: ["Next.js", "TypeScript", "Tailwind", "Seguridad en el diseño", "Git"],
+    stack: ["Next.js", "TypeScript", ".NET/C#", "SQL Server", "Git/GitHub"],
+    insightsHeading: "Sitio",
     securityConsiderations: [
-      "Esta vitrina no solicita credenciales; los enlaces externos se abren aparte para que verifiques el dominio con calma.",
-      "Si te comparto accesos en un proceso real, siempre por canales acordados y con el mínimo privilegio necesario.",
+      "Sin captura de credenciales aquí; los enlaces externos abren aparte para comprobar el dominio con calma.",
     ],
-    evidence: [
-      { src: "/maps/evidence-slot.svg", alt: "Esquema del mapa de contenidos" },
-      { src: "/maps/evidence-slot.svg", alt: "Resumen de estado y prioridades" },
-    ],
-    actions: { github: QUICK_LINKS.github, pdf: QUICK_LINKS.cvPath },
-    learned: [
-      "Un portafolio sólido cuenta qué decidiste y por qué, no solo qué herramientas usaste.",
-      "Una vista clara ayuda a explicar perfiles que combinan producto y seguridad sin perder rigor.",
-    ],
+    evidence: [],
+    actions: { github: QUICK_LINKS.github, linkedin: QUICK_LINKS.linkedin },
   },
   projects: {
     id: "projects",
     title: "Proyectos web",
     badge: "completed",
     summary:
-      "Proyectos públicos que demuestran diseño de producto, integración con datos y ownership de entrega. Incluye comercio electrónico y panel operativo.",
+      "Dos repos públicos con problemas distintos: ecommerce multi‑rol y dashboard operativo con datos en tiempo real.",
     features: [
-      `${paper?.name ?? "PaperTrail v2"} — e‑commerce multi-rol con flujo de compra`,
-      `${techos?.name ?? "TechosRentables"} — panel para monitoreo de sistemas solares`,
-      ...(paper?.features?.slice(0, 2) ?? []),
-      ...(techos?.features?.slice(0, 1) ?? []),
+      `${paper?.name ?? "PaperTrail v2"} — catálogo, carrito y flujo de compra.`,
+      `${techos?.name ?? "TechosRentables"} — indicadores vivo, PDF y vista operador.`,
+      ...(paper?.features?.slice(0, 1) ?? []),
     ].slice(0, 5),
     stack: stackUnion(paper?.stack ?? [], techos?.stack ?? []),
+    insightsHeading: "Producto",
     securityConsiderations: [
-      "Separación de permisos y superficie de administración acotada en aplicaciones con usuarios finales.",
-      "Validación de entradas y manejo seguro de sesiones en flujos con carrito y pagos (integración según proveedor).",
+      "Superficie admin acotada; entradas validadas y sesión cuidada especialmente antes del cobro.",
     ],
     evidence: [
-      { src: paper?.image ?? "/maps/evidence-slot.svg", alt: "Captura PaperTrail v2" },
-      { src: techos?.image ?? "/maps/evidence-slot.svg", alt: "Captura TechosRentables" },
+      { src: paper?.image ?? "/projects/github-wordmark.avif", alt: "PaperTrail · vista del proyecto" },
+      { src: techos?.image ?? "/projects/github-wordmark.avif", alt: "TechosRentables · panel operativo" },
     ],
     actions: {
       github: "https://github.com/JancarloGCdev/papertrailv2",
       githubSecondary: "https://github.com/JancarloGCdev/TechosRentables-Proyecto",
       demo: techos?.liveUrl,
     },
-    learned: [
-      paper?.learned
-        ? `${paper.learned.split(".")[0]}.`
-        : "Iterar con feedback real ordena prioridades sin perder de vista seguridad.",
-      techos?.learned
-        ? `${techos.learned.split(".")[0]}.`
-        : "Las métricas que importan son las que disparan una acción concreta en minutos.",
-    ],
   },
   "security-labs": {
     id: "security-labs",
     title: "Laboratorios de seguridad",
     badge: "in-progress",
     summary:
-      "Laboratorios enfocados en visibilidad, análisis de logs y diseño de red. Wazuh SIEM está marcado como trabajo en curso; el resto refuerza automatización y topología.",
+      "Espacio aparte para telemetría, parsing de registros y topología modelo — no replica la ficha de proyectos.",
     features: [
-      `${wazuh?.name ?? "Laboratorio Wazuh (SIEM)"} — ${wazuh?.ongoing || wazuh?.status === "En curso" ? "monitoreo centralizado (en curso)" : "monitoreo centralizado"}`,
-      `${pyLog?.name ?? "Analizador de registros (Python)"} — patrones relevantes y exportación estructurada`,
-      `${entNet?.name ?? "Red empresarial segmentada"} — modelo de segmentación y endurecimiento`,
-      ...(entNet?.description?.slice(0, 2) ?? []),
+      "Correlación y telemetría centralizada · enfoque tipo SIEM (laboratorio documentado y en evolución).",
+      `${pyLog?.name ?? "Analizador Python"} — patrones resaltados y CSV/JSON legible.`,
+      `${entNet?.name ?? "Red segmentada"} — VLAN/SSH/endurecimiento modelado.`,
     ].slice(0, 5),
-    stack: ["Wazuh", "Python", "Linux", "Packet Tracer", "JSON/CSV"],
+    stack: ["Python", "Linux", "Packet Tracer", "SIEM mindset"],
+    insightsHeading: "Laboratorio",
     securityConsiderations: [
-      "Priorizar el contexto y la retención razonable de alertas antes de añadir más fuentes de datos.",
-      "Documentar la hipótesis de amenaza en cada laboratorio para retomar el hilo con claridad.",
+      "Cada ejercicio deja hipótesis anotadas; sin eso los hallazgos se vuelven difíciles de explicar días después.",
     ],
-    evidence: [
-      { src: wazuh?.image ?? "/maps/evidence-slot.svg", alt: "Laboratorio Wazuh" },
-      { src: "/maps/evidence-slot.svg", alt: "Flujo de análisis de logs" },
-    ],
+    evidence: [{ src: wazuh?.image ?? "/labs/wazuh.avif", alt: "Wazuh · captura laboratorio" }],
     actions: {},
-    learned: [
-      wazuh?.learned ? `${wazuh.learned.split(".")[0]}.` : "Centralizar telemetría ordena prioridades de incidentes sin duplicar esfuerzos.",
-      pyLog?.learned
-        ? `${pyLog.learned.split(".")[0]}.`
-        : "Automatizar parsing de logs reduce fatiga y libera tiempo para amenazas sutiles.",
-    ],
   },
   "development-apps": {
     id: "development-apps",
     title: "Aplicaciones y paneles",
     badge: "completed",
     summary:
-      "Aplicaciones web orientadas a la operación diaria: paneles, formularios complejos e integración de datos. Complementa la sección de proyectos con énfasis en equipos internos y uso frecuente.",
+      "Casos donde el código vive dentro de rutinas internas: pantallas de uso diario, errores que deben pedir siguiente paso, despliegues por etapa.",
     features: [
-      "Interfaces adaptables con mensajes claros de carga y error para quienes operan el sistema",
-      "Capa de datos ordenada y despliegues que se pueden repetir con confianza",
-      "Mejoras por entregas sin interrumpir los flujos críticos en producción",
+      "Errores con mensaje útil ante fallas en vivo — evita soporte improvisado repetido.",
+      "Entregas incrementales sin tirar procesos delicados cuando el servidor ya está ocupado.",
+      "Referencia pública cercana · TechosRentables (métricas, PDF, vistas por rol).",
     ],
     stack: techos?.stack ?? ["Next.js", "React", "TypeScript", "PostgreSQL"],
+    insightsHeading: "Operación",
     securityConsiderations: [
-      "Principio de menor privilegio en vistas administrativas y APIs internas.",
-      "Registros auditables cuando un usuario ejecuta acciones sensibles.",
+      "Cambios sensibles (roles, datos críticos) dejan evidencia suficiente para reconstruir después.",
     ],
-    evidence: [
-      { src: "/maps/evidence-slot.svg", alt: "Boceto de aplicación interna" },
-      { src: techos?.image ?? "/maps/evidence-slot.svg", alt: "Panel operativo" },
-    ],
+    evidence: [{ src: techos?.image ?? "/projects/github-wordmark.avif", alt: "Panel operativo referencia" }],
     actions: {
       github: "https://github.com/JancarloGCdev/TechosRentables-Proyecto",
       githubSecondary: "https://github.com/JancarloGCdev/papertrailv2",
     },
-    learned: [
-      "Los equipos internos valoran respuestas rápidas y mensajes que indiquen qué falló y el siguiente paso.",
-      "Reutilizar patrones de interfaz acelera la entrega sin renunciar a una experiencia accesible.",
-    ],
   },
   experience: {
     id: "experience",
     title: "Experiencia profesional",
     badge: "completed",
-    summary: `Pasante de desarrollo en ${EXPERIENCE.company}: mantenimiento de sistemas en producción, tickets y publicación controlada de cambios.`,
+    summary: `${EXPERIENCE.role}, ${EXPERIENCE.company}: mantenimiento en producción, tickets y despliegues controlados.`,
     features: EXPERIENCE.bullets.slice(0, 5),
     stack: ["Blazor Server", "C#", ".NET", "SQL Server", "Windows Server"],
+    insightsHeading: "Producción",
     securityConsiderations: [
-      "Cambios versionados y comunicación antes de ventanas de mantenimiento.",
-      "Acceso administrativo acotado a entornos productivos.",
+      "Antes de tocar usuarios hay ventana anunciada; acceso prod lo más acotado posible.",
     ],
-    evidence: [
-      { src: "/maps/evidence-slot.svg", alt: "Línea de tiempo experiencia" },
-      { src: "/maps/evidence-slot.svg", alt: "Responsabilidades clave" },
-    ],
+    evidence: [],
     actions: {},
     learned: [
-      EXPERIENCE.learned.split(".")[0] + ".",
-      "La claridad en tickets reduce ida y vuelta y aumenta confianza con usuarios finales.",
+      "Ticket reproducible y evidencia llegan antes que el parche urgente improvisado.",
+      "Dos líneas de contexto después del cambio cortan segunda ronda por el mismo incidente.",
     ],
   },
   certifications: {
     id: "certifications",
     title: "Certificaciones",
-    badge: "in-progress",
+    badge: "completed",
     summary:
-      "Formación formal y certificaciones en ciberseguridad, redes e idioma técnico. Algunas rutas siguen en curso — coherente con aprendizaje continuo.",
-    features: CERTIFICATIONS.slice(0, 5),
-    stack: ["Google Cybersecurity", "Fortinet NSE", "Cisco", "Azure (planificado)", "Inglés técnico (en curso)"],
+      "Coursera (Meta front-end path · Google Foundations of Cybersecurity) · Cisco Networking Academy · ejecutivo UC Irvine Merage sobre decisiones.",
+    features: CERTIFICATIONS,
+    stack: [
+      "Meta · Coursera",
+      "JavaScript · Python · Git",
+      "Google Foundations of Cybersecurity",
+      "Cisco CCNA · Intro Cybersecurity",
+      "English for IT 1",
+      "UC Irvine · Merage",
+    ],
+    insightsHeading: "Cómo leer esta lista",
     securityConsiderations: [
-      "Las certificaciones avalan bases sólidas; los laboratorios muestran cómo aplico lo aprendido.",
-      "Planificar certificaciones en nube (por ejemplo Azure Fundamentals) facilita el lenguaje común con equipos en la nube.",
+      "Las fechas y emisores en las plataformas de formación avalan cada ítem; repos y labs cuentan cómo uso el conocimiento después.",
     ],
-    evidence: [
-      { src: "/maps/evidence-slot.svg", alt: "Insignias de estudio" },
-      { src: "/maps/evidence-slot.svg", alt: "Ruta de aprendizaje" },
-    ],
-    actions: { pdf: QUICK_LINKS.cvPath },
-    learned: [
-      "Una base certificada ofrece un mapa compartido con equipos de empresa.",
-      "Combinar formación formal con proyectos públicos refuerza conversaciones técnicas en procesos de selección.",
-    ],
+    evidence: [],
+    actions: { linkedin: QUICK_LINKS.linkedin },
   },
   skills: {
     id: "skills",
     title: "Competencias",
     badge: "completed",
     summary:
-      "Habilidades agrupadas por desarrollo, ciberseguridad y herramientas habituales. Pensado para equipos de contratación y líderes que buscan encaje en roles mixtos.",
-    features: SKILL_MODULES.flatMap((m) => [`${m.title}: ${m.items.slice(0, 2).join(", ")}`]).slice(0, 5),
+      "Tres líneas paralelas sin pisar otras fichas: software de producto · bases seguridad/redes · cadena de herramientas cotidiana.",
+    features: SKILL_MODULES.map((m) => `${m.title}: ${m.items.slice(0, 3).join(" · ")}`),
     stack: SKILL_MODULES.flatMap((m) => m.items).slice(0, 10),
+    insightsHeading: "Convenciones",
     securityConsiderations: [
-      "Separación clara entre construir producto y reforzar la postura defensiva.",
-      "Revisiones de dependencias y de cambios en código como parte habitual del trabajo en equipo.",
+      "Dependencias tratadas igual que historia de código — no etiqueta especial que se revise una vez al año.",
     ],
-    evidence: [
-      { src: "/maps/evidence-slot.svg", alt: "Matriz de competencias" },
-      { src: "/maps/evidence-slot.svg", alt: "Herramientas frecuentes" },
-    ],
+    evidence: [],
     actions: { github: QUICK_LINKS.github },
-    learned: [
-      "Combinar stack de producto moderno con redes y análisis de registros encaja en equipos que cuidan la operación y el riesgo.",
-      "Documentar límites honestos evita expectativas desalineadas en el primer sprint.",
-    ],
   },
   contact: {
     id: "contact",
     title: "Contacto",
     badge: "completed",
     summary: `${CONTACT.headline} ${CONTACT.sub}`,
-    features: CONTACT.links.map((l) => `${l.label}: acceso desde esta ficha`).slice(0, 5),
-    stack: ["Correo", "LinkedIn", "GitHub", "WhatsApp"],
+    features: [
+      "Para colaboraciones serias usa LinkedIn con tema breve · rol · objetivo.",
+      "El mapa reúne repos y contexto; el CV completo solo se comparte por un canal privado cuando encaje el alcance.",
+    ],
+    stack: [],
+    insightsHeading: "Preferencias",
     securityConsiderations: [
-      "Prefiero coordinar por canales con historial y contexto (correo o LinkedIn).",
-      "No compartir contraseñas ni secretos por chat informal.",
+      "Credenciales y secretos solo después de alinear alcance por escrito.",
     ],
-    evidence: [
-      { src: "/maps/evidence-slot.svg", alt: "Canales de contacto" },
-      { src: "/maps/evidence-slot.svg", alt: "Respuesta estimada" },
-    ],
-    actions: {
-      github: QUICK_LINKS.github,
-      pdf: QUICK_LINKS.cvPath,
-    },
-    learned: [
-      "Responder con bullets y siguiente paso concreto ahorra ciclos a ambos lados.",
-      "La confianza se construye con consistencia entre lo público (GitHub) y lo narrado.",
-    ],
+    evidence: [],
+    actions: { github: QUICK_LINKS.github, linkedin: QUICK_LINKS.linkedin },
   },
 };
 

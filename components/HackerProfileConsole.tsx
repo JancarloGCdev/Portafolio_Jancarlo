@@ -36,7 +36,7 @@ export function HackerProfileConsole() {
           </span>
         </div>
 
-        <div className="relative flex flex-col gap-6 p-5 sm:flex-row sm:items-start sm:gap-8 sm:p-7">
+        <div className="relative flex flex-col gap-6 p-5 sm:flex-row sm:items-center sm:gap-8 sm:p-7">
           <div className="pointer-events-none absolute inset-0 opacity-[0.06] [background-image:repeating-linear-gradient(0deg,transparent,transparent_2px,rgba(0,0,0,0.55)_2px,rgba(0,0,0,0.55)_4px)]" />
 
           <motion.div

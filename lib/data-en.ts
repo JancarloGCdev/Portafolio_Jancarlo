@@ -15,13 +15,13 @@ const PROFILE_ABOUT_EXTENDED = [
   "Right now I’m deepening networking and cybersecurity through training paths such as CCNA and computer security fundamentals. I speak conversational English around B2 and keep growing through self-directed study.",
 ] as const;
 
-/** Bloque de perfil sobre el mapa · retrato en `public/profile.jpg` o ajusta avatarSrc. */
+/** Bloque de perfil sobre el mapa · retrato en `public/profile.avif` o ajusta avatarSrc. */
 export const PROFILE_CONSOLE = {
-  avatarSrc: "/profile.jpg",
+  avatarSrc: "/profile.avif",
   initials: "JG",
   windowTag: "Profile · Jancarlo Gallón",
   lines: [
-    { kind: "comment" as const, text: "# Snapshot for recruiters and clients." },
+    { kind: "comment" as const, text: "# Executive snapshot · quick scan." },
     { kind: "cmd" as const, text: "profile --summary" },
     {
       kind: "out" as const,
@@ -56,7 +56,7 @@ export const DEV_PROJECTS: DevProject[] = [
     id: "papertrail-v2",
     name: "PaperTrail v2",
     type: "Bookstore storefront with omni‑channel ecommerce flows",
-    image: "/projects/papertrail.jpg",
+    image: "/projects/github-wordmark.avif",
     features: ["Catalog search, carts, checkout, and payment integrations", "Shopper/admin roles scoped to sensible permissions"],
     stack: ["TypeScript", "JavaScript", "REST API", "Git"],
     learned:
@@ -73,7 +73,7 @@ export const DEV_PROJECTS: DevProject[] = [
     id: "techos-rentables",
     name: "TechosRentables",
     type: "Web panel to monitor photovoltaic deployments (heavy cross-team sprint)",
-    image: "/projects/techos-rentables.jpg",
+    image: "/projects/github-wordmark.avif",
     features: ["KPI tiles, alerting, downloadable PDF summaries"],
     stack: ["Next.js", "React", "TypeScript", "Prisma", "PostgreSQL", "Tailwind"],
     learned:
@@ -92,7 +92,7 @@ export const SECURITY_LABS: SecurityLab[] = [
   {
     id: "wazuh-siem",
     name: "Wazuh SIEM visibility lab",
-    image: "/labs/wazuh.jpg",
+    image: "/labs/wazuh.avif",
     description: [
       "Wazuh deployed as my mini SOC anchor",
       "Structured review of workstation/server logs",
@@ -129,11 +129,16 @@ export const SECURITY_LABS: SecurityLab[] = [
 ];
 
 export const CERTIFICATIONS: string[] = [
-  "Google Cybersecurity Professional Certificate",
-  "Fortinet Certified Fundamentals in Cybersecurity",
-  "Cisco Cybersecurity (in progress)",
-  "IT-focused English coursework (in progress)",
-  "Azure Fundamentals (planned)",
+  "Meta (Coursera) · Introduction to Front-End Development · Jan 2025 – Mar 2025",
+  "Meta (Coursera) · Introduction to Back-End Development · Jan 2025 – Mar 2025",
+  "Meta (Coursera) · Programming with JavaScript · Jan 2025 – Mar 2025",
+  "Meta (Coursera) · Programming with Python · Jan 2025 – Mar 2025",
+  "Meta (Coursera) · Version Control with Git · Jan 2025 – Mar 2025",
+  "University of California, Irvine · The Paul Merage School of Business · Problem Solving and Decision Making · Feb 2025",
+  "Google (Coursera) · Foundations of Cybersecurity · Jan 2025",
+  "Cisco · CCNA: Introduction to Networks · Nov 2024",
+  "Cisco · English for IT 1 · May 2025",
+  "Cisco · Introduction to Cybersecurity · Nov 2024",
 ];
 
 export const SKILL_MODULES = [
@@ -157,8 +162,8 @@ export const SKILL_MODULES = [
 ] as const;
 
 export const CONTACT = {
-  headline: "Let's build software that stays secure and straightforward to evolve.",
-  sub: "I usually reply inside 24–48h · comfortable with hybrid or fully remote squads.",
+  headline: "Software that stays observable, secure by default, and maintainable over time.",
+  sub: "I don’t expose a downloadable résumé to the open web: handing out a personal dossier PDF to strangers raises fraud and impersonation risks. If you’d like to work together, message me on LinkedIn with concise context—role, company, stack—and we can take it from there through a deliberate, safer channel.",
   links: [
     {
       label: "LinkedIn",
@@ -170,16 +175,6 @@ export const CONTACT = {
       href: QUICK_LINKS.github,
       variant: "github" as const,
     },
-    {
-      label: "Email",
-      href: QUICK_LINKS.email,
-      variant: "email" as const,
-    },
-    {
-      label: "WhatsApp",
-      href: QUICK_LINKS.whatsapp,
-      variant: "whatsapp" as const,
-    },
   ],
 };
 
@@ -187,7 +182,7 @@ export const CONTACT = {
 export const GUIDED_TOUR_STEPS: TourStep[] = [
   {
     nodeId: "core",
-    logMessage: "Tour · Profile hub, résumé, and navigating the mesh",
+    logMessage: "Tour · Profile hub & reading the mesh",
   },
   {
     nodeId: "projects",
@@ -195,8 +190,8 @@ export const GUIDED_TOUR_STEPS: TourStep[] = [
   },
   {
     nodeId: "security-labs",
-    anchorId: "wazuh-siem",
-    logMessage: "Tour · Hands-on labs (including Wazuh)",
+    anchorId: "python-log-analyzer",
+    logMessage: "Tour · Hands-on security labs & log practice",
   },
   {
     nodeId: "experience",

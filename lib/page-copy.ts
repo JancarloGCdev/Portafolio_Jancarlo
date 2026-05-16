@@ -29,27 +29,29 @@ export type PageCopy = {
     tooltipFootnote: string;
   };
   terminalIntro: {
-    bootLines: readonly string[];
-    openingMapLine: string;
-    windowEyebrow: string;
-    windowPreview: string;
-    brandLine: string;
-    instructBefore: string;
-    typedCommandLabel: string;
-    instructAfter: string;
-    continueButton: string;
+    windowTitle: string;
+    windowSubtitle: string;
+    shellPrompt: string;
+    idleHashComment: string;
+    shellTourScript: readonly string[];
+    profileCatCommand: string;
+    mapOpenCommand: string;
+    mapOpenOutput: string;
+    startButton: string;
     hintCommands: string;
-    labelName: string;
-    labelRole: string;
-    labelLocation: string;
-    labelStatus: string;
-    labelFocus: string;
+    pauseButton: string;
+    resumeButton: string;
+    pauseAria: string;
+    resumeAria: string;
     inputAria: string;
     inputPlaceholder: string;
   };
   hud: {
     navAriaLabel: string;
     coreExtraLabelSuffix: string;
+    menuExpandAria: string;
+    menuCollapseAria: string;
+    menuListLabel: string;
   };
   pageLogs: {
     initialLines: readonly string[];
@@ -81,6 +83,7 @@ export type PageCopy = {
     imagePending: string;
     liveSite: string;
     repoSecondary: string;
+    linkedinActionLabel: string;
   };
   liveLogs: {
     waiting: string;
@@ -91,11 +94,8 @@ export type PageCopy = {
   };
   quickAccess: {
     navAria: string;
-    cvTitle: string;
     githubTitle: string;
     linkedinTitle: string;
-    emailTitle: string;
-    whatsappTitle: string;
   };
 };
 
@@ -103,7 +103,7 @@ const ES_COPY: Omit<PageCopy, "locale" | "htmlLangAttr"> = {
   seo: {
     title: "Consola JGC · Jancarlo Gallón Cano · Portafolio",
     description:
-      "Portafolio en español: desarrollo web, prácticas de ciberseguridad y proyectos públicos pensados para reclutamiento claro.",
+      "Portafolio personal: desarrollo web, prácticas de seguridad y trabajo público con foco profesional.",
     keywords: ["portafolio", "desarrollo web", "ciberseguridad", "Jancarlo Gallón Cano", "Colombia", "Next.js"],
     applicationName: "Portafolio JGC",
     ogLocale: "es_CO",
@@ -112,8 +112,8 @@ const ES_COPY: Omit<PageCopy, "locale" | "htmlLangAttr"> = {
   },
   hackerConsole: {
     integrityBadge: "integridad",
-    photoCaption: "Foto con estilo profesional",
-    avatarFallback: "Puedes reemplazar este espacio con tu foto profesional.",
+    photoCaption: "Foto de perfil",
+    avatarFallback: "Foto no disponible en este momento.",
     portraitAltSuffix: "Retrato de ",
   },
   threatMap: {
@@ -124,51 +124,61 @@ const ES_COPY: Omit<PageCopy, "locale" | "htmlLangAttr"> = {
     heroTitleAccent: "áreas",
     heroTitleTrailing: ": proyectos, experiencia, laboratorios y cómo contactarme.",
     heroSubtitle:
-      "Elige un punto en el mapa o usa la barra superior para abrir cada resumen. La información está pensada para quienes evalúan perfiles o evalúan una colaboración conmigo.",
+      "Abre cualquier waypoint o usa el menú superior desplegable. Cada ficha cuenta solo lo que necesita ese bloque.",
     tooltipHeading: "Sección",
     tooltipFootnote: "Pulsa para ver el resumen",
   },
   terminalIntro: {
-    bootLines: [
-      "Preparando la vista…",
-      "Cargando tu perfil profesional…",
-      "Aplicando estándares de presentación…",
-      "Listo para continuar.",
+    windowTitle: "CLI",
+    windowSubtitle: "bash · fakeroot",
+    shellPrompt: "root@cli:/portfolio-Jancarlo#",
+    idleHashComment: "# escribe «start» o «inicio» (+ Intro) · o ejecuta clic en botón start",
+    shellTourScript: [
+      "root@cli:/portfolio-Jancarlo# whoami",
+      "root",
+      "root@cli:/portfolio-Jancarlo# id",
+      "uid=0(root) gid=0(root) grupos:root · demo · sólo‑lectura",
+      "root@cli:/portfolio-Jancarlo# pwd",
+      "/portfolio-Jancarlo",
+      "root@cli:/portfolio-Jancarlo# ls",
+      "mapa/  readme  bin/",
+      "root@cli:/portfolio-Jancarlo# cd mapa && ls",
+      "nucleo proyectos labs xp certs skills contacto",
+      'root@cli:/portfolio-Jancarlo/mapa# cd .. && cat readme',
+      "# HUD:~bar superior · svg:~nodos → dossiers",
+      "# enlaces:~SupDer · tour:~InfDer · logs:~InfIzq · Pause|espacio",
     ],
-    openingMapLine: "Sistema en línea. Abriendo el mapa de contenidos…",
-    windowEyebrow: "Acceso · bienvenida",
-    windowPreview: "Vista previa",
-    brandLine: "Portafolio · JGC",
-    instructBefore: "Para entrar al portafolio interactivo, escribe ",
-    typedCommandLabel: "continuar",
-    instructAfter: " o pulsa el botón.",
-    continueButton: "Continuar",
-    hintCommands:
-      'También puedes escribir continuar, inicio o start',
-    labelName: "Nombre",
-    labelRole: "Rol",
-    labelLocation: "Ubicación",
-    labelStatus: "Disponibilidad",
-    labelFocus: "Enfoque",
-    inputAria: "Continuar al portafolio",
-    inputPlaceholder: "continuar",
+    profileCatCommand: "root@cli:/portfolio-Jancarlo# cat ./etc/perfil.public.env",
+    mapOpenCommand: "root@cli:/portfolio-Jancarlo# exec ./bin/map.open --tty",
+    mapOpenOutput: "[ok] montando lienzo waypoint…",
+    startButton: "start",
+    hintCommands: "inicio=start · Pause|espacio ·",
+    pauseButton: "Pausar",
+    resumeButton: "Seguir",
+    pauseAria: "Pausar el volcado tipo shell",
+    resumeAria: "Reanudar el volcado",
+    inputAria: "Escribir start o inicio para emitir ayuda POSIX y abrir mapa",
+    inputPlaceholder: "inicio",
   },
   hud: {
     navAriaLabel: "Navegación rápida del mapa",
-    coreExtraLabelSuffix: "visión general, CV y perfiles",
+    coreExtraLabelSuffix: "visión general · repos públicos · contacto vía LinkedIn",
+    menuExpandAria: "Abrir menú de secciones del mapa",
+    menuCollapseAria: "Cerrar menú de secciones del mapa",
+    menuListLabel: "Lista de secciones",
   },
   pageLogs: {
     initialLines: [
       "Mapa listo: toca cualquier punto para ver el detalle de esa área.",
-      "Contenido pensado para evaluadores de talento y clientes: sin requisitos previos.",
-      "Consejo: puedes usar el recorrido guiado en la esquina inferior derecha para ver el contenido en orden.",
+      "Cada dossier muestra contenido diferente para evitar textos repetidos.",
+      "Puedes seguir el recorrido guiado en la esquina inferior derecha.",
     ],
     rotating: [
       "Cualquier sección del mapa se abre con un toque o clic en el punto correspondiente.",
       "Esta página no recoge datos personales: es una vitrina informativa.",
       "La banda inferior resume la última navegación como referencia rápida.",
       "Si te interesa la formación académica y certificaciones, visita el apartado correspondiente.",
-      "Puedes compartir este enlace con quien evalúe mi perfil o una propuesta.",
+      "Este enlace funciona bien como punto de entrada con contexto mínimo en el mensaje inicial.",
       "Los laboratorios de seguridad documentan cómo abordo análisis y visibilidad.",
       "Trabajo con lenguaje claro para equipos de negocio y para perfiles técnicos.",
     ],
@@ -190,7 +200,7 @@ const ES_COPY: Omit<PageCopy, "locale" | "htmlLangAttr"> = {
     summaryBadge: "Resumen",
     highlightsHeading: "Destacados",
     stackHeading: "Stack y herramientas",
-    securityHeading: "Enfoque de seguridad",
+    securityHeading: "Notas en contexto",
     evidenceHeading: "Referencias y capturas",
     learnHeading: "Aprendizajes",
     badgeDelivered: "Entregado",
@@ -198,6 +208,7 @@ const ES_COPY: Omit<PageCopy, "locale" | "htmlLangAttr"> = {
     imagePending: "Imagen pendiente ·",
     liveSite: "Sitio en vivo",
     repoSecondary: "Repo 2",
+    linkedinActionLabel: "LinkedIn",
   },
   liveLogs: {
     waiting: "Esperando mensajes…",
@@ -207,12 +218,9 @@ const ES_COPY: Omit<PageCopy, "locale" | "htmlLangAttr"> = {
     minimizeTitle: "Minimizar",
   },
   quickAccess: {
-    navAria: "Accesos directos: CV y contacto",
-    cvTitle: "Descargar CV (PDF)",
-    githubTitle: "Proyectos públicos en GitHub",
-    linkedinTitle: "Perfil en LinkedIn",
-    emailTitle: "Enviar correo",
-    whatsappTitle: "Escribir por WhatsApp",
+    navAria: "Accesos rápidos · GitHub y LinkedIn",
+    githubTitle: "Código público en GitHub",
+    linkedinTitle: "Conectar por LinkedIn",
   },
 };
 
@@ -220,7 +228,7 @@ const EN_COPY: Omit<PageCopy, "locale" | "htmlLangAttr"> = {
   seo: {
     title: "Console JGC · Jancarlo Gallón Cano · Portfolio",
     description:
-      "Portfolio in English for recruiting teams — full‑stack (.NET · Blazor) delivery, cybersecurity lab work, and public GitHub proofs.",
+      "English portfolio highlighting full‑stack (.NET · Blazor) delivery, cybersecurity lab work and public repositories.",
     keywords: ["portfolio", "software engineer", "cybersecurity", "dotNET", "Jancarlo Gallón Cano", "Next.js"],
     applicationName: "Portfolio JGC",
     ogLocale: "en_US",
@@ -229,61 +237,72 @@ const EN_COPY: Omit<PageCopy, "locale" | "htmlLangAttr"> = {
   },
   hackerConsole: {
     integrityBadge: "verified",
-    photoCaption: "Professional headshot",
-    avatarFallback: "Drop in a sharper photo whenever you refresh this slate.",
+    photoCaption: "Profile photo",
+    avatarFallback: "Photo unavailable at the moment.",
     portraitAltSuffix: "Portrait of ",
   },
   threatMap: {
-    svgAriaLabel: "Portfolio map: each waypoint opens recruiters to projects, experience, labs, or contact cues.",
+    svgAriaLabel: "Portfolio map: each waypoint opens a focused dossier for projects, experience, labs, or contact cues.",
     heroKicker: "Interactive portfolio",
     heroTitleLeading: "Browse my story by",
     heroTitleAccent: "topic",
     heroTitleTrailing: ": projects shipped, internships, labs, and how to reach me.",
     heroSubtitle:
-      "Tap any waypoint or HUD chip to skim the dossier I leave for recruiters. Everything is explanatory—no gimmicks.",
+      "Tap any waypoint or open the section menu up top—each dossier keeps only what that topic needs.",
     tooltipHeading: "Section",
     tooltipFootnote: "Tap or click to inspect the dossier",
   },
   terminalIntro: {
-    bootLines: [
-      "Warming caches…",
-      "Profiling professional signals…",
-      "Linting narration…",
-      "Ready.",
+    windowTitle: "CLI",
+    windowSubtitle: "bash · fakeroot",
+    shellPrompt: "root@cli:/portfolio-Jancarlo#",
+    idleHashComment: "# type «start» or «inicio» (+ Enter) · or click button start",
+    shellTourScript: [
+      "root@cli:/portfolio-Jancarlo# whoami",
+      "root",
+      "root@cli:/portfolio-Jancarlo# id",
+      "uid=0(root) gid=0(root) groups:root · ro demo shell",
+      "root@cli:/portfolio-Jancarlo# pwd",
+      "/portfolio-Jancarlo",
+      "root@cli:/portfolio-Jancarlo# ls",
+      "mapa/  readme  bin/",
+      "root@cli:/portfolio-Jancarlo# cd mapa && ls",
+      "core projects labs xp certs skills contact",
+      'root@cli:/portfolio-Jancarlo/mapa# cd .. && cat readme',
+      "# hud:~orbit top · svg nodes:~drawers",
+      "# shortcuts:~top-right · tour:~bottom-right · logs:~bottom-left · Pause|Space",
     ],
-    openingMapLine: "System online · loading the waypoint canvas…",
-    windowEyebrow: "Ingress · briefing",
-    windowPreview: "Preview",
-    brandLine: "Portfolio · JGC",
-    instructBefore: "To open the workspace, type ",
-    typedCommandLabel: "continue",
-    instructAfter: " or tap the shortcut.",
-    continueButton: "Continue",
-    hintCommands: "You may also enter continue, inicio or start.",
-    labelName: "Name",
-    labelRole: "Role",
-    labelLocation: "Location",
-    labelStatus: "Availability",
-    labelFocus: "Focus",
-    inputAria: "Continue into the portfolio workspace",
-    inputPlaceholder: "continue",
+    profileCatCommand: "root@cli:/portfolio-Jancarlo# cat ./etc/perfil.public.env",
+    mapOpenCommand: "root@cli:/portfolio-Jancarlo# exec ./bin/map.open --tty",
+    mapOpenOutput: "[ok] attaching waypoint canvas…",
+    startButton: "start",
+    hintCommands: "inicio=start · Pause|Space ·",
+    pauseButton: "Pause",
+    resumeButton: "Resume",
+    pauseAria: "Pause POSIX-style stream",
+    resumeAria: "Resume POSIX-style stream",
+    inputAria: "Type start or inicio to print helper lines and reveal map",
+    inputPlaceholder: "start",
   },
   hud: {
     navAriaLabel: "Waypoint navigation rail",
-    coreExtraLabelSuffix: "central hub, résumés, outbound links",
+    coreExtraLabelSuffix: "overview · public repos · reach out on LinkedIn",
+    menuExpandAria: "Open portfolio section menu",
+    menuCollapseAria: "Close portfolio section menu",
+    menuListLabel: "Section list",
   },
   pageLogs: {
     initialLines: [
       "Mesh armed: tap a waypoint whenever you’re ready.",
-      "This walkthrough is recruiter-friendly—you don’t need prior context.",
-      "Tip · use Guided Tour bottom-right (~1 minute) if you crave sequence.",
+      "Every dossier uses different framing—nothing copy-pastes across nodes.",
+      "Tip · Guided Tour bottom-right (~1 minute) keeps scripted order.",
     ],
     rotating: [
       "Opening a dossier mirrors clicking the matching orbit node.",
       "No analytics here—purely informational showcase.",
       "The ribbon echoes the freshest navigation breadcrumbs.",
       "Certifications badge lists credentialed paths when you crave rigor proofs.",
-      "Forward this link to hiring managers—they’ll skim in minutes.",
+      "Forward this link whenever someone needs depth without onboarding noise.",
       "Security labs articulate how I think about instrumentation.",
       "I translate complex signals plainly for biz + infosec partners.",
     ],
@@ -305,7 +324,7 @@ const EN_COPY: Omit<PageCopy, "locale" | "htmlLangAttr"> = {
     summaryBadge: "Snapshot",
     highlightsHeading: "Highlights",
     stackHeading: "Stack & tooling",
-    securityHeading: "Security framing",
+    securityHeading: "Field notes",
     evidenceHeading: "Evidence & thumbnails",
     learnHeading: "Takeaways",
     badgeDelivered: "Shipped",
@@ -313,6 +332,7 @@ const EN_COPY: Omit<PageCopy, "locale" | "htmlLangAttr"> = {
     imagePending: "Image pending ·",
     liveSite: "Live demo",
     repoSecondary: "Repo 02",
+    linkedinActionLabel: "LinkedIn",
   },
   liveLogs: {
     waiting: "Awaiting events…",
@@ -322,12 +342,9 @@ const EN_COPY: Omit<PageCopy, "locale" | "htmlLangAttr"> = {
     minimizeTitle: "Collapse",
   },
   quickAccess: {
-    navAria: "Shortcuts · résumés & outbound lines",
-    cvTitle: "Download résumé (PDF)",
-    githubTitle: "Public GitHub work",
-    linkedinTitle: "LinkedIn profile",
-    emailTitle: "Send email",
-    whatsappTitle: "Open WhatsApp thread",
+    navAria: "Quick links · GitHub and LinkedIn",
+    githubTitle: "Public GitHub repositories",
+    linkedinTitle: "Connect on LinkedIn",
   },
 };
 

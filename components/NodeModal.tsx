@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type MouseEvent, type ReactNode } from "react";
 import { AnimatePresence, motion, useIsPresent, useReducedMotion } from "framer-motion";
-import { ExternalLink, FileText, Github, LayoutGrid, Sparkles, Shield, X } from "lucide-react";
+import { ExternalLink, Github, LayoutGrid, Linkedin, Sparkles, Shield, X } from "lucide-react";
 import Image from "next/image";
 import type { CaseBadge, TopologyNodeId } from "@/lib/mapData";
+import { flattenStackEntries, resolveTechLogo, techLogoImgSrc } from "@/lib/tech-logos";
 import { usePortfolio } from "@/components/portfolio-locale-provider";
 
 type NodeModalProps = {
@@ -21,7 +22,7 @@ function ModalBackdrop({ onClose, closeAria }: { onClose: () => void; closeAria:
     <motion.button
       type="button"
       aria-label={closeAria}
-      className={`fixed inset-0 z-[80] cursor-default bg-[radial-gradient(ellipse_at_50%_0%,rgba(34,211,238,0.14),transparent_52%)] bg-slate-950/30 backdrop-blur-[2px] transition-[opacity] ${present ? "pointer-events-auto" : "pointer-events-none"}`}
+      className={`fixed inset-0 z-[80] cursor-default bg-slate-950/50 backdrop-blur-none transition-[opacity] ${present ? "pointer-events-auto" : "pointer-events-none"}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -44,7 +45,7 @@ function ImmersivePanel({
       aria-modal="true"
       aria-labelledby="case-file-title"
       style={{ transformOrigin: "50% 34%" }}
-      className={`pointer-events-auto flex min-h-0 w-full flex-col overflow-hidden rounded-2xl border border-accent-cyan/28 bg-[#050b14]/93 shadow-[0_8px_40px_-16px_rgba(0,0,0,0.85)] backdrop-blur-md will-change-transform max-sm:max-h-[min(calc(100dvh-8rem),88dvh)] max-sm:max-w-[min(34rem,calc(100vw-2rem))] max-sm:flex-none sm:max-h-[min(94dvh,900px,calc(100dvh-5.5rem))] sm:max-w-[min(100vw,56rem)] sm:rounded-[2rem] sm:shadow-[0_32px_100px_-36px_rgba(0,0,0,0.75)] ${present ? "" : "pointer-events-none"}`}
+      className={`pointer-events-auto flex min-h-0 w-full flex-col overflow-hidden rounded-2xl border border-accent-cyan/28 bg-[#050b14] shadow-[0_8px_40px_-16px_rgba(0,0,0,0.85)] will-change-transform max-sm:max-h-[min(calc(100dvh-8rem),88dvh)] max-sm:max-w-[min(34rem,calc(100vw-2rem))] max-sm:flex-none sm:max-h-[min(94dvh,900px,calc(100dvh-5.5rem))] sm:max-w-[min(100vw,56rem)] sm:rounded-[2rem] sm:shadow-[0_32px_100px_-36px_rgba(0,0,0,0.75)] ${present ? "" : "pointer-events-none"}`}
       initial={reduceMotion ? { opacity: 0, y: 10, scale: 1 } : { opacity: 0.92, scale: 0.045 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       exit={reduceMotion ? { opacity: 0, y: 8 } : { opacity: 0.88, scale: 0.06 }}
@@ -115,10 +116,34 @@ const fadeUp = {
   },
 };
 
+function StackTechBadge({ rawToken }: { rawToken: string }) {
+  const resolved = resolveTechLogo(rawToken);
+  const label = resolved?.label ?? rawToken;
+
+  return (
+    <span title={label} className="inline-flex max-w-[220px] items-center gap-1.5 rounded-md border border-cyan-500/20 bg-accent-cyan/10 px-2 py-1 text-left text-cyan-100/95">
+      {resolved ? (
+        <Image
+          src={techLogoImgSrc(resolved)}
+          alt=""
+          width={22}
+          height={22}
+          loading="lazy"
+          sizes="22px"
+          unoptimized
+          className="size-[22px] shrink-0 [filter:drop-shadow(0_0_10px_rgba(34,211,238,0.22))]"
+        />
+      ) : null}
+      <span className="truncate text-[11px]">{resolved ? label : rawToken}</span>
+    </span>
+  );
+}
+
 export function NodeModal({ nodeId, anchorId, onClose }: NodeModalProps) {
   const { caseFiles, copy } = usePortfolio();
   const nm = copy.nodeModal;
   const dossier = nodeId ? caseFiles[nodeId] : null;
+  const stackTokens = useMemo(() => (dossier ? flattenStackEntries(dossier.stack, 28) : []), [dossier]);
 
   useEffect(() => {
     if (!nodeId || !anchorId) return;
@@ -159,7 +184,7 @@ export function NodeModal({ nodeId, anchorId, onClose }: NodeModalProps) {
             transition={{ duration: 0.18 }}
           >
             <ImmersivePanel>
-              <div className="flex shrink-0 items-start justify-between gap-3 border-b border-white/10 bg-black/55 px-4 py-4 sm:px-5">
+              <div className="flex shrink-0 items-start justify-between gap-3 border-b border-white/10 bg-[#060d18] px-4 py-4 sm:px-5">
                 <div className="min-w-0 space-y-2">
                   <div className="flex flex-wrap items-center gap-2">
                     <Shield className="h-5 w-5 shrink-0 text-accent-cyan" aria-hidden />
@@ -200,47 +225,52 @@ export function NodeModal({ nodeId, anchorId, onClose }: NodeModalProps) {
                     <LayoutGrid className="h-3.5 w-3.5" aria-hidden /> {nm.highlightsHeading}
                   </h3>
                   <ul className="mt-3 list-inside list-disc space-y-1.5 text-[13px] text-zinc-300">
-                    {dossier.features.slice(0, 5).map((f) => (
-                      <li key={f.slice(0, 48)}>{f}</li>
+                    {dossier.features.slice(0, 12).map((f, i) => (
+                      <li key={`${i}-${f.slice(0, 96)}`}>{f}</li>
                     ))}
                   </ul>
                 </motion.div>
 
-                <motion.div variants={fadeUp} className="mt-6">
-                  <h3 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">{nm.stackHeading}</h3>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {dossier.stack.slice(0, 12).map((t) => (
-                      <span key={t} className="rounded-md border border-cyan-500/20 bg-accent-cyan/10 px-2.5 py-1 text-[11px] text-cyan-100/95">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </motion.div>
+                {stackTokens.length > 0 ? (
+                  <motion.div variants={fadeUp} className="mt-6">
+                    <h3 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">{nm.stackHeading}</h3>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {stackTokens.map((t) => (
+                        <StackTechBadge key={t} rawToken={t} />
+                      ))}
+                    </div>
+                  </motion.div>
+                ) : null}
 
-                <motion.div variants={fadeUp} className="mt-6">
-                  <h3 className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">
-                    <Sparkles className="h-3.5 w-3.5" aria-hidden /> {nm.securityHeading}
-                  </h3>
-                  <ul className="mt-2 space-y-2 text-[13px] leading-relaxed text-zinc-400">
-                    {dossier.securityConsiderations.map((line) => (
-                      <li key={line.slice(0, 48)} className="flex gap-2">
-                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-green/80" aria-hidden />
-                        <span>{line}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
+                {dossier.securityConsiderations.length > 0 ? (
+                  <motion.div variants={fadeUp} className="mt-6">
+                    <h3 className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">
+                      <Sparkles className="h-3.5 w-3.5" aria-hidden />{" "}
+                      {dossier.insightsHeading ?? nm.securityHeading}
+                    </h3>
+                    <ul className="mt-2 space-y-2 text-[13px] leading-relaxed text-zinc-400">
+                      {dossier.securityConsiderations.map((line, i) => (
+                        <li key={`${i}-${line.slice(0, 64)}`} className="flex gap-2">
+                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-green/80" aria-hidden />
+                          <span>{line}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                ) : null}
 
-                <motion.div variants={fadeUp} className="mt-7">
-                  <h3 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">{nm.evidenceHeading}</h3>
-                  <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                    {dossier.evidence.map((slot) => (
-                      <motion.div key={slot.src + slot.alt} variants={fadeUp}>
-                        {slot.src.endsWith(".svg") ? <EvSvg src={slot.src} alt={slot.alt} /> : <EvRaster src={slot.src} alt={slot.alt} />}
-                      </motion.div>
-                    ))}
-                  </div>
-                </motion.div>
+                {dossier.evidence.length > 0 ? (
+                  <motion.div variants={fadeUp} className="mt-7">
+                    <h3 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">{nm.evidenceHeading}</h3>
+                    <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                      {dossier.evidence.map((slot, i) => (
+                        <motion.div key={`${i}-${slot.src}`} variants={fadeUp}>
+                          {slot.src.endsWith(".svg") ? <EvSvg src={slot.src} alt={slot.alt} /> : <EvRaster src={slot.src} alt={slot.alt} />}
+                        </motion.div>
+                      ))}
+                    </div>
+                  </motion.div>
+                ) : null}
 
                 <motion.div variants={fadeUp} className="mt-7 flex flex-wrap gap-2">
                   {dossier.actions.github ? (
@@ -276,22 +306,26 @@ export function NodeModal({ nodeId, anchorId, onClose }: NodeModalProps) {
                       <ExternalLink className="h-3 w-3 opacity-70" aria-hidden />
                     </a>
                   ) : null}
-                  {dossier.actions.pdf ? (
+                  {dossier.actions.linkedin ? (
                     <a
-                      href={dossier.actions.pdf}
-                      download
-                      className="inline-flex items-center gap-2 rounded-lg border border-accent-green/32 bg-accent-green/14 px-3 py-2 text-[13px] font-medium text-accent-green transition hover:bg-accent-green/22"
+                      href={dossier.actions.linkedin}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 rounded-lg border border-sky-500/35 bg-sky-500/12 px-3 py-2 text-[13px] font-medium text-sky-100 transition hover:border-sky-400/50 hover:bg-sky-500/18"
                     >
-                      <FileText className="h-4 w-4" aria-hidden /> PDF / CV
+                      <Linkedin className="h-4 w-4" aria-hidden /> {nm.linkedinActionLabel}
+                      <ExternalLink className="h-3 w-3 opacity-60" aria-hidden />
                     </a>
                   ) : null}
                 </motion.div>
 
-                <motion.div variants={fadeUp} className="mt-8 rounded-xl border border-accent-cyan/15 bg-accent-cyan/5 px-4 py-4">
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-accent-cyan/90">{nm.learnHeading}</span>
-                  <p className="mt-2 text-[13px] leading-relaxed text-zinc-300">{dossier.learned[0]}</p>
-                  <p className="mt-2 border-t border-white/10 pt-3 text-[13px] leading-relaxed text-zinc-400">{dossier.learned[1]}</p>
-                </motion.div>
+                {dossier.learned ? (
+                  <motion.div variants={fadeUp} className="mt-8 rounded-xl border border-accent-cyan/15 bg-accent-cyan/5 px-4 py-4">
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-accent-cyan/90">{nm.learnHeading}</span>
+                    <p className="mt-2 text-[13px] leading-relaxed text-zinc-300">{dossier.learned[0]}</p>
+                    <p className="mt-2 border-t border-white/10 pt-3 text-[13px] leading-relaxed text-zinc-400">{dossier.learned[1]}</p>
+                  </motion.div>
+                ) : null}
               </motion.div>
             </ImmersivePanel>
           </motion.div>

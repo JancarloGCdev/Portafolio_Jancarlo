@@ -1,14 +1,14 @@
 export type PanelLink = {
   label: string;
   href: string;
-  variant?: "github" | "live" | "pdf" | "linkedin" | "email" | "whatsapp" | "default";
+  variant?: "github" | "live" | "linkedin" | "default";
 };
 
 export type DevProject = {
   id: string;
   name: string;
   type: string;
-  /** Imagen en `public/...` (ej. `/projects/mi-proyecto.jpg`) */
+  /** Imagen en `public/...` (preferible AVIF; genera con `npm run optimize-images`) */
   image?: string;
   /** URL del sitio en vivo, si existe */
   liveUrl?: string;
@@ -25,7 +25,7 @@ export type SecurityLab = {
   status?: string;
   ongoing?: boolean;
   learned: string;
-  /** Imagen opcional en `public/...` */
+  /** Imagen opcional en `public/...` (ideal AVIF tras `npm run optimize-images`) */
   image?: string;
   /** Repos, write-ups, etc. */
   links?: PanelLink[];
@@ -52,13 +52,13 @@ const PROFILE_ABOUT_EXTENDED = [
   "Actualmente estoy enfocado en fortalecer mis habilidades en redes y ciberseguridad, apoyado en formación y certificaciones como CCNA y fundamentos de seguridad informática. Cuento con nivel de inglés B2 conversacional y continúo capacitándome de forma autodidacta para seguir creciendo profesionalmente.",
 ] as const;
 
-/** Bloque de perfil sobre el mapa · retrato en `public/profile.jpg` o ajusta avatarSrc. */
+/** Bloque de perfil sobre el mapa · retrato en `public/profile.avif` o ajusta avatarSrc. */
 export const PROFILE_CONSOLE = {
-  avatarSrc: "/profile.jpg",
+  avatarSrc: "/profile.avif",
   initials: "JG",
   windowTag: "Perfil · Jancarlo Gallón",
   lines: [
-    { kind: "comment" as const, text: "# Información orientada a contratación y clientes." },
+    { kind: "comment" as const, text: "# Información ejecutiva para lectura rápida." },
     { kind: "cmd" as const, text: "resumen --perfil" },
     {
       kind: "out" as const,
@@ -93,7 +93,7 @@ export const DEV_PROJECTS: DevProject[] = [
     id: "papertrail-v2",
     name: "PaperTrail v2",
     type: "Tienda web de libros con varios puntos de venta (e‑commerce)",
-    image: "/projects/papertrail.jpg",
+    image: "/projects/github-wordmark.avif",
     features: [
       "Catálogo, buscador, carrito de compras y proceso de pago",
       "Perfiles comprador / administrador (quién puede hacer qué dentro del sitio)",
@@ -113,7 +113,7 @@ export const DEV_PROJECTS: DevProject[] = [
     id: "techos-rentables",
     name: "TechosRentables",
     type: "Panel web para monitorear sistemas solares (proyecto colaborativo intensivo)",
-    image: "/projects/techos-rentables.jpg",
+    image: "/projects/github-wordmark.avif",
     features: ["Indicadores clave en pantalla, alertas, reportes y exportación a PDF"],
     stack: ["Next.js", "React", "TypeScript", "Prisma", "PostgreSQL", "Tailwind"],
     learned:
@@ -132,7 +132,7 @@ export const SECURITY_LABS: SecurityLab[] = [
   {
     id: "wazuh-siem",
     name: "Laboratorio de monitoreo y detección con Wazuh (SIEM)",
-    image: "/labs/wazuh.jpg",
+    image: "/labs/wazuh.avif",
     description: [
       "Implementación de Wazuh como centro de vigilancia",
       "Revisión ordenada de registros (logs) de los equipos",
@@ -169,11 +169,16 @@ export const SECURITY_LABS: SecurityLab[] = [
 ];
 
 export const CERTIFICATIONS: string[] = [
-  "Certificado Profesional de Ciberseguridad de Google",
-  "Fortinet Certified Fundamentals in Cybersecurity (Fundamentos Fortinet)",
-  "Cisco Cybersecurity (en curso)",
-  "Inglés para TI (en curso)",
-  "Azure Fundamentals (planificado)",
+  "Meta (Coursera) · Introducción al desarrollo front-end · ene 2025 – mar 2025",
+  "Meta (Coursera) · Introducción al desarrollo back-end · ene 2025 – mar 2025",
+  "Meta (Coursera) · Programación con JavaScript · ene 2025 – mar 2025",
+  "Meta (Coursera) · Programación en Python · ene 2025 – mar 2025",
+  "Meta (Coursera) · Control de versiones con Git · ene 2025 – mar 2025",
+  "Universidad de California, Irvine · The Paul Merage School of Business · Resolución de problemas y toma de decisiones · feb 2025",
+  "Google (Coursera) · Foundations of Cybersecurity · ene 2025",
+  "Cisco · CCNA: Introduction to Networks · nov 2024",
+  "Cisco · English for IT 1 · may 2025",
+  "Cisco · Introducción a la ciberseguridad · nov 2024",
 ];
 
 export const SKILL_MODULES = [
@@ -196,18 +201,15 @@ export const SKILL_MODULES = [
   },
 ] as const;
 
-/** Edita estos enlaces una sola vez: modal de nodos y barra rápida los reutilizan. */
+/** Enlaces compartidos entre modales y la barra rápida. */
 export const QUICK_LINKS = {
-  cvPath: "/cv.pdf",
   github: "https://github.com/JancarloGCdev",
-  linkedin: "https://www.linkedin.com/in/YOURPROFILE",
-  email: "mailto:you@yourdomain.com",
-  whatsapp: "https://wa.me/57XXXXXXXXXX?text=Hola%20Jancarlo%2C",
+  linkedin: "https://www.linkedin.com/in/jancarlo-gc",
 };
 
 export const CONTACT = {
-  headline: "Construyamos software más seguro y fácil de mantener.",
-  sub: "Suelo responder en 24–48 h. Abierto a equipos distribuidos y roles remotos.",
+  headline: "Software en producción, con riesgo tratado desde el diseño cuando aplica.",
+  sub: "No publico un CV descargable en abierto: exponer datos personales en un PDF accesible para cualquiera aumenta el riesgo de fraudes o usos indebidos de la información. Si quieres trabajar conmigo, escríbeme por LinkedIn con contexto claro (rol, empresa, stack) y desde ahí sí podemos coordinar un intercambio seguro y profesional.",
   links: [
     {
       label: "LinkedIn",
@@ -219,16 +221,6 @@ export const CONTACT = {
       href: QUICK_LINKS.github,
       variant: "github" as const,
     },
-    {
-      label: "Correo",
-      href: QUICK_LINKS.email,
-      variant: "email" as const,
-    },
-    {
-      label: "WhatsApp",
-      href: QUICK_LINKS.whatsapp,
-      variant: "whatsapp" as const,
-    },
   ],
 };
 
@@ -237,7 +229,7 @@ export const CONTACT = {
 export const GUIDED_TOUR_STEPS: TourStep[] = [
   {
     nodeId: "core",
-    logMessage: "Recorrido · Perfil central, CV y cómo leer el mapa",
+    logMessage: "Recorrido · Perfil central y lectura del mapa",
   },
   {
     nodeId: "projects",
@@ -245,8 +237,8 @@ export const GUIDED_TOUR_STEPS: TourStep[] = [
   },
   {
     nodeId: "security-labs",
-    anchorId: "wazuh-siem",
-    logMessage: "Recorrido · Laboratorios de seguridad y análisis (incl. Wazuh)",
+    anchorId: "python-log-analyzer",
+    logMessage: "Recorrido · Laboratorios de seguridad y análisis prácticos",
   },
   {
     nodeId: "experience",
