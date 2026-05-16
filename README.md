@@ -49,9 +49,22 @@ npm run lint    # ESLint (Next.js)
 2. Importa el proyecto en [Vercel](https://vercel.com) con el preset de Next.js.
 3. Comando de build: `npm run build`; salida: `.next`.
 
-No hace falta configurar variables de entorno para la experiencia estática actual.
+Variables opcionales: ver **`.env.example`**. Si usas el panel **`/admin`**, necesitas las variables **`CMS_*`** definidas ahí.
+
+### Panel CMS **`/admin`**
+
+Puedes editar desde el navegador proyectos (incl. **sitio https opcional**), experiencias y texto “about”, además del perfil resumido:
+
+1. Copia **`.env.example`** a **`.env.local`** y define **`CMS_ADMIN_SECRET`** (mínimo **32 caracteres** aleatorios) y **`CMS_ADMIN_PASSWORD_HASH`** (hash **bcrypt** de tu contraseña; cost recomendado 12).
+2. Ejecuta **`npm run dev`**, abre **`/admin/login`** y después **`/admin`**, guarda con **Guardar JSON**.
+3. La API escribe **`content/cms-data.json`**, archivo **ignorado por git**. Cada máquina o servidor tiene los suyos.
+4. En **hosting serverless** (por ejemplo algunos planes serverless típicos) el archivo en disco **no persiste entre despliegues** sin un volumen o servicio externo (**DB**, **Blob**, etc.).
+
+Por seguridad adicional ante fuerza bruta conviene (**Cloudflare**, WAF o rate limit ante **`/admin`**) y **HTTPS** en producción (cookie marcada **`Secure`**).
 
 ## Personalizar tu contenido
+
+Vía código sigues pudiendo tocar **`lib/data.ts`** y **`lib/mapData*.ts`**; cuando existe **`cms-data.json`** el sitio mezcla esos valores con tus overrides sólo para **perfil/about/proyectos/experiencias**.
 
 ### Enlaces y datos del perfil
 
@@ -81,8 +94,10 @@ Por defecto la barra de accesos apunta a **`/cv.pdf`** (`QUICK_LINKS.cvPath` en 
 
 ```
 app/
-  layout.tsx          # layout raíz
+  layout.tsx          # layout raíz + bundles CMS resueltos para el cliente
   page.tsx            # intro + escritorio del portafolio (HUD, mapa, modal, tour, logs)
+  admin/login/page.tsx # inicio sesión JWT + bcrypt
+  admin/page.tsx       # panel CMS cliente
 components/
   TerminalIntro.tsx   # pantalla inicial tipo terminal
   ThreatMap.tsx       # SVG del mapa + lista móvil
@@ -93,9 +108,11 @@ components/
   LiveLogs.tsx        # cinta de mensajes / logs
   QuickAccess.tsx     # accesos a CV y redes
 lib/
-  data.ts             # contenido del perfil, proyectos, tour, contacto
-  mapData.ts          # topología, fichas por nodo, orden del HUD
-  navDock.ts          # constantes de posicionamiento del dock / barra superior
+  data.ts               # valores por defecto del perfil, proyectos, tour, contacto
+  mapData.ts / mapData-en.ts
+  portfolio-resolve.ts  # servidor: fusión código + cms-data.json
+  cms-store.ts …        # lectura / escritura atómica de JSON · sesión JWT
+  navDock.ts            # constantes de posicionamiento del dock / barra superior
 ```
 
 ## Licencia y reutilización

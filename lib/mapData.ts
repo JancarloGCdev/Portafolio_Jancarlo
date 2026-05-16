@@ -7,10 +7,16 @@ import {
   QUICK_LINKS,
   SECURITY_LABS,
   SKILL_MODULES,
-  type CertificationRecord,
-  type DevProject,
-  type ExperienceEntry,
 } from "@/lib/data";
+import {
+  aggregateGithubFooters,
+  aggregateLiveDemo,
+  certificationsSortedDescending,
+  experienceTopologySubtitle,
+  slidesFromExperience,
+  slidesFromProjectsForLocale,
+  stackUnion,
+} from "@/lib/map-case-builder";
 
 /** Identificadores de topología SOC (mantienen compatibilidad con tour guiado). */
 export type TopologyNodeId = "core" | "projects" | "security-labs" | "development-apps" | "experience" | "certifications" | "skills" | "contact";
@@ -72,77 +78,6 @@ export type CaseFile = {
   /** Experiencias o proyectos en carrusel; si existe, el cuerpo detallado usa las diapositivas en lugar del bloque único. */
   detailSlides?: readonly CaseDetailSlide[];
 };
-
-function certificationsSortedDescending(): CertificationRecord[] {
-  return [...CERTIFICATIONS].sort((a, b) => b.sortDate.localeCompare(a.sortDate));
-}
-
-function experienceTopologySubtitle(entries: readonly ExperienceEntry[]): string {
-  if (entries.length === 0) return "";
-  const [first, ...rest] = entries;
-  if (rest.length === 0) return first.company;
-  return `${first.company} · +${rest.length}`;
-}
-
-function githubHrefFromLinks(project: DevProject): string | undefined {
-  const hit = project.links.find((l) => l.variant === "github" || l.href.includes("github.com"));
-  return hit?.href;
-}
-
-/** Metadatos de contexto seguridad/notas por id de proyecto (ES). */
-const PROJECT_DETAIL_EXTRA_ES: Record<
-  DevProject["id"],
-  { insightsHeading?: string; securityConsiderations: string[] }
-> = {
-  "papertrail-v2": {
-    insightsHeading: "Producto",
-    securityConsiderations: [
-      "Roles comprador/admin con permisos acotados; validación antes de rutas privilegiadas y del cobro.",
-    ],
-  },
-  "techos-rentables": {
-    insightsHeading: "Operación",
-    securityConsiderations: [
-      "Métricas y exportaciones tratadas con sesión estable y separación por rol ante datos sensibles de operación.",
-    ],
-  },
-};
-
-function slidesFromExperience(entries: readonly ExperienceEntry[]): CaseDetailSlide[] {
-  return entries.map((e) => ({
-    title: e.company,
-    subtitle: `${e.role} · ${e.location} · ${e.period}`,
-    summary: e.summary,
-    features: [...e.bullets],
-    stack: [...e.stack],
-    insightsHeading: e.insightsHeading,
-    securityConsiderations: [...e.securityConsiderations],
-    evidence: [],
-    actions: {},
-    learned: [...e.modalTakeaways],
-  }));
-}
-
-function slidesFromProjects_es(projects: readonly DevProject[]): CaseDetailSlide[] {
-  return projects.map((p) => {
-    const extra = PROJECT_DETAIL_EXTRA_ES[p.id];
-    return {
-      title: p.name,
-      subtitle: p.type,
-      summary: "",
-      features: [...p.features],
-      stack: [...p.stack],
-      insightsHeading: extra?.insightsHeading,
-      securityConsiderations: [...(extra?.securityConsiderations ?? [])],
-      evidence: p.image ? [{ src: p.image, alt: `${p.name} · vista del proyecto` }] : [],
-      actions: {
-        github: githubHrefFromLinks(p),
-        demo: p.liveUrl,
-      },
-      reflectionSingle: p.learned,
-    };
-  });
-}
 
 /**
  * Nodos del grafo SVG (viewBox 1000×560).
@@ -239,9 +174,7 @@ const wazuh = SECURITY_LABS.find((l) => l.id === "wazuh-siem");
 const pyLog = SECURITY_LABS.find((l) => l.id === "python-log-analyzer");
 const entNet = SECURITY_LABS.find((l) => l.id === "enterprise-network-security");
 
-function stackUnion(...groups: string[][]): string[] {
-  return [...new Set(groups.flat().slice(0, 12))];
-}
+const projectsGithubFooterEs = aggregateGithubFooters(DEV_PROJECTS);
 
 export const CASE_FILES: Record<TopologyNodeId, CaseFile> = {
   core: {
@@ -270,15 +203,15 @@ export const CASE_FILES: Record<TopologyNodeId, CaseFile> = {
     summary:
       "Dos repositorios públicos con narrativas distintas — desliza horizontalmente cada tarjeta para ver destacados, stack y enlaces.",
     features: [],
-    detailSlides: slidesFromProjects_es(DEV_PROJECTS),
+    detailSlides: slidesFromProjectsForLocale("es", DEV_PROJECTS),
     stack: stackUnion(...DEV_PROJECTS.map((p) => [...p.stack])),
     insightsHeading: "Convenciones",
     securityConsiderations: [],
     evidence: [],
     actions: {
-      github: "https://github.com/JancarloGCdev/papertrailv2",
-      githubSecondary: "https://github.com/JancarloGCdev/TechosRentables-Proyecto",
-      demo: techos?.liveUrl,
+      github: projectsGithubFooterEs.primary,
+      githubSecondary: projectsGithubFooterEs.secondary,
+      demo: aggregateLiveDemo(DEV_PROJECTS),
     },
   },
   "security-labs": {
@@ -351,7 +284,7 @@ export const CASE_FILES: Record<TopologyNodeId, CaseFile> = {
     summary:
       "Credenciales verificadas en Meta (Coursera), Google Cybersecurity, Cisco Networking Academy y UC Irvine Merage complementadas con trabajo en repos y laboratorios.",
     features: [],
-    certificationCards: certificationsSortedDescending().map(({ logoSrc, logoAlt, title, caption }) => ({
+    certificationCards: certificationsSortedDescending(CERTIFICATIONS).map(({ logoSrc, logoAlt, title, caption }) => ({
       logoSrc,
       logoAlt,
       title,

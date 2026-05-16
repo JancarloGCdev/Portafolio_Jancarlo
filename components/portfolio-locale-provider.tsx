@@ -3,13 +3,16 @@
 import { createContext, useContext, useMemo, type ReactNode } from "react";
 
 import type { PortfolioLocale } from "@/lib/i18n/locale";
-import type { CertificationRecord, DevProject, ExperienceEntry, PanelLink, SecurityLab, TourStep } from "@/lib/data";
+import type {
+  CertificationRecord,
+  DevProject,
+  ExperienceEntry,
+  PanelLink,
+  SecurityLab,
+  TourStep,
+} from "@/lib/data";
 import type { TopologyNodeId, CaseFile } from "@/lib/mapData";
 import {
-  PROFILE as PROFILE_ES,
-  PROFILE_CONSOLE as PROFILE_CONSOLE_ES,
-  EXPERIENCES as EXPERIENCES_ES,
-  DEV_PROJECTS as DEV_PROJECTS_ES,
   SECURITY_LABS as SECURITY_LABS_ES,
   CERTIFICATIONS as CERTIFICATIONS_ES,
   SKILL_MODULES as SKILL_MODULES_ES,
@@ -17,10 +20,6 @@ import {
   GUIDED_TOUR_STEPS as GUIDED_TOUR_STEPS_ES,
 } from "@/lib/data";
 import {
-  PROFILE as PROFILE_EN,
-  PROFILE_CONSOLE as PROFILE_CONSOLE_EN,
-  EXPERIENCES as EXPERIENCES_EN,
-  DEV_PROJECTS as DEV_PROJECTS_EN,
   SECURITY_LABS as SECURITY_LABS_EN,
   CERTIFICATIONS as CERTIFICATIONS_EN,
   SKILL_MODULES as SKILL_MODULES_EN,
@@ -28,12 +27,11 @@ import {
   GUIDED_TOUR_STEPS as GUIDED_TOUR_STEPS_EN,
 } from "@/lib/data-en";
 import {
-  TOPOLOGY_NODES as TOPOLOGY_NODES_ES,
-  CASE_FILES as CASE_FILES_ES,
   HUD_TAB_ORDER as HUD_TAB_ORDER_ES,
   labelForNodeId as labelForNodeIdEs,
 } from "@/lib/mapData";
-import { TOPOLOGY_NODES_EN, CASE_FILES_EN, HUD_TAB_ORDER_EN, labelForNodeIdEn } from "@/lib/mapData-en";
+import { HUD_TAB_ORDER_EN, labelForNodeIdEn } from "@/lib/mapData-en";
+import type { ResolvedBundles } from "@/lib/portfolio-bundles-type";
 import { getPageCopy, type PageCopy } from "@/lib/page-copy";
 
 export type TopologyNodeMeta = {
@@ -89,23 +87,26 @@ export type PortfolioRuntime = {
 
 const PortfolioRuntimeContext = createContext<PortfolioRuntime | null>(null);
 
-export function PortfolioLocaleProvider({ locale, children }: { locale: PortfolioLocale; children: ReactNode }) {
+export function PortfolioLocaleProvider({
+  locale,
+  children,
+  bundles,
+}: {
+  locale: PortfolioLocale;
+  children: ReactNode;
+  bundles: ResolvedBundles;
+}) {
   const value = useMemo<PortfolioRuntime>(() => {
     if (locale === "en") {
       return {
         locale: "en",
         copy: getPageCopy("en"),
-        profile: PROFILE_EN,
-        profileConsole: PROFILE_CONSOLE_EN,
-        experiences: EXPERIENCES_EN,
-        devProjects: DEV_PROJECTS_EN,
+        ...bundles.en,
         securityLabs: SECURITY_LABS_EN,
         certifications: CERTIFICATIONS_EN,
         skillModules: SKILL_MODULES_EN,
         contact: CONTACT_EN,
         guidedTourSteps: GUIDED_TOUR_STEPS_EN,
-        topologyNodes: TOPOLOGY_NODES_EN,
-        caseFiles: CASE_FILES_EN,
         hudTabOrder: HUD_TAB_ORDER_EN,
         labelForNodeId: labelForNodeIdEn,
       };
@@ -114,21 +115,16 @@ export function PortfolioLocaleProvider({ locale, children }: { locale: Portfoli
     return {
       locale: "es",
       copy: getPageCopy("es"),
-      profile: PROFILE_ES,
-      profileConsole: PROFILE_CONSOLE_ES,
-      experiences: EXPERIENCES_ES,
-      devProjects: DEV_PROJECTS_ES,
+      ...bundles.es,
       securityLabs: SECURITY_LABS_ES,
       certifications: CERTIFICATIONS_ES,
       skillModules: SKILL_MODULES_ES,
       contact: CONTACT_ES,
       guidedTourSteps: GUIDED_TOUR_STEPS_ES,
-      topologyNodes: TOPOLOGY_NODES_ES,
-      caseFiles: CASE_FILES_ES,
       hudTabOrder: HUD_TAB_ORDER_ES,
       labelForNodeId: labelForNodeIdEs,
     };
-  }, [locale]);
+  }, [locale, bundles]);
 
   return <PortfolioRuntimeContext.Provider value={value}>{children}</PortfolioRuntimeContext.Provider>;
 }

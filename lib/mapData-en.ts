@@ -1,4 +1,3 @@
-import type { CertificationRecord, DevProject } from "@/lib/data";
 import { QUICK_LINKS } from "@/lib/data";
 import {
   CERTIFICATIONS,
@@ -9,75 +8,16 @@ import {
   SECURITY_LABS,
   SKILL_MODULES,
 } from "@/lib/data-en";
-import type { CaseDetailSlide, CaseFile, TopologyNodeId } from "@/lib/mapData";
-
-function certificationsSortedDescendingEn(): CertificationRecord[] {
-  return [...CERTIFICATIONS].sort((a, b) => b.sortDate.localeCompare(a.sortDate));
-}
-
-function experienceTopologySubtitle(entries: typeof EXPERIENCES): string {
-  if (entries.length === 0) return "";
-  const [first, ...rest] = entries;
-  if (rest.length === 0) return first.company;
-  return `${first.company} · +${rest.length}`;
-}
-
-function githubHrefFromLinks(project: DevProject): string | undefined {
-  const hit = project.links.find((l) => l.variant === "github" || l.href.includes("github.com"));
-  return hit?.href;
-}
-
-const PROJECT_DETAIL_EXTRA_EN: Record<DevProject["id"], { insightsHeading?: string; securityConsiderations: string[] }> = {
-  "papertrail-v2": {
-    insightsHeading: "Product",
-    securityConsiderations: [
-      "Tight shopper/admin segmentation with payload validation upstream of privileged routes—especially checkout handoffs.",
-    ],
-  },
-  "techos-rentables": {
-    insightsHeading: "Operations",
-    securityConsiderations: [
-      "KPI exports handled with deliberate session posture and operator-only affordances.",
-    ],
-  },
-};
-
-function slidesFromExperience(entries: typeof EXPERIENCES): CaseDetailSlide[] {
-  return entries.map((e) => ({
-    title: e.company,
-    subtitle: `${e.role} · ${e.location} · ${e.period}`,
-    summary: e.summary,
-    features: [...e.bullets],
-    stack: [...e.stack],
-    insightsHeading: e.insightsHeading,
-    securityConsiderations: [...e.securityConsiderations],
-    evidence: [],
-    actions: {},
-    learned: [...e.modalTakeaways],
-  }));
-}
-
-function slidesFromProjects(projects: readonly DevProject[]): CaseDetailSlide[] {
-  return projects.map((p) => {
-    const extra = PROJECT_DETAIL_EXTRA_EN[p.id];
-    return {
-      title: p.name,
-      subtitle: p.type,
-      summary: "",
-      features: [...p.features],
-      stack: [...p.stack],
-      insightsHeading: extra?.insightsHeading,
-      securityConsiderations: [...(extra?.securityConsiderations ?? [])],
-      evidence: p.image ? [{ src: p.image, alt: `${p.name} · screenshot` }] : [],
-      actions: {
-        github: githubHrefFromLinks(p),
-        demo: p.liveUrl,
-      },
-      reflectionSingle: p.learned,
-    };
-  });
-}
-
+import type { CaseFile, TopologyNodeId } from "@/lib/mapData";
+import {
+  aggregateGithubFooters,
+  aggregateLiveDemo,
+  certificationsSortedDescending,
+  experienceTopologySubtitle,
+  slidesFromExperience,
+  slidesFromProjectsForLocale,
+  stackUnion,
+} from "@/lib/map-case-builder";
 
 export const TOPOLOGY_NODES_EN: Record<
   TopologyNodeId,
@@ -146,9 +86,7 @@ const wazuh = SECURITY_LABS.find((l) => l.id === "wazuh-siem");
 const pyLog = SECURITY_LABS.find((l) => l.id === "python-log-analyzer");
 const entNet = SECURITY_LABS.find((l) => l.id === "enterprise-network-security");
 
-function stackUnion(...groups: string[][]): string[] {
-  return [...new Set(groups.flat().slice(0, 12))];
-}
+const projectsGithubFooterEn = aggregateGithubFooters(DEV_PROJECTS);
 
 export const CASE_FILES_EN: Record<TopologyNodeId, CaseFile> = {
   core: {
@@ -177,15 +115,15 @@ export const CASE_FILES_EN: Record<TopologyNodeId, CaseFile> = {
     summary:
       "Two public repos with different narratives — swipe horizontally on each panel for highlights, tooling, and links.",
     features: [],
-    detailSlides: slidesFromProjects(DEV_PROJECTS),
+    detailSlides: slidesFromProjectsForLocale("en", DEV_PROJECTS),
     stack: stackUnion(...DEV_PROJECTS.map((p) => [...p.stack])),
     insightsHeading: "Conventions",
     securityConsiderations: [],
     evidence: [],
     actions: {
-      github: "https://github.com/JancarloGCdev/papertrailv2",
-      githubSecondary: "https://github.com/JancarloGCdev/TechosRentables-Proyecto",
-      demo: techos?.liveUrl,
+      github: projectsGithubFooterEn.primary,
+      githubSecondary: projectsGithubFooterEn.secondary,
+      demo: aggregateLiveDemo(DEV_PROJECTS),
     },
   },
   "security-labs": {
@@ -258,7 +196,7 @@ export const CASE_FILES_EN: Record<TopologyNodeId, CaseFile> = {
     summary:
       "Verified credentials from Meta on Coursera, Google Cybersecurity, Cisco Networking Academy, and UC Irvine Merage—paired with public repos and hands-on labs.",
     features: [],
-    certificationCards: certificationsSortedDescendingEn().map(({ logoSrc, logoAlt, title, caption }) => ({
+    certificationCards: certificationsSortedDescending(CERTIFICATIONS).map(({ logoSrc, logoAlt, title, caption }) => ({
       logoSrc,
       logoAlt,
       title,

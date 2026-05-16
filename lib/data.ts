@@ -57,7 +57,7 @@ export const PROFILE = {
   focus: "Entregas estables · visibilidad de riesgos · comunicación clara con equipos y clientes · formación CCNA/ciberseguridad e inglés B2",
 } as const;
 
-const PROFILE_ABOUT_EXTENDED = [
+export const DEFAULT_ABOUT_PARAGRAPHS_ES = [
   "Soy Desarrollador Full Stack de Pereira, Colombia, con experiencia en el desarrollo y mantenimiento de aplicaciones empresariales en entornos productivos utilizando .NET (C#) y Blazor Server. He trabajado en la optimización de módulos de negocio, resolución de tickets técnicos y funcionales, y mejora del rendimiento mediante consultas y procedimientos almacenados en SQL Server, además de apoyar despliegues en Windows Server.",
   "Complemento mi perfil con proyectos web modernos usando React y Next.js, consumo de APIs REST, control de versiones con Git/GitHub y conocimientos en herramientas como Docker y Postman, lo que me permite adaptarme a diferentes entornos de desarrollo.",
   "Actualmente estoy enfocado en fortalecer mis habilidades en redes y ciberseguridad, apoyado en formación y certificaciones como CCNA y fundamentos de seguridad informática. Cuento con nivel de inglés B2 conversacional y continúo capacitándome de forma autodidacta para seguir creciendo profesionalmente.",
@@ -76,9 +76,9 @@ export const PROFILE_CONSOLE = {
       text: `${PROFILE.name} · ${PROFILE.role}`,
     },
     { kind: "cmd" as const, text: "sobre-mí --extendido" },
-    { kind: "out" as const, text: PROFILE_ABOUT_EXTENDED[0] },
-    { kind: "out" as const, text: PROFILE_ABOUT_EXTENDED[1] },
-    { kind: "out" as const, text: PROFILE_ABOUT_EXTENDED[2] },
+    { kind: "out" as const, text: DEFAULT_ABOUT_PARAGRAPHS_ES[0] },
+    { kind: "out" as const, text: DEFAULT_ABOUT_PARAGRAPHS_ES[1] },
+    { kind: "out" as const, text: DEFAULT_ABOUT_PARAGRAPHS_ES[2] },
     { kind: "cmd" as const, text: "disponibilidad" },
     { kind: "out" as const, text: `${PROFILE.status} · ${PROFILE.location}` },
     { kind: "comment" as const, text: "# Abajo, el mapa resume cada área: ábrelo para ver detalle y enlaces." },

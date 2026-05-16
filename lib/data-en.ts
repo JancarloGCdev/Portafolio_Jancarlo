@@ -11,7 +11,7 @@ export const PROFILE = {
   focus: "Reliable releases · actionable risk visibility · clear communication · CCNA/cyber coursework · English at B2",
 } as const;
 
-const PROFILE_ABOUT_EXTENDED = [
+export const DEFAULT_ABOUT_PARAGRAPHS_EN = [
   "I’m a Full Stack Developer based in Pereira, Colombia, building and sustaining enterprise-grade apps in production with .NET (C#) and Blazor Server. I’ve optimized core business modules, closed technical and functional tickets, improved performance via SQL Server queries and stored procedures, and supported deployments on Windows Server.",
   "I complement that work with modern web projects using React and Next.js, REST APIs, Git/GitHub, and tooling like Docker and Postman, so I adapt quickly across different delivery contexts.",
   "Right now I’m deepening networking and cybersecurity through training paths such as CCNA and computer security fundamentals. I speak conversational English around B2 and keep growing through self-directed study.",
@@ -30,9 +30,9 @@ export const PROFILE_CONSOLE = {
       text: `${PROFILE.name} · ${PROFILE.role}`,
     },
     { kind: "cmd" as const, text: "about --extended" },
-    { kind: "out" as const, text: PROFILE_ABOUT_EXTENDED[0] },
-    { kind: "out" as const, text: PROFILE_ABOUT_EXTENDED[1] },
-    { kind: "out" as const, text: PROFILE_ABOUT_EXTENDED[2] },
+    { kind: "out" as const, text: DEFAULT_ABOUT_PARAGRAPHS_EN[0] },
+    { kind: "out" as const, text: DEFAULT_ABOUT_PARAGRAPHS_EN[1] },
+    { kind: "out" as const, text: DEFAULT_ABOUT_PARAGRAPHS_EN[2] },
     { kind: "cmd" as const, text: "availability" },
     { kind: "out" as const, text: `${PROFILE.status} · ${PROFILE.location}` },
     { kind: "comment" as const, text: "# The map below groups each topic—open nodes for detail and outbound links." },

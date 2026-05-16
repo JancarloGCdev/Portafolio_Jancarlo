@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { JetBrains_Mono } from "next/font/google";
+
 import { PortfolioLocaleProvider } from "@/components/portfolio-locale-provider";
-import { PROFILE } from "@/lib/data";
 import { pickPortfolioLocaleFromHeader } from "@/lib/i18n/locale";
 import { getPageCopy } from "@/lib/page-copy";
+import { resolvePortfolioBundles } from "@/lib/portfolio-resolve";
 import "./globals.css";
 
 const jetbrains = JetBrains_Mono({
@@ -27,6 +28,8 @@ function siteUrl(): string {
 export async function generateMetadata(): Promise<Metadata> {
   const hdr = await headers();
   const locale = pickPortfolioLocaleFromHeader(hdr.get("accept-language"));
+  const bundles = await resolvePortfolioBundles();
+  const profile = locale === "en" ? bundles.en.profile : bundles.es.profile;
   const copy = getPageCopy(locale);
   const title = copy.seo.title;
   const description = copy.seo.description;
@@ -36,8 +39,8 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     applicationName: copy.seo.applicationName,
-    authors: [{ name: PROFILE.name }],
-    creator: PROFILE.name,
+    authors: [{ name: profile.name }],
+    creator: profile.name,
     keywords: [...copy.seo.keywords],
     openGraph: {
       type: "website",
@@ -62,12 +65,15 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const hdr = await headers();
   const locale = pickPortfolioLocaleFromHeader(hdr.get("accept-language"));
+  const bundles = await resolvePortfolioBundles();
   const lang = locale === "en" ? "en" : "es";
 
   return (
     <html lang={lang} className={jetbrains.variable}>
       <body className="font-mono">
-        <PortfolioLocaleProvider locale={locale}>{children}</PortfolioLocaleProvider>
+        <PortfolioLocaleProvider locale={locale} bundles={bundles}>
+          {children}
+        </PortfolioLocaleProvider>
       </body>
     </html>
   );
