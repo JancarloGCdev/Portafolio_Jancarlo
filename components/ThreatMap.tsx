@@ -159,11 +159,44 @@ export function ThreatMap({ onSelectNode, highlightNodeId, tourActive }: ThreatM
   const tierGeom = useMemo(() => {
     switch (tier) {
       case "wide":
-        return { coreGlow: 50, glow: 38, stroke: 1.68, iconCore: 30, icon: 22.5, foCore: 62, fo: 49, lbl: 12.5, sub: 9.35, pad: 61 };
+        return {
+          coreGlow: 58,
+          glow: 46,
+          stroke: 1.82,
+          iconCore: 34,
+          icon: 26,
+          foCore: 70,
+          fo: 56,
+          lbl: 14,
+          sub: 10.75,
+          pad: 72,
+        };
       case "mid":
-        return { coreGlow: 46, glow: 35, stroke: 1.52, iconCore: 28, icon: 21, foCore: 58, fo: 45, lbl: 11.75, sub: 8.85, pad: 58 };
+        return {
+          coreGlow: 54,
+          glow: 42,
+          stroke: 1.68,
+          iconCore: 32,
+          icon: 24.5,
+          foCore: 66,
+          fo: 53,
+          lbl: 13.35,
+          sub: 10,
+          pad: 69,
+        };
       default:
-        return { coreGlow: 46, glow: 32, stroke: 1.4, iconCore: 28, icon: 21.5, foCore: 60, fo: 48, lbl: 11.25, sub: 9, pad: 60 };
+        return {
+          coreGlow: 54,
+          glow: 40,
+          stroke: 1.55,
+          iconCore: 32,
+          icon: 26,
+          foCore: 66,
+          fo: 56,
+          lbl: 12.95,
+          sub: 9.85,
+          pad: 74,
+        };
     }
   }, [tier]);
 

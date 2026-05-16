@@ -58,7 +58,7 @@ No hace falta configurar variables de entorno para la experiencia estática actu
 Edita **`lib/data.ts`**:
 
 - **`QUICK_LINKS`**: GitHub, LinkedIn, correo (`mailto:`), WhatsApp (`wa.me`), ruta del CV.
-- **`PROFILE`**, **`EXPERIENCE`**, **`DEV_PROJECTS`**, **`SECURITY_LABS`**, certificaciones, competencias, etc., según las secciones exportadas en ese archivo.
+- **`PROFILE`**, **`EXPERIENCES`**, **`DEV_PROJECTS`**, **`SECURITY_LABS`**, certificaciones, competencias, etc., según las secciones exportadas en ese archivo.
 - **`GUIDED_TOUR_STEPS`**: orden y mensajes del recorrido guiado (debe mantenerse alineado con el HUD donde aplique).
 
 ### Mapa, nodos y textos del panel

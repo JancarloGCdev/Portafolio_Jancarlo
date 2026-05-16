@@ -84,6 +84,10 @@ export type PageCopy = {
     liveSite: string;
     repoSecondary: string;
     linkedinActionLabel: string;
+    carouselPrevAria: string;
+    carouselNextAria: string;
+    /** Placeholders `{current}` y `{total}` (ej. Slide 2 de 3). */
+    carouselSlideStatus: string;
   };
   liveLogs: {
     waiting: string;
@@ -209,6 +213,9 @@ const ES_COPY: Omit<PageCopy, "locale" | "htmlLangAttr"> = {
     liveSite: "Sitio en vivo",
     repoSecondary: "Repo 2",
     linkedinActionLabel: "LinkedIn",
+    carouselPrevAria: "Diapositiva anterior",
+    carouselNextAria: "Diapositiva siguiente",
+    carouselSlideStatus: "Diapositiva {current} de {total}",
   },
   liveLogs: {
     waiting: "Esperando mensajes…",
@@ -333,6 +340,9 @@ const EN_COPY: Omit<PageCopy, "locale" | "htmlLangAttr"> = {
     liveSite: "Live demo",
     repoSecondary: "Repo 02",
     linkedinActionLabel: "LinkedIn",
+    carouselPrevAria: "Previous slide",
+    carouselNextAria: "Next slide",
+    carouselSlideStatus: "Slide {current} of {total}",
   },
   liveLogs: {
     waiting: "Awaiting events…",

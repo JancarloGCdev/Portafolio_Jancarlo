@@ -2,11 +2,14 @@ import {
   CERTIFICATIONS,
   CONTACT,
   DEV_PROJECTS,
-  EXPERIENCE,
+  EXPERIENCES,
   PROFILE,
   QUICK_LINKS,
   SECURITY_LABS,
   SKILL_MODULES,
+  type CertificationRecord,
+  type DevProject,
+  type ExperienceEntry,
 } from "@/lib/data";
 
 /** Identificadores de topología SOC (mantienen compatibilidad con tour guiado). */
@@ -21,6 +24,30 @@ export type CaseActions = {
   linkedin?: string;
 };
 
+/** Tarjeta de certificación en el modal del mapa */
+export type CertificationCard = {
+  logoSrc: string;
+  logoAlt: string;
+  title: string;
+  caption: string;
+};
+
+/** Tarjeta deslizable dentro del modal cuando hay varias experiencias/proyectos. */
+export type CaseDetailSlide = {
+  title: string;
+  subtitle?: string;
+  summary: string;
+  features: readonly string[];
+  stack: readonly string[];
+  insightsHeading?: string;
+  securityConsiderations: readonly string[];
+  evidence: readonly { readonly src: string; readonly alt: string }[];
+  actions: CaseActions;
+  learned?: readonly [string, string];
+  /** Una sola nota cuando no aplican dos “takeaways”. */
+  reflectionSingle?: string;
+};
+
 /** Ficha “case file” mostrada en el modal por nodo. */
 export type CaseFile = {
   id: TopologyNodeId;
@@ -29,18 +56,93 @@ export type CaseFile = {
   badge: CaseBadge;
   /** Una o dos líneas: qué ves en este nodo */
   summary: string;
-  features: string[];
-  stack: string[];
+  features: readonly string[];
+  /** Si existe, sustituye la lista `features` por tarjetas con logo (nodo certificaciones). */
+  certificationCards?: readonly CertificationCard[];
+  stack: readonly string[];
   /** Opcional · sustituye el rótulo del bloque de notas (por defecto `nodeModal.securityHeading`). */
   insightsHeading?: string;
   /** Notas puntuales; vacío ⇒ el modal no muestra el bloque */
-  securityConsiderations: string[];
+  securityConsiderations: readonly string[];
   /** Vacío ⇒ se ocultan referencias · capturas */
-  evidence: { src: string; alt: string }[];
+  evidence: readonly { readonly src: string; readonly alt: string }[];
   actions: CaseActions;
   /** Bloque inferior; omitir cuando no suma información */
   learned?: readonly [string, string];
+  /** Experiencias o proyectos en carrusel; si existe, el cuerpo detallado usa las diapositivas en lugar del bloque único. */
+  detailSlides?: readonly CaseDetailSlide[];
 };
+
+function certificationsSortedDescending(): CertificationRecord[] {
+  return [...CERTIFICATIONS].sort((a, b) => b.sortDate.localeCompare(a.sortDate));
+}
+
+function experienceTopologySubtitle(entries: readonly ExperienceEntry[]): string {
+  if (entries.length === 0) return "";
+  const [first, ...rest] = entries;
+  if (rest.length === 0) return first.company;
+  return `${first.company} · +${rest.length}`;
+}
+
+function githubHrefFromLinks(project: DevProject): string | undefined {
+  const hit = project.links.find((l) => l.variant === "github" || l.href.includes("github.com"));
+  return hit?.href;
+}
+
+/** Metadatos de contexto seguridad/notas por id de proyecto (ES). */
+const PROJECT_DETAIL_EXTRA_ES: Record<
+  DevProject["id"],
+  { insightsHeading?: string; securityConsiderations: string[] }
+> = {
+  "papertrail-v2": {
+    insightsHeading: "Producto",
+    securityConsiderations: [
+      "Roles comprador/admin con permisos acotados; validación antes de rutas privilegiadas y del cobro.",
+    ],
+  },
+  "techos-rentables": {
+    insightsHeading: "Operación",
+    securityConsiderations: [
+      "Métricas y exportaciones tratadas con sesión estable y separación por rol ante datos sensibles de operación.",
+    ],
+  },
+};
+
+function slidesFromExperience(entries: readonly ExperienceEntry[]): CaseDetailSlide[] {
+  return entries.map((e) => ({
+    title: e.company,
+    subtitle: `${e.role} · ${e.location} · ${e.period}`,
+    summary: e.summary,
+    features: [...e.bullets],
+    stack: [...e.stack],
+    insightsHeading: e.insightsHeading,
+    securityConsiderations: [...e.securityConsiderations],
+    evidence: [],
+    actions: {},
+    learned: [...e.modalTakeaways],
+  }));
+}
+
+function slidesFromProjects_es(projects: readonly DevProject[]): CaseDetailSlide[] {
+  return projects.map((p) => {
+    const extra = PROJECT_DETAIL_EXTRA_ES[p.id];
+    return {
+      title: p.name,
+      subtitle: p.type,
+      summary: "",
+      features: [...p.features],
+      stack: [...p.stack],
+      insightsHeading: extra?.insightsHeading,
+      securityConsiderations: [...(extra?.securityConsiderations ?? [])],
+      evidence: p.image ? [{ src: p.image, alt: `${p.name} · vista del proyecto` }] : [],
+      actions: {
+        github: githubHrefFromLinks(p),
+        demo: p.liveUrl,
+      },
+      reflectionSingle: p.learned,
+    };
+  });
+}
 
 /**
  * Nodos del grafo SVG (viewBox 1000×560).
@@ -81,7 +183,7 @@ export const TOPOLOGY_NODES: Record<
   },
   experience: {
     label: "Experiencia",
-    subtitle: EXPERIENCE.company,
+    subtitle: experienceTopologySubtitle(EXPERIENCES),
     x: 591,
     y: 469,
     accent: "#60a5fa",
@@ -132,7 +234,6 @@ export const SATELLITE_IDS: SatelliteId[] = [
   "contact",
 ];
 
-const paper = DEV_PROJECTS.find((p) => p.id === "papertrail-v2");
 const techos = DEV_PROJECTS.find((p) => p.id === "techos-rentables");
 const wazuh = SECURITY_LABS.find((l) => l.id === "wazuh-siem");
 const pyLog = SECURITY_LABS.find((l) => l.id === "python-log-analyzer");
@@ -167,21 +268,13 @@ export const CASE_FILES: Record<TopologyNodeId, CaseFile> = {
     title: "Proyectos web",
     badge: "completed",
     summary:
-      "Dos repos públicos con problemas distintos: ecommerce multi‑rol y dashboard operativo con datos en tiempo real.",
-    features: [
-      `${paper?.name ?? "PaperTrail v2"} — catálogo, carrito y flujo de compra.`,
-      `${techos?.name ?? "TechosRentables"} — indicadores vivo, PDF y vista operador.`,
-      ...(paper?.features?.slice(0, 1) ?? []),
-    ].slice(0, 5),
-    stack: stackUnion(paper?.stack ?? [], techos?.stack ?? []),
-    insightsHeading: "Producto",
-    securityConsiderations: [
-      "Superficie admin acotada; entradas validadas y sesión cuidada especialmente antes del cobro.",
-    ],
-    evidence: [
-      { src: paper?.image ?? "/projects/github-wordmark.avif", alt: "PaperTrail · vista del proyecto" },
-      { src: techos?.image ?? "/projects/github-wordmark.avif", alt: "TechosRentables · panel operativo" },
-    ],
+      "Dos repositorios públicos con narrativas distintas — desliza horizontalmente cada tarjeta para ver destacados, stack y enlaces.",
+    features: [],
+    detailSlides: slidesFromProjects_es(DEV_PROJECTS),
+    stack: stackUnion(...DEV_PROJECTS.map((p) => [...p.stack])),
+    insightsHeading: "Convenciones",
+    securityConsiderations: [],
+    evidence: [],
     actions: {
       github: "https://github.com/JancarloGCdev/papertrailv2",
       githubSecondary: "https://github.com/JancarloGCdev/TechosRentables-Proyecto",
@@ -231,29 +324,39 @@ export const CASE_FILES: Record<TopologyNodeId, CaseFile> = {
   },
   experience: {
     id: "experience",
-    title: "Experiencia profesional",
+    title: "Experiencia laboral",
+    subtitle:
+      EXPERIENCES.length <= 1
+        ? EXPERIENCES[0]
+          ? `${EXPERIENCES[0].role} · ${EXPERIENCES[0].location} · ${EXPERIENCES[0].period}`
+          : undefined
+        : `${EXPERIENCES.length} roles · desliza para ver cada empresa`,
     badge: "completed",
-    summary: `${EXPERIENCE.role}, ${EXPERIENCE.company}: mantenimiento en producción, tickets y despliegues controlados.`,
-    features: EXPERIENCE.bullets.slice(0, 5),
-    stack: ["Blazor Server", "C#", ".NET", "SQL Server", "Windows Server"],
-    insightsHeading: "Producción",
-    securityConsiderations: [
-      "Antes de tocar usuarios hay ventana anunciada; acceso prod lo más acotado posible.",
-    ],
+    summary:
+      EXPERIENCES.length <= 1
+        ? (EXPERIENCES[0]?.summary ?? "")
+        : "Trayectoria por empresa — desliza para ver rol, período y destacados.",
+    features: [],
+    detailSlides: slidesFromExperience(EXPERIENCES),
+    stack: stackUnion(...EXPERIENCES.map((e) => [...e.stack])),
+    insightsHeading: undefined,
+    securityConsiderations: [],
     evidence: [],
     actions: {},
-    learned: [
-      "Ticket reproducible y evidencia llegan antes que el parche urgente improvisado.",
-      "Dos líneas de contexto después del cambio cortan segunda ronda por el mismo incidente.",
-    ],
   },
   certifications: {
     id: "certifications",
     title: "Certificaciones",
     badge: "completed",
     summary:
-      "Coursera (Meta front-end path · Google Foundations of Cybersecurity) · Cisco Networking Academy · ejecutivo UC Irvine Merage sobre decisiones.",
-    features: CERTIFICATIONS,
+      "Credenciales verificadas en Meta (Coursera), Google Cybersecurity, Cisco Networking Academy y UC Irvine Merage complementadas con trabajo en repos y laboratorios.",
+    features: [],
+    certificationCards: certificationsSortedDescending().map(({ logoSrc, logoAlt, title, caption }) => ({
+      logoSrc,
+      logoAlt,
+      title,
+      caption,
+    })),
     stack: [
       "Meta · Coursera",
       "JavaScript · Python · Git",
@@ -264,7 +367,7 @@ export const CASE_FILES: Record<TopologyNodeId, CaseFile> = {
     ],
     insightsHeading: "Cómo leer esta lista",
     securityConsiderations: [
-      "Las fechas y emisores en las plataformas de formación avalan cada ítem; repos y labs cuentan cómo uso el conocimiento después.",
+      "Las fechas y emisores en las plataformas de formación avalan cada ítem; repos y labs muestran cómo aplico el conocimiento después.",
     ],
     evidence: [],
     actions: { linkedin: QUICK_LINKS.linkedin },

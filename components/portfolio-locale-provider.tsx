@@ -3,12 +3,12 @@
 import { createContext, useContext, useMemo, type ReactNode } from "react";
 
 import type { PortfolioLocale } from "@/lib/i18n/locale";
-import type { DevProject, PanelLink, SecurityLab, TourStep } from "@/lib/data";
+import type { CertificationRecord, DevProject, ExperienceEntry, PanelLink, SecurityLab, TourStep } from "@/lib/data";
 import type { TopologyNodeId, CaseFile } from "@/lib/mapData";
 import {
   PROFILE as PROFILE_ES,
   PROFILE_CONSOLE as PROFILE_CONSOLE_ES,
-  EXPERIENCE as EXPERIENCE_ES,
+  EXPERIENCES as EXPERIENCES_ES,
   DEV_PROJECTS as DEV_PROJECTS_ES,
   SECURITY_LABS as SECURITY_LABS_ES,
   CERTIFICATIONS as CERTIFICATIONS_ES,
@@ -19,7 +19,7 @@ import {
 import {
   PROFILE as PROFILE_EN,
   PROFILE_CONSOLE as PROFILE_CONSOLE_EN,
-  EXPERIENCE as EXPERIENCE_EN,
+  EXPERIENCES as EXPERIENCES_EN,
   DEV_PROJECTS as DEV_PROJECTS_EN,
   SECURITY_LABS as SECURITY_LABS_EN,
   CERTIFICATIONS as CERTIFICATIONS_EN,
@@ -61,13 +61,6 @@ type ProfileConsoleBlock = {
   lines: ReadonlyArray<{ kind: "comment" | "cmd" | "out"; text: string }>;
 };
 
-type ExperienceBlock = {
-  company: string;
-  role: string;
-  bullets: readonly string[];
-  learned: string;
-};
-
 type SkillModule = { readonly title: string; readonly items: readonly string[] };
 
 type ContactBlock = {
@@ -81,10 +74,10 @@ export type PortfolioRuntime = {
   copy: PageCopy;
   profile: ProfileSummary;
   profileConsole: ProfileConsoleBlock;
-  experience: ExperienceBlock;
+  experiences: readonly ExperienceEntry[];
   devProjects: readonly DevProject[];
   securityLabs: readonly SecurityLab[];
-  certifications: readonly string[];
+  certifications: readonly CertificationRecord[];
   skillModules: readonly SkillModule[];
   contact: ContactBlock;
   guidedTourSteps: readonly TourStep[];
@@ -104,7 +97,7 @@ export function PortfolioLocaleProvider({ locale, children }: { locale: Portfoli
         copy: getPageCopy("en"),
         profile: PROFILE_EN,
         profileConsole: PROFILE_CONSOLE_EN,
-        experience: EXPERIENCE_EN,
+        experiences: EXPERIENCES_EN,
         devProjects: DEV_PROJECTS_EN,
         securityLabs: SECURITY_LABS_EN,
         certifications: CERTIFICATIONS_EN,
@@ -123,7 +116,7 @@ export function PortfolioLocaleProvider({ locale, children }: { locale: Portfoli
       copy: getPageCopy("es"),
       profile: PROFILE_ES,
       profileConsole: PROFILE_CONSOLE_ES,
-      experience: EXPERIENCE_ES,
+      experiences: EXPERIENCES_ES,
       devProjects: DEV_PROJECTS_ES,
       securityLabs: SECURITY_LABS_ES,
       certifications: CERTIFICATIONS_ES,

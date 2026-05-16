@@ -1,5 +1,7 @@
-import type { DevProject, SecurityLab, TourStep } from "@/lib/data";
+import type { DevProject, ExperienceEntry, SecurityLab, TourStep, CertificationRecord } from "@/lib/data";
 import { QUICK_LINKS } from "@/lib/data";
+
+const SI = (slug: string, color: string) => `https://cdn.simpleicons.org/${slug}/${color}`;
 
 export const PROFILE = {
   name: "Jancarlo Gallón Cano",
@@ -37,38 +39,33 @@ export const PROFILE_CONSOLE = {
   ],
 };
 
-export const EXPERIENCE = {
-  company: "Outsourcing S.A.S. BIC",
-  role: "Software development intern",
-  bullets: [
-    "Supporting and sustaining systems already in production",
-    "Owning technical and functional support tickets through resolution",
-    "Building features with Blazor Server (C#) and SQL Server",
-    "Shipping controlled updates on Windows deployments",
-    "Documenting fixes and collaborating with end-users",
-  ],
-  learned:
-    "I strengthened how I keep production calm, communicate with non-technical users, and close incidents calmly end-to-end.",
-} as const;
-
-export const DEV_PROJECTS: DevProject[] = [
+export const EXPERIENCES: ExperienceEntry[] = [
   {
-    id: "papertrail-v2",
-    name: "PaperTrail v2",
-    type: "Bookstore storefront with omni‑channel ecommerce flows",
-    image: "/projects/github-wordmark.avif",
-    features: ["Catalog search, carts, checkout, and payment integrations", "Shopper/admin roles scoped to sensible permissions"],
-    stack: ["TypeScript", "JavaScript", "REST API", "Git"],
-    learned:
-      "Saw firsthand how storefronts knit server data, clear merchandising UX, and least-privilege IAM together.",
-    links: [
-      {
-        label: "View on GitHub",
-        href: "https://github.com/JancarloGCdev/papertrailv2",
-        variant: "github",
-      },
+    company: "Outsourcing S.A.S. BIC",
+    role: "Full Stack .NET Developer (Blazor / ASP.NET)",
+    location: "Bogotá D.C., Colombia",
+    period: "Jun 2025 – Dec 2025",
+    summary:
+      "Full stack .NET delivery on production enterprise apps—triage, feature work, SQL Server performance, and disciplined Windows Server deployment support.",
+    bullets: [
+      "Owned technical and functional support tickets for business-critical apps, keeping production stable and response times predictable.",
+      "Built, maintained, and tuned Blazor Server (C#) modules—strengthening domain logic, shipping fixes, and reducing recurring defects.",
+      "Designed and shipped new functional modules mapped to client requirements and the product roadmap.",
+      "Tuned SQL Server queries and stored procedures; partnered on production releases and foundational Windows Server administration.",
+    ],
+    modalTakeaways: [
+      "Production triage moves faster when reproduction steps and context travel with the ticket.",
+      "Two lines of post-deploy notes usually prevent the same incident from reopening immediately.",
+    ],
+    stack: ["Blazor Server", "C#", ".NET", "SQL Server", "Windows Server"],
+    insightsHeading: "Production etiquette",
+    securityConsiderations: [
+      "Communicate freezes before downstream changes · keep production credentials narrowly scoped.",
     ],
   },
+];
+
+export const DEV_PROJECTS: DevProject[] = [
   {
     id: "techos-rentables",
     name: "TechosRentables",
@@ -86,6 +83,23 @@ export const DEV_PROJECTS: DevProject[] = [
       },
     ],
   },
+  {
+    id: "papertrail-v2",
+    name: "PaperTrail v2",
+    type: "Bookstore storefront with omni‑channel ecommerce flows",
+    image: "/projects/github-wordmark.avif",
+    features: ["Catalog search, carts, checkout, and payment integrations", "Shopper/admin roles scoped to sensible permissions"],
+    stack: ["TypeScript", "JavaScript", "REST API", "Git"],
+    learned:
+      "Saw firsthand how storefronts knit server data, clear merchandising UX, and least-privilege IAM together.",
+    links: [
+      {
+        label: "View on GitHub",
+        href: "https://github.com/JancarloGCdev/papertrailv2",
+        variant: "github",
+      },
+    ],
+  }
 ];
 
 export const SECURITY_LABS: SecurityLab[] = [
@@ -128,17 +142,77 @@ export const SECURITY_LABS: SecurityLab[] = [
   },
 ];
 
-export const CERTIFICATIONS: string[] = [
-  "Meta (Coursera) · Introduction to Front-End Development · Jan 2025 – Mar 2025",
-  "Meta (Coursera) · Introduction to Back-End Development · Jan 2025 – Mar 2025",
-  "Meta (Coursera) · Programming with JavaScript · Jan 2025 – Mar 2025",
-  "Meta (Coursera) · Programming with Python · Jan 2025 – Mar 2025",
-  "Meta (Coursera) · Version Control with Git · Jan 2025 – Mar 2025",
-  "University of California, Irvine · The Paul Merage School of Business · Problem Solving and Decision Making · Feb 2025",
-  "Google (Coursera) · Foundations of Cybersecurity · Jan 2025",
-  "Cisco · CCNA: Introduction to Networks · Nov 2024",
-  "Cisco · English for IT 1 · May 2025",
-  "Cisco · Introduction to Cybersecurity · Nov 2024",
+export const CERTIFICATIONS: CertificationRecord[] = [
+  {
+    sortDate: "2026-05-05",
+    logoSrc: SI("cisco", "1BA0D7"),
+    logoAlt: "Cisco",
+    title: "English for IT 1",
+    caption: "Cisco Networking Academy · May 2026",
+  },
+  {
+    sortDate: "2025-03-31",
+    logoSrc: SI("meta", "0668E1"),
+    logoAlt: "Meta",
+    title: "Introduction to Back-End Development",
+    caption: "Meta · Coursera · Jan 2025 – Mar 2025",
+  },
+  {
+    sortDate: "2025-03-31",
+    logoSrc: SI("meta", "0668E1"),
+    logoAlt: "Meta",
+    title: "Introduction to Front-End Development",
+    caption: "Meta · Coursera · Jan 2025 – Mar 2025",
+  },
+  {
+    sortDate: "2025-03-31",
+    logoSrc: SI("meta", "0668E1"),
+    logoAlt: "Meta",
+    title: "Version Control with Git",
+    caption: "Meta · Coursera · Jan 2025 – Mar 2025",
+  },
+  {
+    sortDate: "2025-03-31",
+    logoSrc: SI("meta", "0668E1"),
+    logoAlt: "Meta",
+    title: "Programming with JavaScript",
+    caption: "Meta · Coursera · Jan 2025 – Mar 2025",
+  },
+  {
+    sortDate: "2025-03-31",
+    logoSrc: SI("meta", "0668E1"),
+    logoAlt: "Meta",
+    title: "Programming with Python",
+    caption: "Meta · Coursera · Jan 2025 – Mar 2025",
+  },
+  {
+    sortDate: "2025-02-28",
+    logoSrc: "/certifications/uci-merage.svg",
+    logoAlt: "UC Irvine · The Paul Merage School of Business",
+    title: "Problem Solving and Decision Making",
+    caption: "UC Irvine · Merage · Feb 2025",
+  },
+  {
+    sortDate: "2025-01-31",
+    logoSrc: SI("google", "4285F4"),
+    logoAlt: "Google",
+    title: "Foundations of Cybersecurity",
+    caption: "Google · Coursera · Jan 2025",
+  },
+  {
+    sortDate: "2024-11-30",
+    logoSrc: SI("cisco", "1BA0D7"),
+    logoAlt: "Cisco",
+    title: "CCNA: Introduction to Networks",
+    caption: "Cisco Networking Academy · Nov 2024",
+  },
+  {
+    sortDate: "2026-05-10",
+    logoSrc: SI("cisco", "1BA0D7"),
+    logoAlt: "Cisco",
+    title: "Introduction to Cybersecurity",
+    caption: "Cisco Networking Academy · may 2026",
+  },
 ];
 
 export const SKILL_MODULES = [

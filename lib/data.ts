@@ -37,6 +37,17 @@ export type TourStep = {
   logMessage?: string;
 };
 
+/** Certificación con logo de emisor · `sortDate` ISO (fin aprox. del curso) para orden · `logoSrc` local o Simple Icons CDN. */
+export type CertificationRecord = {
+  sortDate: string;
+  logoSrc: string;
+  logoAlt: string;
+  title: string;
+  caption: string;
+};
+
+const SI = (slug: string, color: string) => `https://cdn.simpleicons.org/${slug}/${color}`;
+
 /** Perfil mostrado en la terminal inicial y reusable en otros bloques */
 export const PROFILE = {
   name: "Jancarlo Gallón Cano",
@@ -74,21 +85,63 @@ export const PROFILE_CONSOLE = {
   ],
 };
 
-export const EXPERIENCE = {
-  company: "Outsourcing S.A.S. BIC",
-  role: "Pasante de desarrollo de software",
-  bullets: [
-    "Soporte y mantenimiento de sistemas en producción",
-    "Atención y cierre de tickets técnicos y funcionales",
-    "Desarrollo con Blazor Server (C#) y SQL Server",
-    "Publicación de cambios en servidores Windows",
-    "Documentación y soporte directo a usuarios finales",
-  ],
-  learned:
-    "Aprendí a priorizar estabilidad en producción, a comunicarme bien con usuarios no técnicos y a resolver incidientes de punta a punta con calma.",
-} as const;
+export type ExperienceEntry = {
+  company: string;
+  role: string;
+  location: string;
+  period: string;
+  summary: string;
+  bullets: readonly string[];
+  modalTakeaways: readonly [string, string];
+  stack: readonly string[];
+  insightsHeading?: string;
+  securityConsiderations: readonly string[];
+};
+
+export const EXPERIENCES: ExperienceEntry[] = [
+  {
+    company: "Outsourcing S.A.S. BIC",
+    role: "Desarrollador Full Stack .NET (Blazor / ASP.NET)",
+    location: "Bogotá D.C., Colombia",
+    period: "jun. 2025 – dic. 2025",
+    summary:
+      "Desarrollo full stack en .NET y Blazor Server sobre aplicaciones empresariales en producción: tickets, evolución funcional, SQL Server y apoyo a despliegues en Windows Server.",
+    bullets: [
+      "Gestioné y resolví tickets de soporte técnico y funcional en aplicaciones empresariales en producción, priorizando estabilidad y tiempo de respuesta.",
+      "Desarrollé, mantuve y optimicé módulos en Blazor Server (C#): lógica de negocio, mejoras y corrección de defectos con foco en impacto en usuarios.",
+      "Diseñé e implementé nuevos módulos funcionales según requerimientos del cliente y la hoja de ruta del aplicativo.",
+      "Optimicé consultas y procedimientos almacenados en SQL Server y colaboré en despliegues a producción y operación básica sobre Windows Server.",
+    ],
+    modalTakeaways: [
+      "En producción, reproducibilidad del incidente y contexto claro reducen idas y vueltas entre soporte y desarrollo.",
+      "Dos líneas de registro tras un cambio suelen evitar una segunda ola del mismo ticket.",
+    ],
+    stack: ["Blazor Server", "C#", ".NET", "SQL Server", "Windows Server"],
+    insightsHeading: "Producción",
+    securityConsiderations: [
+      "Ventanas de cambio anunciadas antes de tocar usuarios; acceso a producción lo más acotado posible.",
+    ],
+  },
+];
 
 export const DEV_PROJECTS: DevProject[] = [
+  {
+    id: "techos-rentables",
+    name: "TechosRentables",
+    type: "Panel web para monitorear sistemas solares (proyecto colaborativo intensivo)",
+    image: "/projects/github-wordmark.avif",
+    features: ["Indicadores clave en pantalla, alertas, reportes y exportación a PDF"],
+    stack: ["Next.js", "React", "TypeScript", "Prisma", "PostgreSQL", "Tailwind"],
+    learned:
+      "Practiqué cómo llevar métricas de operación día a día a una interfaz clara y cómo ordenar información confiable detrás para que los equipos tomen decisiones.",
+    links: [
+      {
+        label: "Ver en GitHub",
+        href: "https://github.com/JancarloGCdev/TechosRentables-Proyecto",
+        variant: "github",
+      },
+    ],
+  },
   {
     id: "papertrail-v2",
     name: "PaperTrail v2",
@@ -108,24 +161,7 @@ export const DEV_PROJECTS: DevProject[] = [
         variant: "github",
       },
     ],
-  },
-  {
-    id: "techos-rentables",
-    name: "TechosRentables",
-    type: "Panel web para monitorear sistemas solares (proyecto colaborativo intensivo)",
-    image: "/projects/github-wordmark.avif",
-    features: ["Indicadores clave en pantalla, alertas, reportes y exportación a PDF"],
-    stack: ["Next.js", "React", "TypeScript", "Prisma", "PostgreSQL", "Tailwind"],
-    learned:
-      "Practiqué cómo llevar métricas de operación día a día a una interfaz clara y cómo ordenar información confiable detrás para que los equipos tomen decisiones.",
-    links: [
-      {
-        label: "Ver en GitHub",
-        href: "https://github.com/JancarloGCdev/TechosRentables-Proyecto",
-        variant: "github",
-      },
-    ],
-  },
+  }
 ];
 
 export const SECURITY_LABS: SecurityLab[] = [
@@ -168,17 +204,77 @@ export const SECURITY_LABS: SecurityLab[] = [
   },
 ];
 
-export const CERTIFICATIONS: string[] = [
-  "Meta (Coursera) · Introducción al desarrollo front-end · ene 2025 – mar 2025",
-  "Meta (Coursera) · Introducción al desarrollo back-end · ene 2025 – mar 2025",
-  "Meta (Coursera) · Programación con JavaScript · ene 2025 – mar 2025",
-  "Meta (Coursera) · Programación en Python · ene 2025 – mar 2025",
-  "Meta (Coursera) · Control de versiones con Git · ene 2025 – mar 2025",
-  "Universidad de California, Irvine · The Paul Merage School of Business · Resolución de problemas y toma de decisiones · feb 2025",
-  "Google (Coursera) · Foundations of Cybersecurity · ene 2025",
-  "Cisco · CCNA: Introduction to Networks · nov 2024",
-  "Cisco · English for IT 1 · may 2025",
-  "Cisco · Introducción a la ciberseguridad · nov 2024",
+export const CERTIFICATIONS: CertificationRecord[] = [
+  {
+    sortDate: "2025-05-31",
+    logoSrc: SI("cisco", "1BA0D7"),
+    logoAlt: "Cisco",
+    title: "English for IT 1",
+    caption: "Cisco Networking Academy · may 2025",
+  },
+  {
+    sortDate: "2025-03-31",
+    logoSrc: SI("meta", "0668E1"),
+    logoAlt: "Meta",
+    title: "Introducción al desarrollo back-end",
+    caption: "Meta · Coursera · ene 2025 – mar 2025",
+  },
+  {
+    sortDate: "2025-03-31",
+    logoSrc: SI("meta", "0668E1"),
+    logoAlt: "Meta",
+    title: "Introducción al desarrollo front-end",
+    caption: "Meta · Coursera · ene 2025 – mar 2025",
+  },
+  {
+    sortDate: "2025-03-31",
+    logoSrc: SI("meta", "0668E1"),
+    logoAlt: "Meta",
+    title: "Control de versiones con Git",
+    caption: "Meta · Coursera · ene 2025 – mar 2025",
+  },
+  {
+    sortDate: "2025-03-31",
+    logoSrc: SI("meta", "0668E1"),
+    logoAlt: "Meta",
+    title: "Programación con JavaScript",
+    caption: "Meta · Coursera · ene 2025 – mar 2025",
+  },
+  {
+    sortDate: "2025-03-31",
+    logoSrc: SI("meta", "0668E1"),
+    logoAlt: "Meta",
+    title: "Programación en Python",
+    caption: "Meta · Coursera · ene 2025 – mar 2025",
+  },
+  {
+    sortDate: "2025-02-28",
+    logoSrc: "/certifications/uci-merage.svg",
+    logoAlt: "UC Irvine · The Paul Merage School of Business",
+    title: "Resolución de problemas y toma de decisiones",
+    caption: "UC Irvine · Merage · feb 2025",
+  },
+  {
+    sortDate: "2025-01-31",
+    logoSrc: SI("google", "4285F4"),
+    logoAlt: "Google",
+    title: "Foundations of Cybersecurity",
+    caption: "Google · Coursera · ene 2025",
+  },
+  {
+    sortDate: "2024-11-30",
+    logoSrc: SI("cisco", "1BA0D7"),
+    logoAlt: "Cisco",
+    title: "CCNA: Introduction to Networks",
+    caption: "Cisco Networking Academy · nov 2024",
+  },
+  {
+    sortDate: "2024-11-15",
+    logoSrc: SI("cisco", "1BA0D7"),
+    logoAlt: "Cisco",
+    title: "Introducción a la ciberseguridad",
+    caption: "Cisco Networking Academy · nov 2024",
+  },
 ];
 
 export const SKILL_MODULES = [
