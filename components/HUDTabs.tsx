@@ -32,13 +32,13 @@ const MENU_PANEL_SHELL =
 /** Texto junto al botón (sección seleccionada). */
 const LABEL_FLUID_ROW =
   "text-[clamp(0.575rem,min(4.05vw,0.6875rem),0.6875rem)] uppercase font-semibold leading-none tracking-[0.04em] min-[460px]:tracking-[0.08em]";
-/** Chips en panel: tamaño muy compacto hasta que entren todos sin scroll. */
-const LABEL_FLUID_CHIP =
-  "text-[clamp(0.5rem,min(2.7vw,0.725rem),0.725rem)] uppercase font-semibold leading-tight tracking-[0.02em] min-[620px]:tracking-[0.055em]";
+/** Chips del panel abierto · tipografía uniforme para banda horizontal. */
+const LABEL_MENU_CHIP =
+  "inline-block max-w-full truncate whitespace-nowrap text-[10px] font-semibold uppercase leading-none tracking-[0.05em] sm:text-[11px] sm:tracking-[0.07em]";
 
-/** Reparto proporcional dentro del ancho disponible (sin horizontal scroll). */
-const CHIP_COL =
-  "min-w-0 flex-[1_1_calc(50%-5px)] min-[420px]:flex-[1_1_calc(33.333%-7px)] min-[640px]:flex-[1_1_calc(25%-7px)] min-[900px]:flex-[1_1_calc(20%-7px)] min-[1100px]:flex-[1_1_calc(calc(100%/7)-8px)]";
+/** Una sola franja tipo barra · reparto en columnas proporcionadas (7 ítems = 7 columnas donde cabe el ancho). */
+const MENU_GRID =
+  "grid w-full min-w-0 grid-cols-2 gap-1.5 p-2 min-[400px]:grid-cols-3 min-[560px]:grid-cols-4 min-[740px]:grid-cols-7 min-[740px]:gap-2 sm:p-2.5";
 
 type HUDTabsProps = {
   activeNodeId: string | null;
@@ -46,8 +46,7 @@ type HUDTabsProps = {
 };
 
 /**
- * Menú compacto · alineado a la izquierda; flyout a la derecha del botón, **sin scroll** (envuelve filas).
- * El ancho respeta el `padding-right` del HUD (hueco reservado para QuickAccess).
+ * Menú compacto · flyout **a la derecha del botón**; cuando hay hueco usa todo el ancho disponible hasta el hueco de QuickAccess (sin scrollbar horizontal).
  */
 export function HUDTabs({ activeNodeId, onSelect }: HUDTabsProps) {
   const reduceMotion = useReducedMotion();
@@ -104,9 +103,11 @@ export function HUDTabs({ activeNodeId, onSelect }: HUDTabsProps) {
       className={`pointer-events-none fixed inset-x-0 z-[110] flex w-full min-w-0 items-center justify-start ${TOP_BAR_TOP} box-border px-[max(0.35rem,env(safe-area-inset-left))] pr-[max(calc(12.25rem+env(safe-area-inset-right)),0.85rem)] sm:px-3 sm:pr-[calc(14.25rem+env(safe-area-inset-right))] md:pr-[calc(15.5rem+env(safe-area-inset-right))] lg:pr-[calc(16.25rem+env(safe-area-inset-right))]`}
       aria-label={hudCopy.navAriaLabel}
     >
-      <div ref={rootRef} className="pointer-events-auto w-full min-w-0 max-w-full lg:max-w-[min(54rem,100%)]">
+      <div ref={rootRef} className="pointer-events-auto w-full min-w-0 max-w-full">
         <div
-          className={`flex w-full min-w-0 max-w-full items-start gap-x-2 gap-y-2 sm:gap-x-3 ${open ? "flex-wrap" : "flex-nowrap items-center"}`}
+          className={`flex w-full min-w-0 max-w-full items-start gap-x-2 gap-y-2 sm:gap-x-3 ${
+            open ? "flex-wrap sm:flex-nowrap sm:items-stretch" : "flex-nowrap items-center"
+          }`}
         >
           <div className={`inline-flex shrink-0 items-center justify-center ${TOP_DOCK_SHELL} ${TOP_DOCK_INSET}`}>
             <button
@@ -143,37 +144,36 @@ export function HUDTabs({ activeNodeId, onSelect }: HUDTabsProps) {
                 animate={reduceMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
                 exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -10 }}
                 transition={{ duration: reduceMotion ? 0.12 : 0.2, ease: [0.22, 1, 0.36, 1] }}
-                className={`relative z-[112] w-full min-w-0 flex-1 basis-full ${MENU_PANEL_SHELL} min-[440px]:basis-0 min-[440px]:w-auto`}
+                className={`relative z-[112] flex min-h-0 min-w-0 flex-1 flex-col ${MENU_PANEL_SHELL} w-full basis-full sm:basis-0`}
               >
-                <ul className="flex w-full min-w-0 flex-wrap content-start justify-start gap-x-1 gap-y-1 px-2 py-2 sm:gap-x-2 sm:gap-y-1.5 sm:px-2.5 sm:py-2.5 md:gap-x-2.5 md:gap-y-2">
+                <ul role="list" className={MENU_GRID}>
                   {hudTabOrder.map(({ tab, nodeId }) => {
                     const active = activeNodeId === nodeId;
                     const Icon = HUD_ICONS[nodeId];
                     return (
-                      <li key={nodeId} className={CHIP_COL}>
+                      <li key={nodeId} className="min-w-0">
                         <button
                           type="button"
                           aria-current={active ? "true" : undefined}
+                          title={tab}
                           onClick={() => handleSelect(nodeId)}
-                          className={`relative flex w-full min-w-0 items-center justify-center gap-1 overflow-hidden rounded-full px-1.5 py-1 text-center transition min-[460px]:gap-2 min-[460px]:px-2.5 min-[460px]:py-1.5 sm:justify-start sm:text-left md:gap-2.5 md:px-3 md:py-2 ${
+                          className={`relative flex min-h-[2.85rem] w-full flex-col items-center justify-center gap-1 overflow-hidden rounded-xl px-1.5 py-1.5 text-center transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-cyan/50 min-[740px]:min-h-[2.625rem] min-[740px]:flex-row min-[740px]:gap-1.5 min-[740px]:rounded-full min-[740px]:px-2 min-[740px]:py-1.5 md:gap-2 md:px-2.5 md:py-2 ${
                             active ? "text-cyan-50" : "text-zinc-500 hover:bg-white/[0.06] hover:text-zinc-100"
                           }`}
                         >
                           {active ? (
                             <motion.span
                               layoutId="hud-menu-active-chip"
-                              className="pointer-events-none absolute inset-0 -z-[1] rounded-full bg-gradient-to-r from-accent-cyan/26 via-accent-cyan/14 to-accent-green/20 shadow-[inset_0_0_0_1px_rgba(34,211,238,0.12),0_0_16px_-4px_rgba(34,211,238,0.35)]"
+                              className="pointer-events-none absolute inset-0 -z-[1] rounded-[inherit] bg-gradient-to-r from-accent-cyan/26 via-accent-cyan/14 to-accent-green/20 shadow-[inset_0_0_0_1px_rgba(34,211,238,0.12),0_0_16px_-4px_rgba(34,211,238,0.35)]"
                               transition={{ type: "spring", stiffness: 400, damping: 34 }}
                             />
                           ) : null}
                           <Icon
-                            className={`relative z-[1] size-3 shrink-0 text-zinc-300 min-[460px]:h-[15px] min-[460px]:w-[15px] sm:h-4 sm:w-4 ${active ? "!text-cyan-100" : ""}`}
+                            className={`relative z-[1] size-[15px] shrink-0 text-zinc-300 min-[740px]:size-4 ${active ? "!text-cyan-100" : ""}`}
                             strokeWidth={active ? 2.15 : 1.85}
                             aria-hidden
                           />
-                          <span className={`relative z-[1] min-w-0 flex-1 whitespace-normal break-words text-pretty hyphens-none ${LABEL_FLUID_CHIP}`}>
-                            {tab}
-                          </span>
+                          <span className={`relative z-[1] ${LABEL_MENU_CHIP}`}>{tab}</span>
                         </button>
                       </li>
                     );

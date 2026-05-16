@@ -408,12 +408,12 @@ export const CASE_FILES: Record<TopologyNodeId, CaseFile> = {
 
 /** Tabs del HUD → nodo enlazado (Development Apps solo desde el mapa). Orden = tour guiado. */
 export const HUD_TAB_ORDER: { tab: string; nodeId: Exclude<TopologyNodeId, "development-apps"> }[] = [
-  { tab: "Núcleo JGC", nodeId: "core" },
+  { tab: "JGC", nodeId: "core" },
   { tab: "Proyectos", nodeId: "projects" },
   { tab: "Seguridad", nodeId: "security-labs" },
   { tab: "Experiencia", nodeId: "experience" },
-  { tab: "Certificaciones", nodeId: "certifications" },
-  { tab: "Competencias", nodeId: "skills" },
+  { tab: "Certs", nodeId: "certifications" },
+  { tab: "Stack", nodeId: "skills" },
   { tab: "Contacto", nodeId: "contact" },
 ];
 

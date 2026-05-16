@@ -317,10 +317,10 @@ export const HUD_TAB_ORDER_EN: {
   tab: string;
   nodeId: Exclude<TopologyNodeId, "development-apps">;
 }[] = [
-  { tab: "Core · JGC", nodeId: "core" },
+  { tab: "Core", nodeId: "core" },
   { tab: "Projects", nodeId: "projects" },
   { tab: "Security", nodeId: "security-labs" },
-  { tab: "Experience", nodeId: "experience" },
+  { tab: "Work", nodeId: "experience" },
   { tab: "Certs", nodeId: "certifications" },
   { tab: "Skills", nodeId: "skills" },
   { tab: "Contact", nodeId: "contact" },
