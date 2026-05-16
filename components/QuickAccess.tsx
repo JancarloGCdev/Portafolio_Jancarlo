@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Download, Github, Linkedin, Mail, MessageCircle } from "lucide-react";
+import { usePortfolio } from "@/components/portfolio-locale-provider";
 import { QUICK_LINKS } from "@/lib/data";
 import { TOP_BAR_TOP, TOP_DOCK_SHELL } from "@/lib/navDock";
 
@@ -13,28 +14,30 @@ const dock =
  * Dock fijo SIEMPRE por encima del HUD y del modal (`z-[120]`), accesible y compacto en móvil.
  */
 export function QuickAccess() {
+  const { copy } = usePortfolio();
+  const qa = copy.quickAccess;
   return (
     <motion.nav
-      aria-label="Accesos directos: CV y contacto"
+      aria-label={qa.navAria}
       layout
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35 }}
       className={`fixed right-2 z-[120] flex ${TOP_BAR_TOP} ${TOP_DOCK_SHELL} gap-1 p-1 sm:right-4 sm:gap-1.5 sm:p-1.5 md:right-6`}
     >
-      <a href={QUICK_LINKS.cvPath} download className={dock} title="Descargar CV (PDF)">
+      <a href={QUICK_LINKS.cvPath} download className={dock} title={qa.cvTitle}>
         <Download className={ic} aria-hidden />
       </a>
-      <a href={QUICK_LINKS.github} target="_blank" rel="noreferrer" className={dock} title="Proyectos públicos en GitHub">
+      <a href={QUICK_LINKS.github} target="_blank" rel="noreferrer" className={dock} title={qa.githubTitle}>
         <Github className={ic} aria-hidden />
       </a>
-      <a href={QUICK_LINKS.linkedin} target="_blank" rel="noreferrer" className={dock} title="Perfil en LinkedIn">
+      <a href={QUICK_LINKS.linkedin} target="_blank" rel="noreferrer" className={dock} title={qa.linkedinTitle}>
         <Linkedin className={ic} aria-hidden />
       </a>
-      <a href={QUICK_LINKS.email} className={dock} title="Enviar correo">
+      <a href={QUICK_LINKS.email} className={dock} title={qa.emailTitle}>
         <Mail className={ic} aria-hidden />
       </a>
-      <a href={QUICK_LINKS.whatsapp} target="_blank" rel="noreferrer" className={dock} title="Escribir por WhatsApp">
+      <a href={QUICK_LINKS.whatsapp} target="_blank" rel="noreferrer" className={dock} title={qa.whatsappTitle}>
         <MessageCircle className={ic} aria-hidden />
       </a>
     </motion.nav>

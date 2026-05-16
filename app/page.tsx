@@ -9,7 +9,7 @@ import { QuickAccess } from "@/components/QuickAccess";
 import { TerminalIntro } from "@/components/TerminalIntro";
 import { ThreatMap } from "@/components/ThreatMap";
 import type { TopologyNodeId } from "@/lib/mapData";
-import { labelForNodeId } from "@/lib/mapData";
+import { usePortfolio } from "@/components/portfolio-locale-provider";
 
 type Phase = "intro" | "main";
 
@@ -29,49 +29,29 @@ export default function Home() {
 }
 
 function PortfolioDesk() {
-  const [logs, setLogs] = useState<string[]>(() => [
-    "Mapa listo: toca cualquier punto para ver el detalle de esa área.",
-    "Contenido pensado para evaluadores de talento y clientes: sin requisitos previos.",
-    'Consejo: puedes usar el recorrido guiado en la esquina inferior derecha para ver el contenido en orden.',
-  ]);
+  const { labelForNodeId, copy } = usePortfolio();
+  const pl = copy.pageLogs;
+  const [logs, setLogs] = useState<string[]>(() => [...pl.initialLines]);
   const [panel, setPanel] = useState<{ id: string | null; anchor?: string | null }>({ id: null });
   const [tourDim, setTourDim] = useState(false);
   const tourStepTimerRef = useRef<number | null>(null);
   const tourAbortRef = useRef<{ abort: () => void } | null>(null);
 
-  const labelFor = useCallback((id: string) => labelForNodeId(id), []);
+  const labelFor = useCallback((id: string) => labelForNodeId(id), [labelForNodeId]);
 
   const pushLog = useCallback((line: string) => {
     setLogs((prev) => [...prev, line]);
   }, []);
 
   useEffect(() => {
-    const messages = [
-      "Cualquier sección del mapa se abre con un toque o clic en el punto correspondiente.",
-      "Esta página no recoge datos personales: es una vitrina informativa.",
-      "La banda inferior resume la última navegación como referencia rápida.",
-      "Si te interesa la formación académica y certificaciones, visita el apartado correspondiente.",
-      "Puedes compartir este enlace con quien evalúe mi perfil o una propuesta.",
-      "Los laboratorios de seguridad documentan cómo abordo análisis y visibilidad.",
-      "Trabajo con lenguaje claro para equipos de negocio y para perfiles técnicos.",
-    ];
+    const messages = [...pl.rotating];
     let index = 0;
     const id = window.setInterval(() => {
       pushLog(messages[index % messages.length]);
       index += 1;
     }, 13_200);
     return () => window.clearInterval(id);
-  }, [pushLog]);
-
-  const openPanel = useCallback(
-    (id: string, anchor?: string | null) => {
-      setPanel({ id, anchor });
-      pushLog(`Abriendo: ${labelFor(id)}`);
-    },
-    [labelFor, pushLog],
-  );
-
-  const closePanel = useCallback(() => setPanel({ id: null }), []);
+  }, [pl.rotating, pushLog]);
 
   const clearTourStepTimer = useCallback(() => {
     if (tourStepTimerRef.current != null) {
@@ -80,12 +60,22 @@ function PortfolioDesk() {
     }
   }, []);
 
+  const closePanel = useCallback(() => setPanel({ id: null }), []);
+
+  const openPanel = useCallback(
+    (id: string, anchor?: string | null) => {
+      setPanel({ id, anchor });
+      pushLog(`${pl.opening} ${labelFor(id)}`);
+    },
+    [labelFor, pl.opening, pushLog],
+  );
+
   const handleTourAbort = useCallback(() => {
     clearTourStepTimer();
     setTourDim(false);
     closePanel();
-    pushLog("Recorrido detenido: continúas explorando el mapa.");
-  }, [clearTourStepTimer, closePanel, pushLog]);
+    pushLog(pl.tourCanceled);
+  }, [clearTourStepTimer, closePanel, pl.tourCanceled, pushLog]);
 
   /** Entre pasos (>0) cerramos modal un instante para que parezca un clic nuevo en el mapa. */
   const TOUR_STEP_REOPEN_MS = 420;
@@ -98,7 +88,7 @@ function PortfolioDesk() {
         if (step.logMessage) {
           pushLog(step.logMessage);
         }
-        pushLog(`Recorrido · ahora: ${labelFor(step.nodeId)}`);
+        pushLog(`${pl.tourNowPrefix} ${labelFor(step.nodeId)}`);
       };
 
       clearTourStepTimer();
@@ -115,7 +105,7 @@ function PortfolioDesk() {
         applyStep();
       }, TOUR_STEP_REOPEN_MS);
     },
-    [clearTourStepTimer, closePanel, labelFor, openPanel, pushLog],
+    [clearTourStepTimer, closePanel, labelFor, openPanel, pl.tourNowPrefix, pushLog],
   );
 
   const handleTourFinish = useCallback(() => {

@@ -15,13 +15,13 @@ import {
 } from "lucide-react";
 
 import { HackerProfileConsole } from "@/components/HackerProfileConsole";
+import { usePortfolio } from "@/components/portfolio-locale-provider";
 import { MapNode } from "@/components/MapNode";
 import {
   SATELLITE_IDS,
   type SatelliteId,
   type TopologyNodeId,
   TOPOLOGY_EDGES,
-  TOPOLOGY_NODES,
   edgesIncidentTo,
 } from "@/lib/mapData";
 
@@ -81,12 +81,14 @@ function resolveDensityTier(widthPx: number): DensityTier {
   return "tight";
 }
 
-function buildPositions(tier: DensityTier): Record<TopologyNodeId, { x: number; y: number }> {
-  const cx = TOPOLOGY_NODES.core.x;
-  const cy = TOPOLOGY_NODES.core.y;
+type NodeCoordsSource = Record<TopologyNodeId, { x: number; y: number }>;
+
+function buildPositions(tier: DensityTier, topologyNodes: NodeCoordsSource): Record<TopologyNodeId, { x: number; y: number }> {
+  const cx = topologyNodes.core.x;
+  const cy = topologyNodes.core.y;
   const out = {} as Record<TopologyNodeId, { x: number; y: number }>;
-  (Object.keys(TOPOLOGY_NODES) as TopologyNodeId[]).forEach((id) => {
-    const base = TOPOLOGY_NODES[id];
+  (Object.keys(topologyNodes) as TopologyNodeId[]).forEach((id) => {
+    const base = topologyNodes[id];
     let { x, y } = base;
     /** Mismo factor en X e Y para conservar simetría radial. */
     const scale = tier === "tight" ? 0.88 : tier === "mid" ? 0.93 : 1;
@@ -100,6 +102,8 @@ function buildPositions(tier: DensityTier): Record<TopologyNodeId, { x: number; 
 }
 
 export function ThreatMap({ onSelectNode, highlightNodeId, tourActive }: ThreatMapProps) {
+  const { topologyNodes, copy } = usePortfolio();
+  const tm = copy.threatMap;
   const gid = useId().replace(/:/g, "");
   const shellRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
@@ -139,13 +143,13 @@ export function ThreatMap({ onSelectNode, highlightNodeId, tourActive }: ThreatM
   }, []);
 
   const tier = useMemo(() => resolveDensityTier(containerWidth), [containerWidth]);
-  const positions = useMemo(() => buildPositions(tier), [tier]);
+  const positions = useMemo(() => buildPositions(tier, topologyNodes), [tier, topologyNodes]);
 
   const selected = useMemo(() => {
     if (!highlightNodeId) return null as TopologyNodeId | null;
     const id = highlightNodeId as TopologyNodeId;
-    return id in TOPOLOGY_NODES ? id : null;
-  }, [highlightNodeId]);
+    return id in topologyNodes ? id : null;
+  }, [highlightNodeId, topologyNodes]);
 
   const litEdges = useMemo(() => {
     if (!selected) return new Set<string>();
@@ -165,7 +169,7 @@ export function ThreatMap({ onSelectNode, highlightNodeId, tourActive }: ThreatM
 
   const dimOthers = Boolean(selected) || Boolean(tourActive);
 
-  const nodeByTopology = TOPOLOGY_NODES;
+  const nodeByTopology = topologyNodes;
 
   const handleSelect = useCallback(
     (id: TopologyNodeId) => {
@@ -288,7 +292,7 @@ export function ThreatMap({ onSelectNode, highlightNodeId, tourActive }: ThreatM
             preserveAspectRatio="xMidYMid meet"
             className={`block aspect-[125/70] h-auto w-full max-h-[min(76vh,540px)] min-h-[208px] touch-manipulation [-webkit-tap-highlight-color:transparent] ${immersing ? "pointer-events-none select-none" : ""}`}
             role="img"
-            aria-label="Mapa del portafolio: cada punto abre un resumen con proyectos, trayectoria y formas de contacto."
+            aria-label={tm.svgAriaLabel}
           >
             <defs>
               <filter id={`${gid}-glow-node`} x="-60%" y="-60%" width="220%" height="220%">
@@ -303,9 +307,9 @@ export function ThreatMap({ onSelectNode, highlightNodeId, tourActive }: ThreatM
                 <stop offset="50%" stopColor="#22d3ee" stopOpacity="0.45" />
                 <stop offset="100%" stopColor="#4ade80" stopOpacity="0.35" />
               </linearGradient>
-              {(Object.keys(TOPOLOGY_NODES) as TopologyNodeId[]).map((id) => (
+              {(Object.keys(topologyNodes) as TopologyNodeId[]).map((id) => (
                 <radialGradient key={id} id={`${gid}-fill-${id}`} cx="40%" cy="36%" r="62%">
-                  <stop offset="0%" stopColor={hexAlpha(TOPOLOGY_NODES[id].accent, 0.55)} />
+                  <stop offset="0%" stopColor={hexAlpha(topologyNodes[id].accent, 0.55)} />
                   <stop offset="100%" stopColor="rgba(6,13,26,0.35)" />
                 </radialGradient>
               ))}
@@ -392,9 +396,9 @@ export function ThreatMap({ onSelectNode, highlightNodeId, tourActive }: ThreatM
               nodeId="core"
               x={positions.core.x}
               y={positions.core.y}
-              label={TOPOLOGY_NODES.core.label}
-              subtitle={TOPOLOGY_NODES.core.subtitle}
-              accent={TOPOLOGY_NODES.core.accent}
+              label={nodeByTopology.core.label}
+              subtitle={nodeByTopology.core.subtitle}
+              accent={nodeByTopology.core.accent}
               Icon={ICON_MAP.core}
               selected={highlightNodeId === "core"}
               dimMap={dimOthers}
@@ -429,10 +433,10 @@ export function ThreatMap({ onSelectNode, highlightNodeId, tourActive }: ThreatM
                 className="pointer-events-none absolute inset-x-0 bottom-3 flex justify-center px-4 sm:inset-auto sm:bottom-auto sm:right-4 sm:top-3 sm:justify-end"
               >
                 <div className="rounded-xl border border-cyan-500/25 bg-black/82 px-3 py-2 text-center shadow-[0_12px_40px_-14px_rgba(0,0,0,.9)] backdrop-blur-xl sm:w-auto sm:text-left">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-cyan-200/95">Sección</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-cyan-200/95">{tm.tooltipHeading}</p>
                   <p className="mt-1 text-[13px] text-white">{nodeByTopology[hoverId].label}</p>
                   <p className="mt-1 text-[12px] text-zinc-500">{nodeByTopology[hoverId].subtitle}</p>
-                  <p className="mt-2 text-[10px] text-zinc-500">Pulsa para ver el resumen</p>
+                  <p className="mt-2 text-[10px] text-zinc-500">{tm.tooltipFootnote}</p>
                 </div>
               </motion.div>
             )}
@@ -451,13 +455,13 @@ export function ThreatMap({ onSelectNode, highlightNodeId, tourActive }: ThreatM
       </div>
 
       <header className="relative z-[1] mx-auto max-w-2xl space-y-3 text-center">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-cyan-200/70">Portafolio interactivo</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-cyan-200/70">{tm.heroKicker}</p>
         <h1 className="text-balance text-2xl font-semibold text-white sm:text-3xl">
-          Explora mi trabajo por <span className="text-cyan-200/95">áreas</span>: proyectos, experiencia, laboratorios y cómo contactarme.
+          {tm.heroTitleLeading}{" "}
+          <span className="text-cyan-200/95">{tm.heroTitleAccent}</span>
+          {tm.heroTitleTrailing}
         </h1>
-        <p className="text-[13px] leading-relaxed text-zinc-400">
-          Elige un punto en el mapa o usa la barra superior para abrir cada resumen. La información está pensada para quienes evalúan perfiles o evalúan una colaboración conmigo.
-        </p>
+        <p className="text-[13px] leading-relaxed text-zinc-400">{tm.heroSubtitle}</p>
       </header>
 
       <div className="relative z-[1]">{mapCard}</div>
@@ -466,7 +470,7 @@ export function ThreatMap({ onSelectNode, highlightNodeId, tourActive }: ThreatM
       <div className="grid gap-3 sm:hidden">
         <p className="text-center text-[12px] text-zinc-500">Selección rápida (mismo contenido que el mapa)</p>
         {[("core" as TopologyNodeId), ...SATELLITE_IDS].map((nid) => {
-          const meta = TOPOLOGY_NODES[nid];
+          const meta = topologyNodes[nid];
           const active = highlightNodeId === nid;
           return (
             <motion.button

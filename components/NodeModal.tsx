@@ -5,7 +5,7 @@ import { AnimatePresence, motion, useIsPresent, useReducedMotion } from "framer-
 import { ExternalLink, FileText, Github, LayoutGrid, Sparkles, Shield, X } from "lucide-react";
 import Image from "next/image";
 import type { CaseBadge, TopologyNodeId } from "@/lib/mapData";
-import { CASE_FILES } from "@/lib/mapData";
+import { usePortfolio } from "@/components/portfolio-locale-provider";
 
 type NodeModalProps = {
   nodeId: TopologyNodeId | null;
@@ -14,13 +14,13 @@ type NodeModalProps = {
 };
 
 /** Por debajo del HUD (`z-[110]`) y QuickAccess (`z-[120]`) — el mapa y el ribbon quedan tapados. */
-function ModalBackdrop({ onClose }: { onClose: () => void }) {
+function ModalBackdrop({ onClose, closeAria }: { onClose: () => void; closeAria: string }) {
   const present = useIsPresent();
   const reduceMotion = useReducedMotion();
   return (
     <motion.button
       type="button"
-      aria-label="Cerrar"
+      aria-label={closeAria}
       className={`fixed inset-0 z-[80] cursor-default bg-[radial-gradient(ellipse_at_50%_0%,rgba(34,211,238,0.14),transparent_52%)] bg-slate-950/30 backdrop-blur-[2px] transition-[opacity] ${present ? "pointer-events-auto" : "pointer-events-none"}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -61,6 +61,7 @@ function ImmersivePanel({
 }
 
 function Badge({ badge }: { badge: CaseBadge }) {
+  const nm = usePortfolio().copy.nodeModal;
   const isDone = badge === "completed";
   return (
     <span
@@ -68,17 +69,18 @@ function Badge({ badge }: { badge: CaseBadge }) {
         isDone ? "border border-accent-green/35 bg-accent-green/14 text-accent-green" : "border border-amber-400/35 bg-amber-500/12 text-amber-100"
       }`}
     >
-      {isDone ? "Entregado" : "En curso"}
+      {isDone ? nm.badgeDelivered : nm.badgeInProgress}
     </span>
   );
 }
 
 function EvRaster({ src, alt }: { src: string; alt: string }) {
+  const nm = usePortfolio().copy.nodeModal;
   const [ok, setOk] = useState(true);
   if (!ok) {
     return (
       <div className="flex aspect-video w-full items-center justify-center rounded-lg border border-surface-border bg-black/35 text-[11px] text-zinc-500">
-        Imagen pendiente · {alt}
+        {nm.imagePending} {alt}
       </div>
     );
   }
@@ -114,7 +116,9 @@ const fadeUp = {
 };
 
 export function NodeModal({ nodeId, anchorId, onClose }: NodeModalProps) {
-  const dossier = nodeId ? CASE_FILES[nodeId] : null;
+  const { caseFiles, copy } = usePortfolio();
+  const nm = copy.nodeModal;
+  const dossier = nodeId ? caseFiles[nodeId] : null;
 
   useEffect(() => {
     if (!nodeId || !anchorId) return;
@@ -145,7 +149,7 @@ export function NodeModal({ nodeId, anchorId, onClose }: NodeModalProps) {
     <AnimatePresence mode="sync">
       {dossier && (
         <>
-          <ModalBackdrop key="nm-bd" onClose={onClose} />
+          <ModalBackdrop key="nm-bd" onClose={onClose} closeAria={nm.closeBackdropAria} />
           <motion.div
             key="nm-shell"
             className="pointer-events-none fixed inset-0 z-[100] flex min-h-0 w-full flex-col items-center justify-center pl-[max(0.75rem,env(safe-area-inset-left))] pr-[max(0.75rem,env(safe-area-inset-right))] pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(3.25rem,env(safe-area-inset-top))] sm:px-4 sm:pb-[max(1rem,env(safe-area-inset-bottom))] sm:pt-[max(4.25rem,env(safe-area-inset-top))]"
@@ -160,7 +164,7 @@ export function NodeModal({ nodeId, anchorId, onClose }: NodeModalProps) {
                   <div className="flex flex-wrap items-center gap-2">
                     <Shield className="h-5 w-5 shrink-0 text-accent-cyan" aria-hidden />
                     <Badge badge={dossier.badge} />
-                    <span className="text-[10px] uppercase tracking-[0.28em] text-zinc-500">Resumen</span>
+                    <span className="text-[10px] uppercase tracking-[0.28em] text-zinc-500">{nm.summaryBadge}</span>
                   </div>
                   <div>
                     <h2 id="case-file-title" className="text-balance text-xl font-semibold tracking-tight text-white sm:text-2xl">
@@ -173,7 +177,7 @@ export function NodeModal({ nodeId, anchorId, onClose }: NodeModalProps) {
                   type="button"
                   onClick={onClose}
                   className="shrink-0 rounded-lg border border-transparent p-2 text-zinc-400 transition hover:border-white/15 hover:bg-white/5 hover:text-white"
-                  aria-label="Cerrar"
+                  aria-label={nm.closeAria}
                 >
                   <X className="h-5 w-5" aria-hidden />
                 </button>
@@ -193,7 +197,7 @@ export function NodeModal({ nodeId, anchorId, onClose }: NodeModalProps) {
 
                 <motion.div variants={fadeUp} className="mt-6">
                   <h3 className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">
-                    <LayoutGrid className="h-3.5 w-3.5" aria-hidden /> Destacados
+                    <LayoutGrid className="h-3.5 w-3.5" aria-hidden /> {nm.highlightsHeading}
                   </h3>
                   <ul className="mt-3 list-inside list-disc space-y-1.5 text-[13px] text-zinc-300">
                     {dossier.features.slice(0, 5).map((f) => (
@@ -203,7 +207,7 @@ export function NodeModal({ nodeId, anchorId, onClose }: NodeModalProps) {
                 </motion.div>
 
                 <motion.div variants={fadeUp} className="mt-6">
-                  <h3 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">Stack y herramientas</h3>
+                  <h3 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">{nm.stackHeading}</h3>
                   <div className="mt-2 flex flex-wrap gap-2">
                     {dossier.stack.slice(0, 12).map((t) => (
                       <span key={t} className="rounded-md border border-cyan-500/20 bg-accent-cyan/10 px-2.5 py-1 text-[11px] text-cyan-100/95">
@@ -215,7 +219,7 @@ export function NodeModal({ nodeId, anchorId, onClose }: NodeModalProps) {
 
                 <motion.div variants={fadeUp} className="mt-6">
                   <h3 className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">
-                    <Sparkles className="h-3.5 w-3.5" aria-hidden /> Enfoque de seguridad
+                    <Sparkles className="h-3.5 w-3.5" aria-hidden /> {nm.securityHeading}
                   </h3>
                   <ul className="mt-2 space-y-2 text-[13px] leading-relaxed text-zinc-400">
                     {dossier.securityConsiderations.map((line) => (
@@ -228,7 +232,7 @@ export function NodeModal({ nodeId, anchorId, onClose }: NodeModalProps) {
                 </motion.div>
 
                 <motion.div variants={fadeUp} className="mt-7">
-                  <h3 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">Referencias y capturas</h3>
+                  <h3 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">{nm.evidenceHeading}</h3>
                   <div className="mt-3 grid gap-3 sm:grid-cols-2">
                     {dossier.evidence.map((slot) => (
                       <motion.div key={slot.src + slot.alt} variants={fadeUp}>
@@ -257,7 +261,7 @@ export function NodeModal({ nodeId, anchorId, onClose }: NodeModalProps) {
                       rel="noreferrer"
                       className="inline-flex items-center gap-2 rounded-lg border border-zinc-600/85 bg-black/55 px-3 py-2 text-[12px] font-medium text-zinc-200 transition hover:border-accent-cyan/45 hover:text-accent-cyan"
                     >
-                      <Github className="h-4 w-4" aria-hidden /> Repo 2
+                      <Github className="h-4 w-4" aria-hidden /> {nm.repoSecondary}
                       <ExternalLink className="h-3 w-3 opacity-55" aria-hidden />
                     </a>
                   ) : null}
@@ -268,7 +272,7 @@ export function NodeModal({ nodeId, anchorId, onClose }: NodeModalProps) {
                       rel="noreferrer"
                       className="inline-flex items-center gap-2 rounded-lg border border-accent-cyan/38 bg-accent-cyan/14 px-3 py-2 text-[13px] font-medium text-accent-cyan transition hover:bg-accent-cyan/22"
                     >
-                      Sitio en vivo
+                      {nm.liveSite}
                       <ExternalLink className="h-3 w-3 opacity-70" aria-hidden />
                     </a>
                   ) : null}
@@ -284,7 +288,7 @@ export function NodeModal({ nodeId, anchorId, onClose }: NodeModalProps) {
                 </motion.div>
 
                 <motion.div variants={fadeUp} className="mt-8 rounded-xl border border-accent-cyan/15 bg-accent-cyan/5 px-4 py-4">
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-accent-cyan/90">Aprendizajes</span>
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-accent-cyan/90">{nm.learnHeading}</span>
                   <p className="mt-2 text-[13px] leading-relaxed text-zinc-300">{dossier.learned[0]}</p>
                   <p className="mt-2 border-t border-white/10 pt-3 text-[13px] leading-relaxed text-zinc-400">{dossier.learned[1]}</p>
                 </motion.div>

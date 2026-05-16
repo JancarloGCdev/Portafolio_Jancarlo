@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Activity, ChevronDown } from "lucide-react";
+import { usePortfolio } from "@/components/portfolio-locale-provider";
 
 const STORAGE_KEY = "portfolio-live-logs-collapsed";
 
@@ -11,6 +12,8 @@ type LiveLogsProps = {
 };
 
 export function LiveLogs({ logs }: LiveLogsProps) {
+  const { copy } = usePortfolio();
+  const ll = copy.liveLogs;
   const scrollRef = useRef<HTMLDivElement>(null);
   const [collapsed, setCollapsed] = useState(true);
 
@@ -43,11 +46,11 @@ export function LiveLogs({ logs }: LiveLogsProps) {
   const toggle = useCallback(() => setCollapsed((c) => !c), []);
 
   const lastLogLine = useMemo(() => {
-    if (logs.length === 0) return "Esperando mensajes…";
+    if (logs.length === 0) return ll.waiting;
     const raw = logs[logs.length - 1] ?? "";
     const oneLine = raw.replace(/\s+/g, " ").trim();
     return oneLine || "—";
-  }, [logs]);
+  }, [logs, ll.waiting]);
 
   /**
    * Espejo exacto de `GuidedTour`: mismo `bottom` / `sm` / `md`, solo `left` en lugar de `right`.
@@ -79,7 +82,7 @@ export function LiveLogs({ logs }: LiveLogsProps) {
             className="pointer-events-auto flex h-9 min-h-9 w-full max-w-[min(calc(100vw-11rem),18rem)] items-center gap-2 rounded-full border border-surface-border bg-surface-raised/95 px-3 py-0 text-left shadow-xl backdrop-blur-md transition hover:border-accent-cyan/35 hover:text-accent-cyan sm:max-w-[min(calc(100vw-15rem),20rem)]"
             aria-expanded={false}
             aria-controls="live-logs-panel"
-            title={`Abrir historial de actividad. Último: ${lastLogLine}`}
+            title={`${ll.fabTitleTemplate} ${lastLogLine}`}
           >
             <Activity className="h-4 w-4 shrink-0 text-accent-green" aria-hidden />
             <span className="min-w-0 flex-1 select-none truncate font-mono text-[10px] leading-tight text-zinc-300 sm:text-[11px]">
@@ -100,17 +103,17 @@ export function LiveLogs({ logs }: LiveLogsProps) {
             <div className="flex items-center justify-between border-b border-surface-border/80 px-2 py-1.5 sm:px-3 sm:py-2">
               <div className="flex min-w-0 items-center gap-2 text-[10px] text-zinc-400 sm:text-[11px]">
                 <Activity className="h-3.5 w-3.5 shrink-0 text-accent-green" aria-hidden />
-                <span className="truncate uppercase tracking-widest">Actividad reciente</span>
+                <span className="truncate uppercase tracking-widest">{ll.panelTitle}</span>
               </div>
               <div className="flex shrink-0 items-center gap-1">
-                <span className="hidden text-[10px] text-zinc-500 sm:inline">Referencia visual</span>
+                <span className="hidden text-[10px] text-zinc-500 sm:inline">{ll.subtitle}</span>
                 <button
                   type="button"
                   onClick={toggle}
                   className="rounded-md border border-transparent p-1.5 text-zinc-400 transition hover:border-surface-border hover:bg-black/30 hover:text-zinc-100"
                   aria-expanded
                   aria-controls="live-logs-panel"
-                  title="Minimizar"
+                  title={ll.minimizeTitle}
                 >
                   <ChevronDown className="h-4 w-4" aria-hidden />
                 </button>
@@ -130,7 +133,7 @@ export function LiveLogs({ logs }: LiveLogsProps) {
                   {line}
                 </motion.p>
               ))}
-              {logs.length === 0 && <span className="text-zinc-500">Esperando mensajes…</span>}
+              {logs.length === 0 && <span className="text-zinc-500">{ll.waiting}</span>}
             </div>
           </motion.div>
         )}

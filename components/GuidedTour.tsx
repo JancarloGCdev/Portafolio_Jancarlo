@@ -4,7 +4,7 @@ import { useEffect, useCallback, useRef, useState } from "react";
 import type { RefObject } from "react";
 import { motion } from "framer-motion";
 import { Play, Square } from "lucide-react";
-import { GUIDED_TOUR_STEPS } from "@/lib/data";
+import { usePortfolio } from "@/components/portfolio-locale-provider";
 
 type GuidedTourProps = {
   disabled?: boolean;
@@ -20,6 +20,8 @@ const STEP_MS = 10_200;
 const TOTAL_MS = 70_000;
 
 export function GuidedTour({ disabled, onStep, onComplete, onCancel, abortRef }: GuidedTourProps) {
+  const { guidedTourSteps, copy } = usePortfolio();
+  const gt = copy.guidedTour;
   const [running, setRunning] = useState(false);
   const cancelRef = useRef(false);
   const runningRef = useRef(false);
@@ -45,15 +47,15 @@ export function GuidedTour({ disabled, onStep, onComplete, onCancel, abortRef }:
     cancelRef.current = false;
     setRunning(true);
     const started = performance.now();
-    for (let i = 0; i < GUIDED_TOUR_STEPS.length; i++) {
+    for (let i = 0; i < guidedTourSteps.length; i++) {
       if (cancelRef.current) {
         setRunning(false);
         return;
       }
-      onStep(GUIDED_TOUR_STEPS[i], i);
+      onStep(guidedTourSteps[i], i);
       const elapsed = performance.now() - started;
       const remaining = TOTAL_MS - elapsed;
-      const stepsLeft = GUIDED_TOUR_STEPS.length - i - 1;
+      const stepsLeft = guidedTourSteps.length - i - 1;
       const wait = stepsLeft > 0 ? Math.min(STEP_MS, Math.max(3200, remaining / (stepsLeft + 1))) : 0;
       if (wait > 0) {
         await new Promise<void>((resolve) => {
@@ -69,7 +71,7 @@ export function GuidedTour({ disabled, onStep, onComplete, onCancel, abortRef }:
     if (!cancelRef.current) {
       onComplete?.();
     }
-  }, [disabled, onComplete, onStep, running]);
+  }, [disabled, guidedTourSteps, onComplete, onStep, running]);
 
   return (
     <motion.div
@@ -85,25 +87,25 @@ export function GuidedTour({ disabled, onStep, onComplete, onCancel, abortRef }:
             onClick={() => void run()}
             whileTap={{ scale: 0.985 }}
             className="inline-flex max-w-[calc(100vw-9rem)] items-center gap-3 rounded-full border border-accent-green/36 bg-accent-green/12 px-4 py-2 text-[12px] font-semibold uppercase tracking-[0.14em] text-accent-green shadow-glow backdrop-blur-md transition hover:border-accent-green/50 hover:bg-accent-green/18 disabled:cursor-not-allowed disabled:opacity-40 sm:max-w-none"
-            title="Recorrido guiado del portafolio (aprox. 1 min)"
+            title={gt.startTooltip}
           >
             <Play className="h-4 w-4 shrink-0 fill-current text-accent-green" aria-hidden />
-            Recorrido guiado (~1 min)
+            {gt.startLabel}
           </motion.button>
         ) : (
           <motion.div layout className="flex items-center gap-2 rounded-full border border-amber-500/35 bg-amber-500/12 px-1 py-1 pl-3 shadow-lg backdrop-blur-md">
-            <span className="hidden text-[10px] uppercase tracking-[0.2em] text-amber-200/90 sm:inline">Recorrido ·</span>
-            <span className="max-w-[9rem] truncate text-[11px] leading-tight text-zinc-300 sm:max-w-none">en curso…</span>
+            <span className="hidden text-[10px] uppercase tracking-[0.2em] text-amber-200/90 sm:inline">{gt.runningBadge}</span>
+            <span className="max-w-[9rem] truncate text-[11px] leading-tight text-zinc-300 sm:max-w-none">{gt.runningSubtitle}</span>
             <motion.button
               layout
               type="button"
               onClick={cancel}
               whileTap={{ scale: 0.97 }}
               className="inline-flex shrink-0 items-center gap-2 rounded-full border border-amber-500/40 bg-black/55 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-amber-100 transition hover:border-amber-400/60 hover:bg-black/65"
-              title="Salir del recorrido y volver al mapa"
+              title={gt.cancelTooltip}
             >
               <Square className="h-3.5 w-3.5 fill-current" aria-hidden />
-              Salir
+              {gt.cancelLabel}
             </motion.button>
           </motion.div>
         )}

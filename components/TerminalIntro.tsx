@@ -4,20 +4,16 @@ import { useCallback, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Terminal } from "lucide-react";
 
-import { PROFILE } from "@/lib/data";
+import { usePortfolio } from "@/components/portfolio-locale-provider";
 
-const BOOT_LINES = [
-  "Preparando la vista…",
-  "Cargando tu perfil profesional…",
-  "Aplicando estándares de presentación…",
-  "Listo para continuar.",
-] as const;
 
 type TerminalIntroProps = {
   onEnterMain: () => void;
 };
 
 export function TerminalIntro({ onEnterMain }: TerminalIntroProps) {
+  const { profile, copy } = usePortfolio();
+  const ti = copy.terminalIntro;
   const [command, setCommand] = useState("");
   const [started, setStarted] = useState(false);
   const [lines, setLines] = useState<string[]>([]);
@@ -33,30 +29,35 @@ export function TerminalIntro({ onEnterMain }: TerminalIntroProps) {
     if (started) return;
     setStarted(true);
     setLines([]);
-    for (const line of BOOT_LINES) {
+    for (const line of ti.bootLines) {
       pushLine(`> ${line}`);
       await delay(520 + Math.random() * 380);
     }
     await delay(380);
     pushLine("");
-    pushLine(`Nombre: ${PROFILE.name}`);
-    pushLine(`Rol: ${PROFILE.role}`);
-    pushLine(`Ubicación: ${PROFILE.location}`);
-    pushLine(`Disponibilidad: ${PROFILE.status}`);
-    pushLine(`Enfoque: ${PROFILE.focus}`);
+    pushLine(`${ti.labelName}: ${profile.name}`);
+    pushLine(`${ti.labelRole}: ${profile.role}`);
+    pushLine(`${ti.labelLocation}: ${profile.location}`);
+    pushLine(`${ti.labelStatus}: ${profile.status}`);
+    pushLine(`${ti.labelFocus}: ${profile.focus}`);
     await delay(600);
     pushLine("");
-    pushLine("Sistema en línea. Abriendo el mapa de contenidos…");
+    pushLine(ti.openingMapLine);
     await delay(1100);
     setSurfaceVisible(false);
-  }, [delay, pushLine, started]);
+  }, [delay, pushLine, profile, started, ti]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "Enter") {
         const value = command.trim().toLowerCase();
         setCommand("");
-        if (value === "start" || value === "inicio" || value === "continuar") {
+        if (
+          value === "start" ||
+          value === "inicio" ||
+          value === "continuar" ||
+          value === "continue"
+        ) {
           void runBootSequence();
         }
       }
@@ -82,15 +83,17 @@ export function TerminalIntro({ onEnterMain }: TerminalIntroProps) {
               <div className="flex items-center justify-between border-b border-surface-border bg-black/35 px-4 py-3">
                 <div className="flex items-center gap-2 text-xs text-zinc-400">
                   <Terminal className="h-4 w-4 text-accent-cyan" aria-hidden />
-                  <span className="tracking-wide text-zinc-200">Acceso · bienvenida</span>
+                  <span className="tracking-wide text-zinc-200">{ti.windowEyebrow}</span>
                 </div>
-                <span className="text-[11px] text-zinc-500">Vista previa</span>
+                <span className="text-[11px] text-zinc-500">{ti.windowPreview}</span>
               </div>
               <div className="flex flex-col">
                 <div className="crt-scan relative max-h-[52vh] space-y-1 overflow-y-auto px-4 py-5 sm:max-h-none">
-                  <p className="text-sm text-zinc-100 text-glow">Portafolio · JGC</p>
+                  <p className="text-sm text-zinc-100 text-glow">{ti.brandLine}</p>
                   <p className="text-[13px] text-zinc-400">
-                    Para entrar al portafolio interactivo, escribe <span className="text-zinc-300">continuar</span> o pulsa el botón.
+                    {ti.instructBefore}
+                    <span className="text-zinc-300">{ti.typedCommandLabel}</span>
+                    {ti.instructAfter}
                   </p>
                   <div className="border-t border-surface-border/80 pt-4 text-[13px] leading-relaxed text-zinc-300">
                     {lines.map((line, i) => (
@@ -110,9 +113,9 @@ export function TerminalIntro({ onEnterMain }: TerminalIntroProps) {
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-accent-muted">$</span>
                     <input
-                      aria-label="Continuar al portafolio"
+                      aria-label={ti.inputAria}
                       className="min-w-[12rem] flex-1 rounded-md border border-surface-border/80 bg-black/35 px-3 py-2 text-[13px] text-zinc-100 outline-none ring-0 placeholder:text-zinc-600 focus:border-accent-cyan/40 focus:text-white"
-                      placeholder="continuar"
+                      placeholder={ti.inputPlaceholder}
                       value={command}
                       disabled={started}
                       onChange={(e) => setCommand(e.target.value)}
@@ -127,12 +130,9 @@ export function TerminalIntro({ onEnterMain }: TerminalIntroProps) {
                       onClick={() => void runBootSequence()}
                       className="rounded-md border border-accent-cyan/40 bg-accent-cyan/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-accent-cyan shadow-glow transition hover:bg-accent-cyan/20 disabled:cursor-not-allowed disabled:opacity-40"
                     >
-                      Continuar
+                      {ti.continueButton}
                     </button>
-                    <span className="w-full text-[11px] text-zinc-500 sm:w-auto">
-                      También puedes escribir <span className="text-zinc-400">continuar</span>,{" "}
-                      <span className="text-zinc-400">inicio</span> o <span className="text-zinc-400">start</span>
-                    </span>
+                    <span className="w-full text-[11px] text-zinc-500 sm:w-auto">{ti.hintCommands}</span>
                   </div>
                 </div>
               </div>

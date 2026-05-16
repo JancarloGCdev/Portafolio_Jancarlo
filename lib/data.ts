@@ -23,6 +23,7 @@ export type SecurityLab = {
   name: string;
   description: string[];
   status?: string;
+  ongoing?: boolean;
   learned: string;
   /** Imagen opcional en `public/...` */
   image?: string;
@@ -39,11 +40,17 @@ export type TourStep = {
 /** Perfil mostrado en la terminal inicial y reusable en otros bloques */
 export const PROFILE = {
   name: "Jancarlo Gallón Cano",
-  role: "Software y ciberseguridad · Operación, confiabilidad y claridad para el negocio",
-  location: "Colombia · abierto a trabajo remoto",
+  role: "Desarrollo full stack · .NET/C# y Blazor Server · proyectos React/Next.js · redes y ciberseguridad",
+  location: "Pereira, Colombia · abierto a trabajo remoto",
   status: "Disponible para nuevas oportunidades",
-  focus: "Entregas estables · Visibilidad de riesgos · Comunicación clara con equipos y clientes",
+  focus: "Entregas estables · visibilidad de riesgos · comunicación clara con equipos y clientes · formación CCNA/ciberseguridad e inglés B2",
 } as const;
+
+const PROFILE_ABOUT_EXTENDED = [
+  "Soy Desarrollador Full Stack de Pereira, Colombia, con experiencia en el desarrollo y mantenimiento de aplicaciones empresariales en entornos productivos utilizando .NET (C#) y Blazor Server. He trabajado en la optimización de módulos de negocio, resolución de tickets técnicos y funcionales, y mejora del rendimiento mediante consultas y procedimientos almacenados en SQL Server, además de apoyar despliegues en Windows Server.",
+  "Complemento mi perfil con proyectos web modernos usando React y Next.js, consumo de APIs REST, control de versiones con Git/GitHub y conocimientos en herramientas como Docker y Postman, lo que me permite adaptarme a diferentes entornos de desarrollo.",
+  "Actualmente estoy enfocado en fortalecer mis habilidades en redes y ciberseguridad, apoyado en formación y certificaciones como CCNA y fundamentos de seguridad informática. Cuento con nivel de inglés B2 conversacional y continúo capacitándome de forma autodidacta para seguir creciendo profesionalmente.",
+] as const;
 
 /** Bloque de perfil sobre el mapa · retrato en `public/profile.jpg` o ajusta avatarSrc. */
 export const PROFILE_CONSOLE = {
@@ -55,17 +62,12 @@ export const PROFILE_CONSOLE = {
     { kind: "cmd" as const, text: "resumen --perfil" },
     {
       kind: "out" as const,
-      text: `${PROFILE.name} — acompaño a equipos a llevar productos web a producción con criterios de seguridad y mantenimiento.`,
+      text: `${PROFILE.name} · ${PROFILE.role}`,
     },
-    { kind: "cmd" as const, text: "enfoque" },
-    {
-      kind: "out" as const,
-      text: "Combino construcción de software con práctica defensiva: entender el sistema, priorizar lo importante y explicar hallazgos sin jerga innecesaria.",
-    },
-    {
-      kind: "out" as const,
-      text: "Experiencia reciente como pasante de desarrollo en Outsourcing S.A.S. BIC; además, proyectos públicos y laboratorios que documentan cómo trabajo.",
-    },
+    { kind: "cmd" as const, text: "sobre-mí --extendido" },
+    { kind: "out" as const, text: PROFILE_ABOUT_EXTENDED[0] },
+    { kind: "out" as const, text: PROFILE_ABOUT_EXTENDED[1] },
+    { kind: "out" as const, text: PROFILE_ABOUT_EXTENDED[2] },
     { kind: "cmd" as const, text: "disponibilidad" },
     { kind: "out" as const, text: `${PROFILE.status} · ${PROFILE.location}` },
     { kind: "comment" as const, text: "# Abajo, el mapa resume cada área: ábrelo para ver detalle y enlaces." },
@@ -138,6 +140,7 @@ export const SECURITY_LABS: SecurityLab[] = [
       "Cuadros de mando simples para ver el estado del laboratorio",
     ],
     status: "En curso",
+    ongoing: true,
     learned:
       "Experimenté cómo reunir avisos de muchas fuentes, priorizarlos y mantener evidencia que explique por qué algo parece sospechoso.",
   },

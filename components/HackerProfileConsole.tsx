@@ -3,9 +3,10 @@
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { ShieldCheck, Terminal } from "lucide-react";
-import { PROFILE, PROFILE_CONSOLE } from "@/lib/data";
+import { usePortfolio } from "@/components/portfolio-locale-provider";
 
 export function HackerProfileConsole() {
+  const { profile, profileConsole, copy } = usePortfolio();
   const [avatarLoaded, setAvatarLoaded] = useState(true);
   const windowId = useMemo(() => "consola-perfil", []);
 
@@ -27,11 +28,11 @@ export function HackerProfileConsole() {
           </span>
           <Terminal className="h-4 w-4 shrink-0 text-accent-cyan opacity-90" aria-hidden />
           <p id={`${windowId}-heading`} className="truncate text-[11px] tracking-tight text-zinc-500">
-            {PROFILE_CONSOLE.windowTag}
+            {profileConsole.windowTag}
           </p>
           <span className="ml-auto hidden items-center gap-1 rounded border border-accent-green/25 bg-accent-green/5 px-2 py-0.5 text-[9px] uppercase tracking-widest text-accent-green sm:flex">
             <ShieldCheck className="h-3 w-3" aria-hidden />
-            integridad
+            {copy.hackerConsole.integrityBadge}
           </span>
         </div>
 
@@ -47,8 +48,8 @@ export function HackerProfileConsole() {
             <div className="relative h-40 w-40 overflow-hidden rounded-lg border border-accent-cyan/35 bg-black/50 shadow-[0_0_32px_-8px_rgba(34,211,238,0.35)] ring-1 ring-accent-green/15 sm:h-44 sm:w-44">
               {avatarLoaded ? (
                 <img
-                  src={PROFILE_CONSOLE.avatarSrc}
-                  alt={`Retrato de ${PROFILE.name}`}
+                  src={profileConsole.avatarSrc}
+                  alt={`${copy.hackerConsole.portraitAltSuffix}${profile.name}`}
                   width={176}
                   height={176}
                   className="h-full w-full object-cover"
@@ -61,10 +62,10 @@ export function HackerProfileConsole() {
               ) : (
                 <div className="flex h-full w-full flex-col items-center justify-center gap-2 bg-[radial-gradient(ellipse_at_30%_-10%,rgba(34,211,238,0.15),transparent_58%),linear-gradient(to_bottom,#0b1219,#060a0f)] px-4 text-center">
                   <span className="text-3xl font-bold tracking-tighter text-accent-cyan text-glow sm:text-4xl">
-                    {PROFILE_CONSOLE.initials}
+                    {profileConsole.initials}
                   </span>
                   <span className="text-[9px] leading-snug uppercase tracking-[0.2em] text-zinc-500">
-                    Puedes reemplazar este espacio con tu foto profesional.
+                    {copy.hackerConsole.avatarFallback}
                   </span>
                 </div>
               )}
@@ -78,12 +79,12 @@ export function HackerProfileConsole() {
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-black/55 to-transparent" />
             </div>
             <p className="mt-2 max-w-[11rem] text-center text-[9px] uppercase tracking-[0.28em] text-zinc-500 sm:text-left">
-              Foto con estilo profesional
+              {copy.hackerConsole.photoCaption}
             </p>
           </motion.div>
 
           <div className="relative z-[1] min-w-0 flex-1 space-y-2 font-mono text-[12px] leading-relaxed sm:text-[13px]">
-            {PROFILE_CONSOLE.lines.map((row, idx) => {
+            {profileConsole.lines.map((row, idx) => {
               const delay = 0.18 + idx * 0.055;
               if (row.kind === "comment") {
                 return (
@@ -127,7 +128,7 @@ export function HackerProfileConsole() {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.18 + PROFILE_CONSOLE.lines.length * 0.055 + 0.1 }}
+              transition={{ delay: 0.18 + profileConsole.lines.length * 0.055 + 0.1 }}
               className="pt-3 text-accent-cyan/85"
             >
               <span className="text-accent-muted">└─$ </span>

@@ -208,7 +208,7 @@ export const CASE_FILES: Record<TopologyNodeId, CaseFile> = {
     summary:
       "Laboratorios enfocados en visibilidad, análisis de logs y diseño de red. Wazuh SIEM está marcado como trabajo en curso; el resto refuerza automatización y topología.",
     features: [
-      `${wazuh?.name ?? "Laboratorio Wazuh (SIEM)"} — ${wazuh?.status === "En curso" ? "monitoreo centralizado (en curso)" : "monitoreo centralizado"}`,
+      `${wazuh?.name ?? "Laboratorio Wazuh (SIEM)"} — ${wazuh?.ongoing || wazuh?.status === "En curso" ? "monitoreo centralizado (en curso)" : "monitoreo centralizado"}`,
       `${pyLog?.name ?? "Analizador de registros (Python)"} — patrones relevantes y exportación estructurada`,
       `${entNet?.name ?? "Red empresarial segmentada"} — modelo de segmentación y endurecimiento`,
       ...(entNet?.description?.slice(0, 2) ?? []),
