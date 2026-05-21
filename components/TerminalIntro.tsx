@@ -263,13 +263,12 @@ export function TerminalIntro({ onEnterMain }: TerminalIntroProps) {
                         autoCorrect="off"
                         autoCapitalize="none"
                         spellCheck={false}
-                        placeholder={ti.inputPlaceholder}
                         value={command}
                         onChange={(e) => setCommand(e.target.value)}
                         onKeyDown={handleKeyDown}
-                        className="mx-0 inline-block min-w-[5ch] max-w-full border-0 bg-transparent p-0 font-[family-name:var(--font-jetbrains-mono)] text-[13px] text-zinc-100 outline-none ring-0 caret-accent-cyan placeholder:text-zinc-600 focus:ring-0"
+                        className="mx-0 ml-[1ch] border-0 bg-transparent p-0 font-[family-name:var(--font-jetbrains-mono)] text-[13px] text-zinc-100 outline-none ring-0 caret-transparent placeholder:text-zinc-600 focus:ring-0"
                         style={{
-                          width: `${Math.max(ti.inputPlaceholder.length, command.length, 1) + 1}ch`,
+                          width: `${Math.max(command.length, 1)}ch`,
                         }}
                       />
                       <span className="animate-pulse text-accent-cyan/80" aria-hidden>
