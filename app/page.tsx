@@ -29,7 +29,7 @@ export default function Home() {
 }
 
 function PortfolioDesk() {
-  const { labelForNodeId, copy } = usePortfolio();
+  const { labelForNodeId, copy, guidedTourSteps } = usePortfolio();
   const pl = copy.pageLogs;
   const [logs, setLogs] = useState<string[]>(() => [...pl.initialLines]);
   const [panel, setPanel] = useState<{ id: string | null; anchor?: string | null }>({ id: null });
@@ -134,7 +134,7 @@ function PortfolioDesk() {
   const panelAnchor = panel.anchor ?? undefined;
 
   return (
-    <main className="relative min-h-[100svh] overflow-x-hidden pb-28">
+    <main className="relative min-h-[100svh] w-full min-w-0 max-w-[100vw] overflow-x-clip pb-28">
       <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_10%_-10%,rgba(34,211,238,0.08),transparent_45%),radial-gradient(circle_at_90%_10%,rgba(74,222,128,0.05),transparent_35%)]" />
       <div className="pointer-events-none fixed inset-0 crt-scan opacity-[0.14]" />
 
@@ -153,7 +153,18 @@ function PortfolioDesk() {
 
       <LiveLogs logs={logs} />
 
-      <NodeModal nodeId={panel.id as TopologyNodeId | null} anchorId={panelAnchor ?? null} onClose={dismissModal} />
+      <NodeModal
+        nodeId={panel.id as TopologyNodeId | null}
+        anchorId={panelAnchor ?? null}
+        onClose={dismissModal}
+        guidedTourSteps={guidedTourSteps}
+        onOpenSection={(id, anchor) => {
+          clearTourStepTimer();
+          tourAbortRef.current?.abort();
+          setTourDim(false);
+          openPanel(id, anchor);
+        }}
+      />
     </main>
   );
 }

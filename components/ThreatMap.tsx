@@ -37,6 +37,52 @@ const VIEWBOX = { w: 1000, h: 560 };
 
 const DEFAULT_VB = { x: 0, y: 0, w: VIEWBOX.w, h: VIEWBOX.h };
 
+type TierGeom = {
+  coreGlow: number;
+  glow: number;
+  pad: number;
+};
+
+/** Encuadra todos los nodos (anillos + etiquetas) sin recortar en móvil. */
+function fitGraphViewBox(
+  positions: Record<TopologyNodeId, { x: number; y: number }>,
+  geom: TierGeom,
+): { x: number; y: number; w: number; h: number } {
+  let minX = Infinity;
+  let minY = Infinity;
+  let maxX = -Infinity;
+  let maxY = -Infinity;
+
+  (Object.keys(positions) as TopologyNodeId[]).forEach((id) => {
+    const { x, y } = positions[id];
+    const glow = id === "core" ? geom.coreGlow : geom.glow;
+    const r = Math.max(geom.pad, glow + 16);
+    const labelBelow = glow + (id === "core" ? 50 : 46);
+    minX = Math.min(minX, x - r);
+    maxX = Math.max(maxX, x + r);
+    minY = Math.min(minY, y - r - 10);
+    maxY = Math.max(maxY, y + labelBelow);
+  });
+
+  const padX = 44;
+  const padY = 36;
+  let x = minX - padX;
+  let y = minY - padY;
+  let w = maxX - minX + padX * 2;
+  let h = maxY - minY + padY * 2;
+
+  if (!Number.isFinite(w) || w <= 0 || h <= 0) return DEFAULT_VB;
+
+  if (w >= VIEWBOX.w - 2 && h >= VIEWBOX.h - 2) return DEFAULT_VB;
+
+  x = Math.max(0, Math.min(VIEWBOX.w - w, x));
+  y = Math.max(0, Math.min(VIEWBOX.h - h, y));
+  w = Math.min(w, VIEWBOX.w);
+  h = Math.min(h, VIEWBOX.h);
+
+  return { x, y, w, h };
+}
+
 function targetViewBoxForNode(
   id: TopologyNodeId,
   positions: Record<TopologyNodeId, { x: number; y: number }>,
@@ -76,8 +122,8 @@ function hexAlpha(hex: string, alpha: number) {
 }
 
 function resolveDensityTier(widthPx: number): DensityTier {
-  if (widthPx >= 840) return "wide";
-  if (widthPx >= 560) return "mid";
+  if (widthPx >= 920) return "wide";
+  if (widthPx >= 600) return "mid";
   return "tight";
 }
 
@@ -91,7 +137,7 @@ function buildPositions(tier: DensityTier, topologyNodes: NodeCoordsSource): Rec
     const base = topologyNodes[id];
     let { x, y } = base;
     /** Mismo factor en X e Y para conservar simetría radial. */
-    const scale = tier === "tight" ? 0.935 : tier === "mid" ? 0.96 : 1;
+    const scale = tier === "tight" ? 1 : tier === "mid" ? 0.98 : 1;
     if (scale !== 1) {
       x = (x - cx) * scale + cx;
       y = (y - cy) * scale + cy;
@@ -145,17 +191,6 @@ export function ThreatMap({ onSelectNode, highlightNodeId, tourActive }: ThreatM
   const tier = useMemo(() => resolveDensityTier(containerWidth), [containerWidth]);
   const positions = useMemo(() => buildPositions(tier, topologyNodes), [tier, topologyNodes]);
 
-  const selected = useMemo(() => {
-    if (!highlightNodeId) return null as TopologyNodeId | null;
-    const id = highlightNodeId as TopologyNodeId;
-    return id in topologyNodes ? id : null;
-  }, [highlightNodeId, topologyNodes]);
-
-  const litEdges = useMemo(() => {
-    if (!selected) return new Set<string>();
-    return edgesIncidentTo(selected);
-  }, [selected]);
-
   const tierGeom = useMemo(() => {
     switch (tier) {
       case "wide":
@@ -173,32 +208,59 @@ export function ThreatMap({ onSelectNode, highlightNodeId, tourActive }: ThreatM
         };
       case "mid":
         return {
-          coreGlow: 54,
-          glow: 42,
-          stroke: 1.68,
-          iconCore: 32,
-          icon: 24.5,
-          foCore: 66,
-          fo: 53,
-          lbl: 13.35,
-          sub: 10,
-          pad: 69,
+          coreGlow: 58,
+          glow: 46,
+          stroke: 1.74,
+          iconCore: 35,
+          icon: 27,
+          foCore: 72,
+          fo: 58,
+          lbl: 14.1,
+          sub: 10.65,
+          pad: 78,
         };
       default:
         return {
-          coreGlow: 54,
-          glow: 40,
-          stroke: 1.55,
-          iconCore: 32,
-          icon: 26,
-          foCore: 66,
-          fo: 56,
-          lbl: 12.95,
-          sub: 9.85,
-          pad: 74,
+          coreGlow: 62,
+          glow: 48,
+          stroke: 1.78,
+          iconCore: 38,
+          icon: 30,
+          foCore: 80,
+          fo: 64,
+          lbl: 15.25,
+          sub: 11.25,
+          pad: 86,
         };
     }
   }, [tier]);
+
+  const applyViewBox = useCallback((box: { x: number; y: number; w: number; h: number }) => {
+    vbRef.current = box;
+    const str = formatViewBox(box);
+    svgRef.current?.setAttribute("viewBox", str);
+    setViewBoxStr(str);
+  }, []);
+
+  const fitOverviewViewBox = useCallback(() => {
+    applyViewBox(fitGraphViewBox(positions, tierGeom));
+  }, [applyViewBox, positions, tierGeom]);
+
+  useLayoutEffect(() => {
+    if (highlightNodeId) return;
+    fitOverviewViewBox();
+  }, [fitOverviewViewBox, highlightNodeId]);
+
+  const selected = useMemo(() => {
+    if (!highlightNodeId) return null as TopologyNodeId | null;
+    const id = highlightNodeId as TopologyNodeId;
+    return id in topologyNodes ? id : null;
+  }, [highlightNodeId, topologyNodes]);
+
+  const litEdges = useMemo(() => {
+    if (!selected) return new Set<string>();
+    return edgesIncidentTo(selected);
+  }, [selected]);
 
   const dimOthers = Boolean(selected) || Boolean(tourActive);
 
@@ -263,10 +325,10 @@ export function ThreatMap({ onSelectNode, highlightNodeId, tourActive }: ThreatM
     [reduceMotion],
   );
 
-  const resetViewBox = useCallback(
-    () => animateViewBox(DEFAULT_VB, reduceMotion ? 0 : 0.72),
-    [animateViewBox, reduceMotion],
-  );
+  const resetViewBox = useCallback(() => {
+    const box = fitGraphViewBox(positions, tierGeom);
+    return animateViewBox(box, reduceMotion ? 0 : 0.72);
+  }, [animateViewBox, positions, reduceMotion, tierGeom]);
 
   const immerseAndSelect = useCallback(
     async (id: TopologyNodeId) => {
@@ -292,13 +354,10 @@ export function ThreatMap({ onSelectNode, highlightNodeId, tourActive }: ThreatM
       const isZoomed = w < VIEWBOX.w - 1 || h < VIEWBOX.h - 1;
       if (isZoomed) void resetViewBox();
       else {
-        vbRef.current = DEFAULT_VB;
-        const str = formatViewBox(DEFAULT_VB);
-        svgRef.current?.setAttribute("viewBox", str);
-        setViewBoxStr(str);
+        fitOverviewViewBox();
       }
     }
-  }, [highlightNodeId, resetViewBox]);
+  }, [fitOverviewViewBox, highlightNodeId, resetViewBox]);
 
   const sortedSatellites = useMemo(() => {
     const list = [...SATELLITE_IDS];
@@ -315,15 +374,15 @@ export function ThreatMap({ onSelectNode, highlightNodeId, tourActive }: ThreatM
   const mapCard = (
     <div
       ref={shellRef}
-      className="relative z-[1] mx-auto box-border w-full max-w-[min(100%,64rem)] rounded-2xl border border-cyan-500/14 bg-[#050913]/55 shadow-[0_30px_120px_-50px_rgba(0,0,0,.95),inset_0_1px_0_rgba(34,211,238,0.06)] backdrop-blur-md"
+      className="relative z-[1] mx-auto box-border w-full min-w-0 max-w-[min(100%,64rem)] overflow-hidden rounded-2xl border border-cyan-500/14 bg-[#050913]/55 shadow-[0_30px_120px_-50px_rgba(0,0,0,.95),inset_0_1px_0_rgba(34,211,238,0.06)] backdrop-blur-md"
     >
-      <div className="box-border flex w-full justify-center px-4 py-5 sm:px-6 md:px-7 md:py-7 lg:p-9">
-        <div className="relative mx-auto w-full max-w-[min(100%,min(1200px,calc(100vw-2.5rem)))]">
+      <div className="box-border flex w-full min-w-0 justify-center px-2 py-4 sm:px-5 sm:py-6 md:px-7 md:py-7 lg:p-9">
+        <div className="relative mx-auto w-full min-w-0 max-w-full">
           <svg
             ref={svgRef}
             viewBox={viewBoxStr}
             preserveAspectRatio="xMidYMid meet"
-            className={`block aspect-[125/70] h-auto w-full max-h-[min(90vh,760px)] min-h-[300px] touch-manipulation [-webkit-tap-highlight-color:transparent] sm:min-h-[340px] lg:min-h-[380px] ${immersing ? "pointer-events-none select-none" : ""}`}
+            className={`block aspect-[125/70] h-auto w-full min-w-0 max-w-full max-h-[min(72vh,720px)] min-h-0 touch-manipulation [-webkit-tap-highlight-color:transparent] sm:max-h-[min(80vh,760px)] sm:min-h-[300px] lg:min-h-[360px] ${immersing ? "pointer-events-none select-none" : ""}`}
             role="img"
             aria-label={tm.svgAriaLabel}
           >
@@ -480,7 +539,7 @@ export function ThreatMap({ onSelectNode, highlightNodeId, tourActive }: ThreatM
   );
 
   return (
-    <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col gap-10 px-4 pb-28 pt-20 sm:px-6 lg:pb-24">
+    <div className="relative mx-auto flex w-full min-w-0 max-w-6xl flex-1 flex-col gap-10 px-3 pb-28 pt-20 sm:px-6 lg:pb-24">
       <div className="pointer-events-none absolute inset-0 opacity-[0.32] [background-image:linear-gradient(to_right,_rgba(34,211,238,0.05)_1px,transparent_1px),linear-gradient(to_bottom,_rgba(34,211,238,0.04)_1px,transparent_1px)] [background-size:42px_42px]" />
 
       <div className="relative z-[1]">
@@ -497,7 +556,7 @@ export function ThreatMap({ onSelectNode, highlightNodeId, tourActive }: ThreatM
         <p className="text-[13px] leading-relaxed text-zinc-400">{tm.heroSubtitle}</p>
       </header>
 
-      <div className="relative z-[1]">{mapCard}</div>
+      <div className="relative z-[1] w-full min-w-0">{mapCard}</div>
 
       {/* Lista móvil
       <div className="grid gap-3 sm:hidden">

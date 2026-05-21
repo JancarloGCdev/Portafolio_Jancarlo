@@ -140,7 +140,7 @@ export function MapNode({
         </foreignObject>
 
         <text
-          y={glowR + (isCore ? 28 : 24)}
+          y={glowR + (isCore ? 30 : 26)}
           textAnchor="middle"
           pointerEvents="none"
           className="fill-zinc-100 font-semibold tracking-wide"
@@ -152,7 +152,7 @@ export function MapNode({
           {label}
         </text>
         <text
-          y={glowR + (isCore ? 44 : 40)}
+          y={glowR + (isCore ? 48 : 44)}
           textAnchor="middle"
           pointerEvents="none"
           className="fill-zinc-500 tracking-tight"
@@ -161,7 +161,7 @@ export function MapNode({
             fontSize: labelSub,
           }}
         >
-          {subtitle.length > 22 ? `${subtitle.slice(0, 20)}…` : subtitle}
+          {subtitle.length > 28 ? `${subtitle.slice(0, 26)}…` : subtitle}
         </text>
       </motion.g>
     </g>

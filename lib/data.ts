@@ -269,11 +269,11 @@ export const CERTIFICATIONS: CertificationRecord[] = [
     caption: "Cisco Networking Academy · nov 2024",
   },
   {
-    sortDate: "2024-11-15",
+    sortDate: "2026-05-05",
     logoSrc: SI("cisco", "1BA0D7"),
     logoAlt: "Cisco",
     title: "Introducción a la ciberseguridad",
-    caption: "Cisco Networking Academy · nov 2024",
+    caption: "Cisco Networking Academy · may 2026",
   },
 ];
 

@@ -43,13 +43,18 @@ npm start       # servir el build generado
 npm run lint    # ESLint (Next.js)
 ```
 
-## Despliegue (p. ej. Vercel)
+## Despliegue (p. ej. Vercel + jancarlogallon.com)
 
 1. Sube el repositorio a GitHub (u otro proveedor compatible).
 2. Importa el proyecto en [Vercel](https://vercel.com) con el preset de Next.js.
 3. Comando de build: `npm run build`; salida: `.next`.
+4. En **Settings → Environment Variables** define al menos:
+   - **`NEXT_PUBLIC_SITE_URL`** = `https://jancarlogallon.com` (canonical, Open Graph, `sitemap.xml`, `robots.txt`)
+   - Opcional: **`NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`** (código de Search Console)
+   - Si usas **`/admin`**: **`CMS_ADMIN_SECRET`** y **`CMS_ADMIN_PASSWORD_HASH`** (ver **`.env.example`**)
+5. En **Domains** de Vercel, enlaza **`jancarlogallon.com`** (y `www` si lo usas) al proyecto.
 
-Variables opcionales: ver **`.env.example`**. Si usas el panel **`/admin`**, necesitas las variables **`CMS_*`** definidas ahí.
+El SEO incluye metadatos enriquecidos, JSON-LD (`Person` + `WebSite`), `robots.ts`, `sitemap.ts` e imagen Open Graph en `/opengraph-image`.
 
 ### Panel CMS **`/admin`**
 

@@ -121,7 +121,7 @@ export function LiveLogs({ logs }: LiveLogsProps) {
             </div>
             <div
               ref={scrollRef}
-              className="max-h-[min(22vh,9rem)] space-y-1 overflow-y-auto overflow-x-hidden px-2 py-2 text-[10px] leading-relaxed text-zinc-300 [-ms-overflow-style:none] [scrollbar-width:thin] sm:max-h-[10.5rem] sm:px-3 sm:text-[11px] md:max-h-[min(28vh,10.5rem)]"
+              className="soc-scrollbar max-h-[min(22vh,9rem)] space-y-1 overflow-y-auto overflow-x-hidden px-2 py-2 text-[10px] leading-relaxed text-zinc-300 sm:max-h-[10.5rem] sm:px-3 sm:text-[11px] md:max-h-[min(28vh,10.5rem)]"
             >
               {logs.slice(-42).map((line, idx) => (
                 <motion.p

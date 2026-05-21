@@ -88,6 +88,12 @@ export type PageCopy = {
     carouselNextAria: string;
     /** Placeholders `{current}` y `{total}` (ej. Slide 2 de 3). */
     carouselSlideStatus: string;
+    /** Placeholder `{label}` = nombre del siguiente nodo del recorrido. */
+    carouselSwipeHint: string;
+    nextSectionLabel: string;
+    /** Placeholder `{label}` = nombre del siguiente nodo del recorrido. */
+    nextSectionAria: string;
+    lastSectionHint: string;
   };
   liveLogs: {
     waiting: string;
@@ -105,14 +111,26 @@ export type PageCopy = {
 
 const ES_COPY: Omit<PageCopy, "locale" | "htmlLangAttr"> = {
   seo: {
-    title: "Consola JGC · Jancarlo Gallón Cano · Portafolio",
+    title: "Jancarlo Gallón Cano | Desarrollador Full Stack · Portafolio",
     description:
-      "Portafolio personal: desarrollo web, prácticas de seguridad y trabajo público con foco profesional.",
-    keywords: ["portafolio", "desarrollo web", "ciberseguridad", "Jancarlo Gallón Cano", "Colombia", "Next.js"],
-    applicationName: "Portafolio JGC",
+      "Portafolio de Jancarlo Gallón Cano (jancarlogallon.com): desarrollo full stack .NET/Blazor y React/Next.js, proyectos públicos, experiencia laboral, laboratorios de ciberseguridad y contacto profesional desde Pereira, Colombia.",
+    keywords: [
+      "Jancarlo Gallón Cano",
+      "jancarlogallon",
+      "desarrollador full stack",
+      "portafolio desarrollador",
+      "Next.js",
+      ".NET",
+      "Blazor",
+      "ciberseguridad",
+      "Colombia",
+      "Pereira",
+      "desarrollo web",
+    ],
+    applicationName: "Portafolio Jancarlo Gallón Cano",
     ogLocale: "es_CO",
-    siteName: "Portafolio JGC",
-    ogTagline: "Portafolio interactivo",
+    siteName: "Jancarlo Gallón Cano · Portafolio",
+    ogTagline: "Portafolio interactivo · Full Stack & ciberseguridad",
   },
   hackerConsole: {
     integrityBadge: "integridad",
@@ -216,6 +234,10 @@ const ES_COPY: Omit<PageCopy, "locale" | "htmlLangAttr"> = {
     carouselPrevAria: "Diapositiva anterior",
     carouselNextAria: "Diapositiva siguiente",
     carouselSlideStatus: "Diapositiva {current} de {total}",
+    carouselSwipeHint: "Desliza horizontalmente para ver cada proyecto",
+    nextSectionLabel: "Siguiente sección",
+    nextSectionAria: "Ir a la siguiente sección del recorrido: {label}",
+    lastSectionHint: "Última sección del recorrido",
   },
   liveLogs: {
     waiting: "Esperando mensajes…",
@@ -233,14 +255,24 @@ const ES_COPY: Omit<PageCopy, "locale" | "htmlLangAttr"> = {
 
 const EN_COPY: Omit<PageCopy, "locale" | "htmlLangAttr"> = {
   seo: {
-    title: "Console JGC · Jancarlo Gallón Cano · Portfolio",
+    title: "Jancarlo Gallón Cano | Full Stack Developer · Portfolio",
     description:
-      "English portfolio highlighting full‑stack (.NET · Blazor) delivery, cybersecurity lab work and public repositories.",
-    keywords: ["portfolio", "software engineer", "cybersecurity", "dotNET", "Jancarlo Gallón Cano", "Next.js"],
-    applicationName: "Portfolio JGC",
+      "Portfolio of Jancarlo Gallón Cano (jancarlogallon.com): full‑stack .NET/Blazor and React/Next.js delivery, public projects, work experience, cybersecurity labs, and professional contact from Colombia.",
+    keywords: [
+      "Jancarlo Gallón Cano",
+      "jancarlogallon",
+      "full stack developer",
+      "software engineer portfolio",
+      "Next.js",
+      "dotnet",
+      "Blazor",
+      "cybersecurity",
+      "Colombia",
+    ],
+    applicationName: "Jancarlo Gallón Cano Portfolio",
     ogLocale: "en_US",
-    siteName: "Portfolio JGC",
-    ogTagline: "Interactive portfolio",
+    siteName: "Jancarlo Gallón Cano · Portfolio",
+    ogTagline: "Interactive portfolio · Full Stack & security",
   },
   hackerConsole: {
     integrityBadge: "verified",
@@ -343,6 +375,10 @@ const EN_COPY: Omit<PageCopy, "locale" | "htmlLangAttr"> = {
     carouselPrevAria: "Previous slide",
     carouselNextAria: "Next slide",
     carouselSlideStatus: "Slide {current} of {total}",
+    carouselSwipeHint: "Swipe sideways to browse each project",
+    nextSectionLabel: "Next section",
+    nextSectionAria: "Go to the next guided-tour section: {label}",
+    lastSectionHint: "Last section on the tour",
   },
   liveLogs: {
     waiting: "Awaiting events…",

@@ -2,8 +2,20 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { AnimatePresence, motion, useIsPresent, useReducedMotion } from "framer-motion";
-import { ChevronLeft, ChevronRight, ExternalLink, Github, LayoutGrid, Linkedin, Shield, Sparkles, X } from "lucide-react";
+import {
+  ArrowLeftRight,
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  Github,
+  LayoutGrid,
+  Linkedin,
+  Shield,
+  Sparkles,
+  X,
+} from "lucide-react";
 import Image from "next/image";
+import type { TourStep } from "@/lib/data";
 import type { CaseActions, CaseBadge, CaseDetailSlide, TopologyNodeId } from "@/lib/mapData";
 import { flattenStackEntries, resolveTechLogo, techLogoImgSrc } from "@/lib/tech-logos";
 import { usePortfolio } from "@/components/portfolio-locale-provider";
@@ -13,7 +25,26 @@ type NodeModalProps = {
   nodeId: TopologyNodeId | null;
   anchorId?: string | null;
   onClose: () => void;
+  /** Mismo orden que el recorrido guiado (GUIDED_TOUR_STEPS). */
+  guidedTourSteps?: readonly TourStep[];
+  onOpenSection?: (nodeId: TopologyNodeId, anchorId?: string | null) => void;
 };
+
+function resolveActiveSlideIndex(root: HTMLDivElement, count: number): number {
+  const pins = root.querySelectorAll<HTMLElement>("[data-slide-pin]");
+  if (pins.length === 0) return 0;
+  const scrollLeft = root.scrollLeft;
+  let best = 0;
+  let bestDist = Infinity;
+  pins.forEach((el, i) => {
+    const dist = Math.abs(el.offsetLeft - scrollLeft);
+    if (dist < bestDist) {
+      bestDist = dist;
+      best = i;
+    }
+  });
+  return Math.max(0, Math.min(count - 1, best));
+}
 
 /** Por debajo del HUD (`z-[110]`) y QuickAccess (`z-[120]`) — el mapa y el ribbon quedan tapados. */
 function ModalBackdrop({ onClose, closeAria }: { onClose: () => void; closeAria: string }) {
@@ -311,9 +342,7 @@ function DetailSlidesCarousel({ slides, nodeId }: { slides: readonly CaseDetailS
     const syncFromScroll = () => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
-        const w = root.clientWidth;
-        if (w <= 0) return;
-        const idx = Math.max(0, Math.min(slides.length - 1, Math.round(root.scrollLeft / w)));
+        const idx = resolveActiveSlideIndex(root, slides.length);
         setActive((prev) => (prev === idx ? prev : idx));
       });
     };
@@ -349,15 +378,30 @@ function DetailSlidesCarousel({ slides, nodeId }: { slides: readonly CaseDetailS
 
   return (
     <motion.div variants={fadeUp} className="mt-7 min-w-0 max-w-full">
-      <div className="relative min-w-0 overflow-x-hidden">
+      {showNav ? (
+        <p className="mb-3 flex items-center justify-center gap-2 rounded-lg border border-accent-cyan/20 bg-accent-cyan/5 px-3 py-2 text-center text-[11px] font-medium uppercase tracking-[0.14em] text-accent-cyan/90 sm:hidden">
+          <ArrowLeftRight className="h-3.5 w-3.5 shrink-0" aria-hidden />
+          {nm.carouselSwipeHint}
+        </p>
+      ) : null}
+
+      <div className="relative min-w-0">
         {showNav ? (
           <>
+            <div
+              className="pointer-events-none absolute inset-y-0 right-0 z-[1] w-10 bg-gradient-to-l from-[#050b14] via-[#050b14]/80 to-transparent sm:hidden"
+              aria-hidden
+            />
+            <div
+              className="pointer-events-none absolute inset-y-0 left-0 z-[1] w-6 bg-gradient-to-r from-[#050b14]/90 to-transparent sm:hidden"
+              aria-hidden
+            />
             <button
               type="button"
               onClick={() => goTo(active - 1)}
               disabled={active === 0}
               aria-label={nm.carouselPrevAria}
-              className="absolute left-1 top-1/2 z-10 hidden -translate-y-1/2 rounded-lg border border-white/14 bg-black/65 p-2 text-white shadow-lg backdrop-blur-sm transition hover:border-accent-cyan/45 hover:bg-black/85 disabled:pointer-events-none disabled:opacity-30 sm:flex"
+              className="absolute left-0 top-[38%] z-10 -translate-y-1/2 rounded-r-lg border border-white/14 border-l-0 bg-black/75 p-2 text-white shadow-lg backdrop-blur-sm transition hover:border-accent-cyan/45 hover:bg-black/90 disabled:pointer-events-none disabled:opacity-25 sm:left-1 sm:top-1/2 sm:rounded-lg sm:border-l"
             >
               <ChevronLeft className="h-5 w-5" aria-hidden />
             </button>
@@ -366,7 +410,7 @@ function DetailSlidesCarousel({ slides, nodeId }: { slides: readonly CaseDetailS
               onClick={() => goTo(active + 1)}
               disabled={active >= slides.length - 1}
               aria-label={nm.carouselNextAria}
-              className="absolute right-1 top-1/2 z-10 hidden -translate-y-1/2 rounded-lg border border-white/14 bg-black/65 p-2 text-white shadow-lg backdrop-blur-sm transition hover:border-accent-cyan/45 hover:bg-black/85 disabled:pointer-events-none disabled:opacity-30 sm:flex"
+              className="absolute right-0 top-[38%] z-10 -translate-y-1/2 rounded-l-lg border border-white/14 border-r-0 bg-black/75 p-2 text-white shadow-lg backdrop-blur-sm transition hover:border-accent-cyan/45 hover:bg-black/90 disabled:pointer-events-none disabled:opacity-25 sm:right-1 sm:top-1/2 sm:rounded-lg sm:border-r"
             >
               <ChevronRight className="h-5 w-5" aria-hidden />
             </button>
@@ -375,13 +419,19 @@ function DetailSlidesCarousel({ slides, nodeId }: { slides: readonly CaseDetailS
 
         <div
           ref={scrollerRef}
-          className={`carousel-x grid min-h-0 min-w-0 max-w-full grid-flow-col auto-cols-[100%] gap-0 overflow-x-auto overflow-y-visible overscroll-x-contain scroll-smooth pb-1 touch-pan-x [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 ${showNav ? "snap-x snap-mandatory" : ""}`}
+          className={`grid min-h-0 min-w-0 max-w-full grid-flow-col scroll-smooth pb-1 [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 ${
+            showNav
+              ? "snap-x snap-mandatory gap-3 overflow-x-auto overflow-y-hidden overscroll-x-contain pr-4 auto-cols-[min(88%,20rem)] sm:auto-cols-[100%] sm:gap-0 sm:pr-0"
+              : "auto-cols-[100%] gap-0 overflow-x-hidden"
+          }`}
         >
           {slides.map((slide, i) => (
             <article
               key={`${slide.title}-${i}`}
               data-slide-pin={i}
-              className={`box-border min-h-0 min-w-0 max-w-full shrink-0 rounded-2xl border border-white/[0.09] bg-black/38 px-4 py-5 sm:px-5 sm:py-6 ${showNav ? "snap-start snap-always" : ""}`}
+              className={`box-border min-h-0 min-w-0 max-w-full shrink-0 rounded-2xl border border-white/[0.09] bg-black/38 px-4 py-5 sm:px-5 sm:py-6 ${
+                showNav ? "snap-start snap-always shadow-[4px_0_24px_-12px_rgba(0,0,0,0.65)] sm:shadow-none" : ""
+              } ${i < slides.length - 1 && showNav ? "ring-1 ring-accent-cyan/10 sm:ring-0" : ""}`}
             >
               <DetailSlideBody slide={slide} nm={nm} />
             </article>
@@ -391,11 +441,11 @@ function DetailSlidesCarousel({ slides, nodeId }: { slides: readonly CaseDetailS
 
       {showNav ? (
         <div className="mt-4 flex flex-col items-center gap-3">
-          <p className="text-center text-[11px] uppercase tracking-[0.16em] text-zinc-500" aria-live="polite">
+          <p className="text-center text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-400" aria-live="polite">
             {statusText}
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <div className="flex gap-1.5" role="tablist" aria-label={statusText}>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <div className="flex gap-2" role="tablist" aria-label={statusText}>
               {slides.map((_, i) => (
                 <button
                   key={i}
@@ -404,29 +454,11 @@ function DetailSlidesCarousel({ slides, nodeId }: { slides: readonly CaseDetailS
                   aria-selected={i === active}
                   aria-label={nm.carouselSlideStatus.replace("{current}", String(i + 1)).replace("{total}", String(slides.length))}
                   onClick={() => goTo(i)}
-                  className={`h-2 w-2 rounded-full transition ${i === active ? "scale-125 bg-accent-cyan" : "bg-zinc-600 hover:bg-zinc-500"}`}
+                  className={`h-2.5 rounded-full transition-all ${
+                    i === active ? "w-7 bg-accent-cyan" : "w-2.5 bg-zinc-600 hover:bg-zinc-500"
+                  }`}
                 />
               ))}
-            </div>
-            <div className="flex gap-2 sm:hidden">
-              <button
-                type="button"
-                onClick={() => goTo(active - 1)}
-                disabled={active === 0}
-                aria-label={nm.carouselPrevAria}
-                className="rounded-lg border border-white/14 bg-black/65 p-2 text-white disabled:pointer-events-none disabled:opacity-30"
-              >
-                <ChevronLeft className="h-5 w-5" aria-hidden />
-              </button>
-              <button
-                type="button"
-                onClick={() => goTo(active + 1)}
-                disabled={active >= slides.length - 1}
-                aria-label={nm.carouselNextAria}
-                className="rounded-lg border border-white/14 bg-black/65 p-2 text-white disabled:pointer-events-none disabled:opacity-30"
-              >
-                <ChevronRight className="h-5 w-5" aria-hidden />
-              </button>
             </div>
           </div>
         </div>
@@ -435,10 +467,27 @@ function DetailSlidesCarousel({ slides, nodeId }: { slides: readonly CaseDetailS
   );
 }
 
-export function NodeModal({ nodeId, anchorId, onClose }: NodeModalProps) {
-  const { caseFiles, copy } = usePortfolio();
+export function NodeModal({ nodeId, anchorId, onClose, guidedTourSteps, onOpenSection }: NodeModalProps) {
+  const { caseFiles, copy, labelForNodeId } = usePortfolio();
   const nm = copy.nodeModal;
   const dossier = nodeId ? caseFiles[nodeId] : null;
+
+  const tourIndex = useMemo(() => {
+    if (!nodeId || !guidedTourSteps?.length) return -1;
+    return guidedTourSteps.findIndex((s) => s.nodeId === nodeId);
+  }, [guidedTourSteps, nodeId]);
+
+  const nextTourStep = useMemo(() => {
+    if (tourIndex < 0 || !guidedTourSteps?.length) return null;
+    if (tourIndex >= guidedTourSteps.length - 1) return null;
+    return guidedTourSteps[tourIndex + 1];
+  }, [guidedTourSteps, tourIndex]);
+
+  const nextSectionLabel = nextTourStep
+    ? `${nm.nextSectionLabel} · ${labelForNodeId(nextTourStep.nodeId)}`
+    : null;
+
+  const showTourFooter = tourIndex >= 0;
   const detailSlides = dossier?.detailSlides;
   const slideMode = (detailSlides?.length ?? 0) > 0;
   const stackTokens = useMemo(
@@ -470,6 +519,11 @@ export function NodeModal({ nodeId, anchorId, onClose }: NodeModalProps) {
     window.addEventListener("keydown", esc);
     return () => window.removeEventListener("keydown", esc);
   }, [nodeId, onClose]);
+
+  const scrollBodyRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    scrollBodyRef.current?.scrollTo({ top: 0, behavior: "auto" });
+  }, [nodeId, anchorId]);
 
   return (
     <AnimatePresence mode="sync">
@@ -510,7 +564,8 @@ export function NodeModal({ nodeId, anchorId, onClose }: NodeModalProps) {
               </div>
 
               <motion.div
-                className="min-h-0 min-w-0 max-w-full flex-1 touch-pan-y overflow-y-auto overscroll-contain px-4 py-5 sm:px-6 sm:pb-8"
+                ref={scrollBodyRef}
+                className="soc-scrollbar min-h-0 min-w-0 max-w-full flex-1 overflow-y-auto overscroll-y-contain px-4 py-5 sm:px-6 sm:pb-4"
                 variants={section}
                 initial="hidden"
                 animate="visible"
@@ -616,6 +671,29 @@ export function NodeModal({ nodeId, anchorId, onClose }: NodeModalProps) {
                   </motion.div>
                 ) : null}
               </motion.div>
+
+              {showTourFooter ? (
+                <div className="shrink-0 border-t border-white/10 bg-[#060d18] px-4 py-3 sm:px-6 sm:py-4">
+                  {nextTourStep && onOpenSection ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onOpenSection(
+                          nextTourStep.nodeId as TopologyNodeId,
+                          nextTourStep.anchorId ?? null,
+                        );
+                      }}
+                      className="flex w-full items-center justify-center gap-2 rounded-xl border border-accent-cyan/35 bg-accent-cyan/12 px-4 py-3 text-[13px] font-semibold text-accent-cyan transition hover:bg-accent-cyan/20"
+                      aria-label={nm.nextSectionAria.replace("{label}", labelForNodeId(nextTourStep.nodeId))}
+                    >
+                      <span>{nextSectionLabel}</span>
+                      <ChevronRight className="h-4 w-4 shrink-0" aria-hidden />
+                    </button>
+                  ) : (
+                    <p className="text-center text-[11px] uppercase tracking-[0.14em] text-zinc-500">{nm.lastSectionHint}</p>
+                  )}
+                </div>
+              ) : null}
             </ImmersivePanel>
           </motion.div>
         </>
