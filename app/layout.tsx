@@ -27,6 +27,12 @@ export async function generateMetadata(): Promise<Metadata> {
   const base = getSiteUrl();
   const canonical = base.endsWith("/") ? base : `${base}/`;
   const ogImageAlt = `${profile.name} — ${copy.seo.ogTagline}`;
+  // Detecta la URL de Vercel en producción o usa localhost en tu computadora
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
+    ? process.env.NEXT_PUBLIC_SITE_URL
+    : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000";
 
   return {
     metadataBase: new URL(base),
@@ -48,6 +54,8 @@ export async function generateMetadata(): Promise<Metadata> {
         en: "/",
       },
     },
+
+    // Dentro de tu objeto de configuración Open Graph:
     openGraph: {
       type: "website",
       locale: copy.seo.ogLocale,
@@ -58,7 +66,8 @@ export async function generateMetadata(): Promise<Metadata> {
       description,
       images: [
         {
-          url: "/opengraph-image",
+          // Esto generará automáticamente: https://vercel.app
+          url: `${baseUrl}/openGraphJancarlo.jpeg`,
           width: 1200,
           height: 630,
           alt: ogImageAlt,
@@ -69,7 +78,15 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      images: ["/opengraph-image"],
+      images: [
+        {
+          // Esto generará automáticamente: https://vercel.app
+          url: `${baseUrl}/openGraphJancarlo.jpeg`,
+          width: 1200,
+          height: 630,
+          alt: ogImageAlt,
+        },
+      ],
     },
     robots: {
       index: true,
