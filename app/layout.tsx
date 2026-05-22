@@ -63,7 +63,7 @@ export async function generateMetadata(): Promise<Metadata> {
         {
           // Al tener metadataBase configurado arriba, Next.js resolverá esto automáticamente como:
           // https://vercel.app
-          url: "/openGraphJancarlo.jpeg", 
+          url: "/OpenGraphJancarlo.jpeg", 
           width: 1200,
           height: 630,
           alt: ogImageAlt,
@@ -74,7 +74,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      images: ["/openGraphJancarlo.jpeg"], // Next.js también lo volverá absoluto automáticamente
+      images: ["/OpenGraphJancarlo.jpeg"], // Next.js también lo volverá absoluto automáticamente
     },
     robots: {
       index: true,
