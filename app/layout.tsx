@@ -24,17 +24,14 @@ export async function generateMetadata(): Promise<Metadata> {
   const copy = getPageCopy(locale);
   const title = copy.seo.title;
   const description = copy.seo.description;
-  const base = getSiteUrl();
-  const canonical = base.endsWith("/") ? base : `${base}/`;
+  
+  // Usamos directamente tu URL de Vercel real para evitar fallos de getSiteUrl()
+  const base = "https://portafolio-jancarlo.vercel.app";
+  const canonical = base;
   const ogImageAlt = `${profile.name} — ${copy.seo.ogTagline}`;
-  // Detecta la URL de Vercel en producción o usa localhost en tu computadora
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
-    ? process.env.NEXT_PUBLIC_SITE_URL
-    : process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000";
 
   return {
+    // metadataBase le dice a Next.js cuál es el dominio absoluto para TODO el SEO
     metadataBase: new URL(base),
     title: {
       default: title,
@@ -54,8 +51,6 @@ export async function generateMetadata(): Promise<Metadata> {
         en: "/",
       },
     },
-
-    // Dentro de tu objeto de configuración Open Graph:
     openGraph: {
       type: "website",
       locale: copy.seo.ogLocale,
@@ -66,8 +61,9 @@ export async function generateMetadata(): Promise<Metadata> {
       description,
       images: [
         {
-          // Esto generará automáticamente: https://vercel.app
-          url: `${baseUrl}/openGraphJancarlo.jpeg`,
+          // Al tener metadataBase configurado arriba, Next.js resolverá esto automáticamente como:
+          // https://vercel.app
+          url: "/openGraphJancarlo.jpeg", 
           width: 1200,
           height: 630,
           alt: ogImageAlt,
@@ -78,15 +74,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      images: [
-        {
-          // Esto generará automáticamente: https://vercel.app
-          url: `${baseUrl}/openGraphJancarlo.jpeg`,
-          width: 1200,
-          height: 630,
-          alt: ogImageAlt,
-        },
-      ],
+      images: ["/openGraphJancarlo.jpeg"], // Next.js también lo volverá absoluto automáticamente
     },
     robots: {
       index: true,
@@ -116,6 +104,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang={lang} className={jetbrains.variable}>
+      {/* Eliminamos la etiqueta <meta> manual que tenías aquí porque Next.js ya la inyecta automáticamente gracias a generateMetadata */}
       <body className="font-mono">
         <SeoJsonLd />
         <PortfolioLocaleProvider locale={locale} bundles={bundles}>
