@@ -1,14 +1,20 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
-import { JetBrains_Mono } from "next/font/google";
+
+import { Inter, JetBrains_Mono } from "next/font/google";
 
 import { PortfolioLocaleProvider } from "@/components/portfolio-locale-provider";
 import { SeoJsonLd } from "@/components/seo-json-ld";
-import { pickPortfolioLocaleFromHeader } from "@/lib/i18n/locale";
+import { getPortfolioLocale } from "@/lib/i18n/locale";
 import { getPageCopy } from "@/lib/page-copy";
 import { resolvePortfolioBundles } from "@/lib/portfolio-resolve";
 
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-sans",
+  display: "swap",
+});
 
 const jetbrains = JetBrains_Mono({
   subsets: ["latin", "latin-ext"],
@@ -17,8 +23,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const hdr = await headers();
-  const locale = pickPortfolioLocaleFromHeader(hdr.get("accept-language"));
+  const locale = await getPortfolioLocale();
   const bundles = await resolvePortfolioBundles();
   const profile = locale === "en" ? bundles.en.profile : bundles.es.profile;
   const copy = getPageCopy(locale);
@@ -97,15 +102,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const hdr = await headers();
-  const locale = pickPortfolioLocaleFromHeader(hdr.get("accept-language"));
+  const locale = await getPortfolioLocale();
   const bundles = await resolvePortfolioBundles();
   const lang = locale === "en" ? "en" : "es";
 
   return (
-    <html lang={lang} className={jetbrains.variable}>
-      {/* Eliminamos la etiqueta <meta> manual que tenías aquí porque Next.js ya la inyecta automáticamente gracias a generateMetadata */}
-      <body className="font-mono">
+    <html lang={lang} className={`${inter.variable} ${jetbrains.variable}`}>
+      <body className="font-sans antialiased bg-[#050b14] text-zinc-100 selection:bg-cyan-500/20 selection:text-cyan-200">
         <SeoJsonLd />
         <PortfolioLocaleProvider locale={locale} bundles={bundles}>
           {children}

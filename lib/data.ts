@@ -8,9 +8,8 @@ export type DevProject = {
   id: string;
   name: string;
   type: string;
-  /** Imagen en `public/...` (preferible AVIF; genera con `npm run optimize-images`) */
+  tagline?: string;
   image?: string;
-  /** URL del sitio en vivo, si existe */
   liveUrl?: string;
   features: string[];
   stack: string[];
@@ -18,31 +17,23 @@ export type DevProject = {
   links: PanelLink[];
 };
 
-/** Certificación con logo de emisor · `sortDate` ISO (fin aprox. del curso) para orden · `logoSrc` local o Simple Icons CDN. */
+export type EducationRecord = {
+  institution: string;
+  degree: string;
+  location: string;
+  period: string;
+  description?: string;
+};
+
 export type CertificationRecord = {
   sortDate: string;
   logoSrc: string;
   logoAlt: string;
   title: string;
   caption: string;
+  issuer: string;
+  credentialUrl?: string;
 };
-
-const SI = (slug: string, color: string) => `https://cdn.simpleicons.org/${slug}/${color}`;
-
-/** Perfil mostrado en la terminal inicial y reusable en otros bloques */
-export const PROFILE = {
-  name: "Jancarlo Gallón Cano",
-  role: "Desarrollo full stack · .NET/C# y Blazor Server · proyectos React/Next.js · redes y ciberseguridad",
-  location: "Pereira, Colombia · abierto a trabajo remoto",
-  status: "Disponible para nuevas oportunidades",
-  focus: "Entregas estables · visibilidad de riesgos · comunicación clara con equipos y clientes · formación CCNA/ciberseguridad e inglés B2",
-} as const;
-
-export const DEFAULT_ABOUT_PARAGRAPHS_ES = [
-  "Soy Desarrollador Full Stack de Pereira, Colombia, con experiencia en el desarrollo y mantenimiento de aplicaciones empresariales en entornos productivos utilizando .NET (C#) y Blazor Server. He trabajado en la optimización de módulos de negocio, resolución de tickets técnicos y funcionales, y mejora del rendimiento mediante consultas y procedimientos almacenados en SQL Server, además de apoyar despliegues en Windows Server.",
-  "Complemento mi perfil con proyectos web modernos usando React y Next.js, consumo de APIs REST, control de versiones con Git/GitHub y conocimientos en herramientas como Docker y Postman, lo que me permite adaptarme a diferentes entornos de desarrollo.",
-  "Actualmente estoy enfocado en fortalecer mis habilidades en redes y ciberseguridad, apoyado en formación y certificaciones como CCNA y fundamentos de seguridad informática. Cuento con nivel de inglés B2 conversacional y continúo capacitándome de forma autodidacta para seguir creciendo profesionalmente.",
-] as const;
 
 export type ExperienceEntry = {
   company: string;
@@ -57,42 +48,133 @@ export type ExperienceEntry = {
   securityConsiderations: readonly string[];
 };
 
+const SI = (slug: string, color: string) => `https://cdn.simpleicons.org/${slug}/${color}`;
+
+/** Perfil profesional de Jancarlo Gallón Cano */
+export const PROFILE = {
+  name: "Jancarlo Gallón Cano",
+  role: "Software Engineer | Full Stack Developer · Next.js, React, .NET (C#) & Python · Arquitectura escalable, Cloud y Ciberseguridad",
+  location: "Pereira, Risaralda, Colombia · Abierto a trabajo remoto / híbrido",
+  status: "Disponible para nuevas oportunidades",
+  focus: "Construcción de aplicaciones web de alto rendimiento, backend estructurado con APIs REST, optimización de base de datos SQL y código mantenible con buenas prácticas de seguridad.",
+  email: "jancarlogallonc@gmail.com",
+  phone: "+57 3014151748",
+  languages: "Español (Nativo) · Inglés (B1-B2 Conversacional)",
+} as const;
+
+export const DEFAULT_ABOUT_PARAGRAPHS_ES = [
+  "Soy Ingeniero de Sistemas y Computación (en formación en la Universidad Tecnológica de Pereira) y Técnico en Desarrollo de Software del SENA. Cuento con experiencia profesional en desarrollo full stack, participando en el mantenimiento y evolución de aplicaciones empresariales críticas en producción con .NET (C#), Blazor Server y SQL Server en Outsourcing S.A.S. BIC.",
+  "Me especializo en diseñar y construir productos web completos y escalables con Next.js, React, TypeScript, Python y Tailwind CSS, implementando arquitecturas limpias, consumo eficiente de APIs REST, autenticación y modelado de datos con SQL Server y PostgreSQL.",
+  "Complemento mi perfil con formación en redes y seguridad informática respaldada por cursos y certificaciones de Cisco (CCNA: Introduction to Networks) y Google, además de metodologías de resolución de problemas de UC Irvine. Manejo un nivel de inglés B1-B2 conversacional y me adapto con rapidez a entornos ágiles y orientados a resultados.",
+] as const;
+
 export const EXPERIENCES: ExperienceEntry[] = [
   {
     company: "Outsourcing S.A.S. BIC",
     role: "Desarrollador Full Stack .NET (Blazor / ASP.NET)",
-    location: "Bogotá D.C., Colombia",
-    period: "jun. 2025 – dic. 2025",
+    location: "Bogotá D.C., Colombia (Remoto)",
+    period: "Jun. 2025 – Dic. 2025",
     summary:
-      "Desarrollo full stack en .NET y Blazor Server sobre aplicaciones empresariales en producción: tickets, evolución funcional, SQL Server y apoyo a despliegues en Windows Server.",
+      "Desarrollo y soporte full stack de aplicaciones empresariales en producción utilizando .NET (C#), Blazor Server y SQL Server, asegurando alta disponibilidad, resolución ágil de incidencias y despliegues estables.",
     bullets: [
-      "Gestioné y resolví tickets de soporte técnico y funcional en aplicaciones empresariales en producción, priorizando estabilidad y tiempo de respuesta.",
-      "Desarrollé, mantuve y optimicé módulos en Blazor Server (C#): lógica de negocio, mejoras y corrección de defectos con foco en impacto en usuarios.",
-      "Diseñé e implementé nuevos módulos funcionales según requerimientos del cliente y la hoja de ruta del aplicativo.",
-      "Optimicé consultas y procedimientos almacenados en SQL Server y colaboré en despliegues a producción y operación básica sobre Windows Server.",
+      "Desarrollé y mantuve módulos empresariales críticos en Blazor Server (C#), implementando mejoras funcionales y optimizaciones en la lógica de negocio.",
+      "Participé en la resolución de incidencias en ambientes productivos bajo SLA, garantizando la estabilidad y continuidad operativa de los sistemas.",
+      "Optimicé consultas complejas y procedimientos almacenados en SQL Server, mejorando los tiempos de respuesta de la base de datos.",
+      "Apoyé despliegues en ambientes Windows Server y colaboré en actividades de mantenimiento y configuración de infraestructura.",
     ],
     modalTakeaways: [
-      "En producción, reproducibilidad del incidente y contexto claro reducen idas y vueltas entre soporte y desarrollo.",
-      "Dos líneas de registro tras un cambio suelen evitar una segunda ola del mismo ticket.",
+      "La reproducibilidad metódica y el registro riguroso de contexto reducen drásticamente los tiempos de resolución en entornos productivos.",
+      "La validación temprana en bases de datos y la gestión estricta de permisos previenen incidentes recurrentes tras cada despliegue.",
     ],
-    stack: ["Blazor Server", "C#", ".NET", "SQL Server", "Windows Server"],
-    insightsHeading: "Producción",
+    stack: [".NET", "C#", "Blazor Server", "ASP.NET Core", "SQL Server", "Stored Procedures", "Windows Server"],
+    insightsHeading: "Entornos Productivos",
     securityConsiderations: [
-      "Ventanas de cambio anunciadas antes de tocar usuarios; acceso a producción lo más acotado posible.",
+      "Principio de menor privilegio en credenciales de producción y ventanas controladas para despliegues.",
     ],
+  },
+];
+
+export const EDUCATION: EducationRecord[] = [
+  {
+    institution: "Universidad Tecnológica de Pereira (UTP)",
+    degree: "Ingeniería de Sistemas y Computación",
+    location: "Pereira, Risaralda, Colombia",
+    period: "Ene. 2021 – Jul. 2026",
+    description:
+      "Formación integral en algoritmos, estructuras de datos, arquitectura de software, bases de datos relacionales, ingeniería web, redes y seguridad.",
+  },
+  {
+    institution: "Servicio Nacional de Aprendizaje (SENA)",
+    degree: "Técnico en Desarrollo de Software",
+    location: "Cartago, Valle del Cauca, Colombia",
+    period: "Ene. 2019 – Dic. 2020",
+    description:
+      "Fundamentos sólidos de programación orientada a objetos, bases de datos SQL, lógica algorítmica y construcción de interfaces web.",
   },
 ];
 
 export const DEV_PROJECTS: DevProject[] = [
   {
-    id: "techos-rentables",
-    name: "TechosRentables",
-    type: "Panel web para monitorear sistemas solares (proyecto colaborativo intensivo)",
+    id: "smart-school-reports",
+    name: "Smart School Reports",
+    type: "Plataforma Inteligente de Gestión de Incidencias Escolares",
+    tagline: "Detección inteligente de reportes duplicados y priorización de casos con IA para instituciones educativas.",
     image: "/projects/github-wordmark.avif",
-    features: ["Indicadores clave en pantalla, alertas, reportes y exportación a PDF"],
-    stack: ["Next.js", "React", "TypeScript", "Prisma", "PostgreSQL", "Tailwind"],
+    features: [
+      "Detección y agrupación automática de reportes similares mediante IA para evitar duplicidad de trabajo.",
+      "Flujo de estados en tiempo real para seguimiento de incidencias (Abierto, En Proceso, Resuelto).",
+      "Panel administrativo con filtrado por criticidad, categoría y rol institucional.",
+      "Arquitectura modular orientada a desacoplar el motor de procesamiento inteligente de la interfaz.",
+    ],
+    stack: ["Next.js", "React", "TypeScript", "Python / FastAPI", "PostgreSQL", "Tailwind CSS", "REST API"],
     learned:
-      "Practiqué cómo llevar métricas de operación día a día a una interfaz clara y cómo ordenar información confiable detrás para que los equipos tomen decisiones.",
+      "Diseñé una solución orientada a problemas reales de gestión operativa, optimizando la categorización de información mediante procesamiento de lenguaje natural y diseño centrado en el usuario.",
+    links: [
+      {
+        label: "Ver en GitHub",
+        href: "https://github.com/JancarloGCdev",
+        variant: "github",
+      },
+    ],
+  },
+  {
+    id: "papertrail-commerce",
+    name: "PaperTrail Commerce (v2)",
+    type: "Plataforma Full Stack de E-Commerce para Librería",
+    tagline: "Solución de comercio electrónico completa con catálogo dinámico, carrito y gestión con Strapi CMS.",
+    image: "/projects/github-wordmark.avif",
+    features: [
+      "Catálogo interactivo de libros con filtrado por categorías, búsqueda en tiempo real y paginación.",
+      "Gestión de carrito de compras y flujo estructurado de checkout.",
+      "Integración de CMS headless (Strapi) mediante APIs REST para control de inventario y contenidos.",
+      "Control de acceso y diferenciación de roles de usuario (Cliente / Administrador).",
+    ],
+    stack: ["React", "Next.js", "TypeScript", "Strapi CMS", "REST API", "Tailwind CSS", "Git"],
+    learned:
+      "Consolidé patrones de arquitectura frontend con componentes reutilizables y consumo desacoplado de APIs en un flujo comercial completo.",
+    links: [
+      {
+        label: "Ver en GitHub",
+        href: "https://github.com/JancarloGCdev/papertrailv2",
+        variant: "github",
+      },
+    ],
+  },
+  {
+    id: "solarbrain-techos",
+    name: "SolarBrain (TechosRentables)",
+    type: "Plataforma de Monitoreo y Gestión de Energía Solar (Hackathon)",
+    tagline: "Panel analítico para supervisión de despliegues solares fotovoltaicos e indicadores de rendimiento.",
+    image: "/projects/github-wordmark.avif",
+    features: [
+      "Dashboard con tarjetas de KPIs energéticos en tiempo real y telemetría de instalaciones.",
+      "Sistema de alertas operativas ante desviaciones de generación fotovoltaica.",
+      "Generación y descarga de resúmenes operativos en formato PDF para clientes y técnicos.",
+      "Modelado de datos relacional con PostgreSQL y Prisma ORM.",
+    ],
+    stack: ["Next.js", "React", "TypeScript", "Prisma", "PostgreSQL", "Tailwind CSS"],
+    learned:
+      "Desarrollo colaborativo de alta velocidad durante hackathon, transformando requerimientos operativos en una interfaz de toma de decisiones clara y confiable.",
     links: [
       {
         label: "Ver en GitHub",
@@ -102,25 +184,50 @@ export const DEV_PROJECTS: DevProject[] = [
     ],
   },
   {
-    id: "papertrail-v2",
-    name: "PaperTrail v2",
-    type: "Tienda web de libros con varios puntos de venta (e‑commerce)",
+    id: "portfolio-engineering",
+    name: "Engineering Portfolio & Interactive CLI",
+    type: "Portafolio Web de Alto Rendimiento con Terminal Interactiva",
+    tagline: "Landing comercial moderna construida con Next.js 15, React 19, TypeScript, GSAP e i18n manual.",
     image: "/projects/github-wordmark.avif",
     features: [
-      "Catálogo, buscador, carrito de compras y proceso de pago",
-      "Perfiles comprador / administrador (quién puede hacer qué dentro del sitio)",
+      "Terminal Linux interactiva con sesión simulada y comandos dinámicos.",
+      "Sistema de internacionalización estricto (ES / EN) basado en cookies sin parpadeos de hidratación.",
+      "Animaciones de entrada y scroll-storytelling orquestadas con GSAP.",
+      "Arquitectura de componentes optimizada con 100% type-safety y SEO completo (JSON-LD, OpenGraph).",
     ],
-    stack: ["TypeScript", "JavaScript", "REST API", "Git"],
+    stack: ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS", "GSAP", "Server Actions"],
     learned:
-      "Entendí cómo se arma una tienda online de principio a fin: datos en servidor, vistas claras para el cliente y límites de permisos bien definidos.",
+      "Construí una experiencia web que combina narrativa comercial, rendimiento óptimo, interactividad técnica y accesibilidad.",
     links: [
       {
         label: "Ver en GitHub",
-        href: "https://github.com/JancarloGCdev/papertrailv2",
+        href: "https://github.com/JancarloGCdev/Portafolio_Jancarlo",
         variant: "github",
       },
     ],
-  }
+  },
+  {
+    id: "quine-mccluskey-simplifier",
+    name: "Quine-McCluskey Logic Simplifier",
+    type: "Software de Simplificación Algorítmica de Circuitos Lógicos",
+    tagline: "Implementación en Python para reducción y optimización exacta de funciones booleanas.",
+    image: "/projects/github-wordmark.avif",
+    features: [
+      "Procesamiento algorítmico tabular paso a paso de minitérminos y condiciones no importa (don't care).",
+      "Estructura modular orientada a reutilización de código y generación de tablas de implicantes primos.",
+      "Validación de entradas con manejo consistente de casos borde y funciones booleanas complejas.",
+    ],
+    stack: ["Python", "Algoritmos", "Lógica Digital", "Pytest"],
+    learned:
+      "Profundicé en optimización algorítmica, complejidad computacional y estructuración modular de software en Python.",
+    links: [
+      {
+        label: "Ver en GitHub",
+        href: "https://github.com/JancarloGCdev",
+        variant: "github",
+      },
+    ],
+  },
 ];
 
 export const CERTIFICATIONS: CertificationRecord[] = [
@@ -129,102 +236,152 @@ export const CERTIFICATIONS: CertificationRecord[] = [
     logoSrc: SI("cisco", "1BA0D7"),
     logoAlt: "Cisco",
     title: "English for IT 1",
-    caption: "Cisco Networking Academy · may 2025",
+    caption: "Cisco Networking Academy · May. 2025",
+    issuer: "Cisco Networking Academy",
+  },
+  {
+    sortDate: "2025-05-15",
+    logoSrc: SI("cisco", "1BA0D7"),
+    logoAlt: "Cisco",
+    title: "Introducción a la Ciberseguridad",
+    caption: "Cisco Networking Academy · May. 2025",
+    issuer: "Cisco Networking Academy",
   },
   {
     sortDate: "2025-03-31",
     logoSrc: SI("meta", "0668E1"),
     logoAlt: "Meta",
-    title: "Introducción al desarrollo back-end",
-    caption: "Meta · Coursera · ene 2025 – mar 2025",
+    title: "Introducción al Desarrollo Back-End",
+    caption: "Meta · Coursera · 2025",
+    issuer: "Meta",
   },
   {
     sortDate: "2025-03-31",
     logoSrc: SI("meta", "0668E1"),
     logoAlt: "Meta",
-    title: "Introducción al desarrollo front-end",
-    caption: "Meta · Coursera · ene 2025 – mar 2025",
+    title: "Introducción al Desarrollo Front-End",
+    caption: "Meta · Coursera · 2025",
+    issuer: "Meta",
   },
   {
     sortDate: "2025-03-31",
     logoSrc: SI("meta", "0668E1"),
     logoAlt: "Meta",
-    title: "Control de versiones con Git",
-    caption: "Meta · Coursera · ene 2025 – mar 2025",
+    title: "Control de Versiones con Git",
+    caption: "Meta · Coursera · 2025",
+    issuer: "Meta",
   },
   {
     sortDate: "2025-03-31",
     logoSrc: SI("meta", "0668E1"),
     logoAlt: "Meta",
     title: "Programación con JavaScript",
-    caption: "Meta · Coursera · ene 2025 – mar 2025",
+    caption: "Meta · Coursera · 2025",
+    issuer: "Meta",
   },
   {
     sortDate: "2025-03-31",
     logoSrc: SI("meta", "0668E1"),
     logoAlt: "Meta",
     title: "Programación en Python",
-    caption: "Meta · Coursera · ene 2025 – mar 2025",
+    caption: "Meta · Coursera · 2025",
+    issuer: "Meta",
   },
   {
     sortDate: "2025-02-28",
     logoSrc: "/certifications/uci-merage.svg",
     logoAlt: "UC Irvine · The Paul Merage School of Business",
-    title: "Resolución de problemas y toma de decisiones",
-    caption: "UC Irvine · Merage · feb 2025",
+    title: "Resolución de Problemas y Toma de Decisiones",
+    caption: "UC Irvine · Paul Merage School of Business · Feb. 2025",
+    issuer: "University of California, Irvine",
   },
   {
     sortDate: "2025-01-31",
     logoSrc: SI("google", "4285F4"),
     logoAlt: "Google",
-    title: "Foundations of Cybersecurity",
-    caption: "Google · Coursera · ene 2025",
+    title: "Fundamentos de la Ciberseguridad (Foundations of Cybersecurity)",
+    caption: "Google · Coursera · Ene. 2025",
+    issuer: "Google",
   },
   {
     sortDate: "2024-11-30",
     logoSrc: SI("cisco", "1BA0D7"),
     logoAlt: "Cisco",
     title: "CCNA: Introduction to Networks",
-    caption: "Cisco Networking Academy · nov 2024",
-  },
-  {
-    sortDate: "2026-05-05",
-    logoSrc: SI("cisco", "1BA0D7"),
-    logoAlt: "Cisco",
-    title: "Introducción a la ciberseguridad",
-    caption: "Cisco Networking Academy · may 2026",
+    caption: "Cisco Networking Academy · Nov. 2024",
+    issuer: "Cisco Networking Academy",
   },
 ];
 
 export const SKILL_MODULES = [
   {
-    title: "Desarrollo",
-    items: ["C#, Blazor Server, .NET", "Next.js, React", "TypeScript, JavaScript", "SQL Server, PostgreSQL"],
-  },
-  {
-    title: "Ciberseguridad",
+    title: "Frontend & Web Moderno",
     items: [
-      "Bases de redes y protocolos habituales",
-      "Ideas prácticas de endurecimiento en Linux",
-      "Introducción a SIEM y visibilidad centralizada",
-      "Lectura y priorización de logs",
+      "React",
+      "Next.js (App Router)",
+      "TypeScript",
+      "JavaScript (ES6+)",
+      "Tailwind CSS",
+      "GSAP Animations",
+      "HTML5 / CSS3 Semántico",
     ],
   },
   {
-    title: "Herramientas",
-    items: ["Git/GitHub", "Postman", "Docker (nivel básico)"],
+    title: "Backend & Arquitectura",
+    items: [
+      ".NET / C#",
+      "Blazor Server",
+      "ASP.NET Core",
+      "Python (FastAPI)",
+      "Node.js",
+      "APIs RESTful",
+      "Arquitectura Limpia & Modular",
+    ],
+  },
+  {
+    title: "Bases de Datos",
+    items: [
+      "SQL Server (Consultas & Stored Procedures)",
+      "PostgreSQL",
+      "Prisma ORM",
+      "Entity Framework Core",
+      "Modelado Relacional",
+    ],
+  },
+  {
+    title: "Herramientas, DevOps & Cloud",
+    items: [
+      "Git & GitHub (Flujos Colaborativos)",
+      "Docker (Contenedores)",
+      "Postman (Pruebas de API)",
+      "Linux / Bash",
+      "Windows Server (Despliegues en Producción)",
+      "Fundamentos de Azure",
+    ],
+  },
+  {
+    title: "Redes, Seguridad & AI",
+    items: [
+      "Cisco CCNA (Fundamentos de Redes & TCP/IP)",
+      "Fundamentos de Ciberseguridad (Google & Cisco)",
+      "Integración de Modelos de IA / Embeddings",
+      "Buenas prácticas de seguridad en software",
+    ],
   },
 ] as const;
 
-/** Enlaces compartidos entre modales y la barra rápida. */
 export const QUICK_LINKS = {
   github: "https://github.com/JancarloGCdev",
-  linkedin: "https://www.linkedin.com/in/jancarlo-gc",
+  linkedin: "https://www.linkedin.com/in/jancarlo-gallon-cano",
+  email: "mailto:jancarlogallonc@gmail.com",
 };
 
 export const CONTACT = {
-  headline: "Software en producción, con riesgo tratado desde el diseño cuando aplica.",
-  sub: "No publico un CV descargable en abierto: exponer datos personales en un PDF accesible para cualquiera aumenta el riesgo de fraudes o usos indebidos de la información. Si quieres trabajar conmigo, escríbeme por LinkedIn con contexto claro (rol, empresa, stack) y desde ahí sí podemos coordinar un intercambio seguro y profesional.",
+  headline: "¿Tienes un reto técnico o una posición abierta? Hablemos.",
+  sub: "Estoy disponible para roles como Software Engineer o Full Stack Developer (remoto o híbrido). Puedes contactarme directamente por correo electrónico, LinkedIn o explorar mis proyectos en GitHub.",
+  email: "jancarlogallonc@gmail.com",
+  phone: "+57 3014151748",
+  location: "Pereira, Risaralda, Colombia",
   links: [
     {
       label: "LinkedIn",
@@ -235,6 +392,11 @@ export const CONTACT = {
       label: "GitHub",
       href: QUICK_LINKS.github,
       variant: "github" as const,
+    },
+    {
+      label: "Enviar Correo",
+      href: QUICK_LINKS.email,
+      variant: "live" as const,
     },
   ],
 };

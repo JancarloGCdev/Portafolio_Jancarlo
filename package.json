@@ -10,8 +10,10 @@
     "optimize-images": "node scripts/optimize-images.cjs"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "bcryptjs": "^3.0.3",
     "framer-motion": "^11.18.2",
+    "gsap": "^3.15.0",
     "jose": "^6.2.3",
     "lucide-react": "^0.469.0",
     "next": "^15.1.4",
