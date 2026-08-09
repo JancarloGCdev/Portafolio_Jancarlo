@@ -8,16 +8,9 @@ export type CmsProfilePatch = Partial<{
   focus: string;
 }>;
 
-export type CmsProfileConsolePatch = Partial<{
-  windowTag: string;
-  avatarSrc: string;
-  initials: string;
-}>;
-
 export type CmsLocaleSlice = Partial<{
   profile: CmsProfilePatch;
   aboutParagraphs: string[];
-  profileConsole: CmsProfileConsolePatch;
   devProjects: DevProject[];
   experiences: ExperienceEntry[];
 }>;

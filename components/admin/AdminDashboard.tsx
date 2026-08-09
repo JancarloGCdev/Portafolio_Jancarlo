@@ -24,7 +24,6 @@ function mergeEditable(seed: AdminLocaleSeed, slice?: CmsLocaleSlice): AdminLoca
     },
     aboutParagraphs:
       slice?.aboutParagraphs !== undefined ? [...slice.aboutParagraphs] : [...seed.aboutParagraphs],
-    profileConsole: { ...seed.profileConsole, ...slice?.profileConsole },
     devProjects: slice?.devProjects !== undefined ? [...slice.devProjects] : [...seed.devProjects],
     experiences: slice?.experiences !== undefined ? [...slice.experiences] : [...seed.experiences],
   };
@@ -36,14 +35,12 @@ function toPayload(state: EditorState): CmsStoredV1 {
     es: {
       profile: state.es.profile,
       aboutParagraphs: state.es.aboutParagraphs,
-      profileConsole: state.es.profileConsole,
       devProjects: state.es.devProjects,
       experiences: state.es.experiences,
     },
     en: {
       profile: state.en.profile,
       aboutParagraphs: state.en.aboutParagraphs,
-      profileConsole: state.en.profileConsole,
       devProjects: state.en.devProjects,
       experiences: state.en.experiences,
     },
@@ -185,13 +182,6 @@ export function AdminDashboard() {
     setSavedOk(false);
   }
 
-  function patchConsole(loc: PortfolioLocale, patch: Partial<AdminLocaleSeed["profileConsole"]>) {
-    setState((prev) =>
-      prev ? { ...prev, [loc]: { ...prev[loc], profileConsole: { ...prev[loc].profileConsole, ...patch } } } : prev,
-    );
-    setSavedOk(false);
-  }
-
   function patchProfile(loc: PortfolioLocale, patch: Partial<AdminLocaleSeed["profile"]>) {
     setState((prev) =>
       prev ? { ...prev, [loc]: { ...prev[loc], profile: { ...prev[loc].profile, ...patch } } } : prev,
@@ -262,26 +252,7 @@ export function AdminDashboard() {
         </div>
       </section>
 
-      <section className="mt-6 space-y-4 rounded-lg border border-zinc-700/70 bg-zinc-900/35 p-4">
-        <h2 className="text-xs uppercase tracking-wider text-zinc-500">Ventana perfil · consola del mapa</h2>
-        <div className="grid gap-3 sm:grid-cols-3">
-          <Field
-            label="windowTag"
-            value={slice.profileConsole.windowTag}
-            onChange={(v) => patchConsole(locale, { windowTag: v })}
-          />
-          <Field
-            label="avatarSrc (/public)"
-            value={slice.profileConsole.avatarSrc}
-            onChange={(v) => patchConsole(locale, { avatarSrc: v })}
-          />
-          <Field
-            label="Iniciales"
-            value={slice.profileConsole.initials}
-            onChange={(v) => patchConsole(locale, { initials: v })}
-          />
-        </div>
-      </section>
+
 
       <section className="mt-6 space-y-3 rounded-lg border border-zinc-700/70 bg-zinc-900/35 p-4">
         <h2 className="text-xs uppercase tracking-wider text-zinc-500">About (párrafos en orden)</h2>

@@ -41,20 +41,6 @@ function parseProfilePatch(v: unknown): CmsLocaleSlice["profile"] {
   return Object.keys(out).length > 0 ? out : undefined;
 }
 
-function parseConsolePatch(v: unknown): CmsLocaleSlice["profileConsole"] {
-  if (v === undefined || v === null) return undefined;
-  if (typeof v !== "object" || Array.isArray(v)) throw new Error("profileConsole debe ser un objeto");
-  const o = v as Record<string, unknown>;
-  const out: NonNullable<CmsLocaleSlice["profileConsole"]> = {};
-  const windowTag = trimStr(o.windowTag, MAX_SHORT);
-  const avatarSrc = trimStr(o.avatarSrc, 500);
-  const initials = trimStr(o.initials, 8);
-  if (windowTag) out.windowTag = windowTag;
-  if (avatarSrc) out.avatarSrc = avatarSrc;
-  if (initials) out.initials = initials;
-  return Object.keys(out).length > 0 ? out : undefined;
-}
-
 function parseAbout(v: unknown): string[] | undefined {
   if (v === undefined || v === null) return undefined;
   if (!Array.isArray(v)) throw new Error("aboutParagraphs debe ser un arreglo de strings");
@@ -192,14 +178,12 @@ function parseLocaleSlice(v: unknown): CmsLocaleSlice | undefined {
   const slice: CmsLocaleSlice = {
     profile: parseProfilePatch(o.profile),
     aboutParagraphs: parseAbout(o.aboutParagraphs),
-    profileConsole: parseConsolePatch(o.profileConsole),
     devProjects: parseProjects(o.devProjects),
     experiences: parseExperiences(o.experiences),
   };
   const has =
     slice.profile ||
     slice.aboutParagraphs ||
-    slice.profileConsole ||
     slice.devProjects ||
     slice.experiences;
   return has ? slice : undefined;

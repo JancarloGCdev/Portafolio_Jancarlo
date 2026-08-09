@@ -1,4 +1,4 @@
-import type { DevProject, ExperienceEntry, SecurityLab, TourStep, CertificationRecord } from "@/lib/data";
+import type { DevProject, ExperienceEntry, CertificationRecord } from "@/lib/data";
 import { QUICK_LINKS } from "@/lib/data";
 
 const SI = (slug: string, color: string) => `https://cdn.simpleicons.org/${slug}/${color}`;
@@ -16,28 +16,6 @@ export const DEFAULT_ABOUT_PARAGRAPHS_EN = [
   "I complement that work with modern web projects using React and Next.js, REST APIs, Git/GitHub, and tooling like Docker and Postman, so I adapt quickly across different delivery contexts.",
   "Right now I’m deepening networking and cybersecurity through training paths such as CCNA and computer security fundamentals. I speak conversational English around B2 and keep growing through self-directed study.",
 ] as const;
-
-/** Bloque de perfil sobre el mapa · retrato en `public/profile.avif` o ajusta avatarSrc. */
-export const PROFILE_CONSOLE = {
-  avatarSrc: "/profile.avif",
-  initials: "JG",
-  windowTag: "Profile · Jancarlo Gallón",
-  lines: [
-    { kind: "comment" as const, text: "# Executive snapshot · quick scan." },
-    { kind: "cmd" as const, text: "profile --summary" },
-    {
-      kind: "out" as const,
-      text: `${PROFILE.name} · ${PROFILE.role}`,
-    },
-    { kind: "cmd" as const, text: "about --extended" },
-    { kind: "out" as const, text: DEFAULT_ABOUT_PARAGRAPHS_EN[0] },
-    { kind: "out" as const, text: DEFAULT_ABOUT_PARAGRAPHS_EN[1] },
-    { kind: "out" as const, text: DEFAULT_ABOUT_PARAGRAPHS_EN[2] },
-    { kind: "cmd" as const, text: "availability" },
-    { kind: "out" as const, text: `${PROFILE.status} · ${PROFILE.location}` },
-    { kind: "comment" as const, text: "# The map below groups each topic—open nodes for detail and outbound links." },
-  ],
-};
 
 export const EXPERIENCES: ExperienceEntry[] = [
   {
@@ -100,46 +78,6 @@ export const DEV_PROJECTS: DevProject[] = [
       },
     ],
   }
-];
-
-export const SECURITY_LABS: SecurityLab[] = [
-  {
-    id: "wazuh-siem",
-    name: "Wazuh SIEM visibility lab",
-    image: "/labs/wazuh.avif",
-    description: [
-      "Wazuh deployed as my mini SOC anchor",
-      "Structured review of workstation/server logs",
-      "Escalating repeat abuse attempts with shared context panels",
-      "Simple dashboards showcasing lab health snapshots",
-    ],
-    status: "In progress",
-    ongoing: true,
-    learned:
-      "Learned how to normalize noisy telemetry, prioritize it, and keep evidence that backs each suspicion narrative.",
-  },
-  {
-    id: "python-log-analyzer",
-    name: "Python log analyzer prototype",
-    description: [
-      "Parses heterogeneous log dumps and bubbles interesting patterns",
-      "Exports summarized findings into CSV or JSON for async review",
-    ],
-    learned:
-      "Repeated how automation saves tedious parsing loops while handing stakeholders portable artifacts.",
-  },
-  {
-    id: "enterprise-network-security",
-    name: "Segmented enterprise LAN (study model)",
-    description: [
-      "Baseline VLAN-style segmentation managed over SSH workflows",
-      "Countermeasures sketching against spoofed traffic and rogue devices",
-      "Physical/logical hardening knobs for switches",
-      "Blueprint modeled Packet Tracer to rehearse troubleshooting",
-    ],
-    learned:
-      "Framed networking as cascading trust tiers so failures stay isolated instead of cascading everywhere.",
-  },
 ];
 
 export const CERTIFICATIONS: CertificationRecord[] = [
@@ -251,36 +189,3 @@ export const CONTACT = {
     },
   ],
 };
-
-
-export const GUIDED_TOUR_STEPS: TourStep[] = [
-  {
-    nodeId: "core",
-    logMessage: "Tour · Profile hub & reading the mesh",
-  },
-  {
-    nodeId: "projects",
-    logMessage: "Tour · Published builds and deliveries",
-  },
-  {
-    nodeId: "security-labs",
-    anchorId: "python-log-analyzer",
-    logMessage: "Tour · Hands-on security labs & log practice",
-  },
-  {
-    nodeId: "experience",
-    logMessage: "Tour · Collaboration context story",
-  },
-  {
-    nodeId: "certifications",
-    logMessage: "Tour · Credentialed learning stack",
-  },
-  {
-    nodeId: "skills",
-    logMessage: "Tour · Stacks and habitual tooling",
-  },
-  {
-    nodeId: "contact",
-    logMessage: "Tour · Outreach channels · next beats",
-  },
-];

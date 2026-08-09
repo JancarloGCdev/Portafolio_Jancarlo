@@ -7,7 +7,7 @@ import { SeoJsonLd } from "@/components/seo-json-ld";
 import { pickPortfolioLocaleFromHeader } from "@/lib/i18n/locale";
 import { getPageCopy } from "@/lib/page-copy";
 import { resolvePortfolioBundles } from "@/lib/portfolio-resolve";
-import { getSiteUrl } from "@/lib/site";
+
 import "./globals.css";
 
 const jetbrains = JetBrains_Mono({

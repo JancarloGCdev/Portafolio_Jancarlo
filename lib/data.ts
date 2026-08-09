@@ -18,25 +18,6 @@ export type DevProject = {
   links: PanelLink[];
 };
 
-export type SecurityLab = {
-  id: string;
-  name: string;
-  description: string[];
-  status?: string;
-  ongoing?: boolean;
-  learned: string;
-  /** Imagen opcional en `public/...` (ideal AVIF tras `npm run optimize-images`) */
-  image?: string;
-  /** Repos, write-ups, etc. */
-  links?: PanelLink[];
-};
-
-export type TourStep = {
-  nodeId: string;
-  anchorId?: string;
-  logMessage?: string;
-};
-
 /** Certificación con logo de emisor · `sortDate` ISO (fin aprox. del curso) para orden · `logoSrc` local o Simple Icons CDN. */
 export type CertificationRecord = {
   sortDate: string;
@@ -62,28 +43,6 @@ export const DEFAULT_ABOUT_PARAGRAPHS_ES = [
   "Complemento mi perfil con proyectos web modernos usando React y Next.js, consumo de APIs REST, control de versiones con Git/GitHub y conocimientos en herramientas como Docker y Postman, lo que me permite adaptarme a diferentes entornos de desarrollo.",
   "Actualmente estoy enfocado en fortalecer mis habilidades en redes y ciberseguridad, apoyado en formación y certificaciones como CCNA y fundamentos de seguridad informática. Cuento con nivel de inglés B2 conversacional y continúo capacitándome de forma autodidacta para seguir creciendo profesionalmente.",
 ] as const;
-
-/** Bloque de perfil sobre el mapa · retrato en `public/profile.avif` o ajusta avatarSrc. */
-export const PROFILE_CONSOLE = {
-  avatarSrc: "/profile.avif",
-  initials: "JG",
-  windowTag: "Perfil · Jancarlo Gallón",
-  lines: [
-    { kind: "comment" as const, text: "# Información ejecutiva para lectura rápida." },
-    { kind: "cmd" as const, text: "resumen --perfil" },
-    {
-      kind: "out" as const,
-      text: `${PROFILE.name} · ${PROFILE.role}`,
-    },
-    { kind: "cmd" as const, text: "sobre-mí --extendido" },
-    { kind: "out" as const, text: DEFAULT_ABOUT_PARAGRAPHS_ES[0] },
-    { kind: "out" as const, text: DEFAULT_ABOUT_PARAGRAPHS_ES[1] },
-    { kind: "out" as const, text: DEFAULT_ABOUT_PARAGRAPHS_ES[2] },
-    { kind: "cmd" as const, text: "disponibilidad" },
-    { kind: "out" as const, text: `${PROFILE.status} · ${PROFILE.location}` },
-    { kind: "comment" as const, text: "# Abajo, el mapa resume cada área: ábrelo para ver detalle y enlaces." },
-  ],
-};
 
 export type ExperienceEntry = {
   company: string;
@@ -162,46 +121,6 @@ export const DEV_PROJECTS: DevProject[] = [
       },
     ],
   }
-];
-
-export const SECURITY_LABS: SecurityLab[] = [
-  {
-    id: "wazuh-siem",
-    name: "Laboratorio de monitoreo y detección con Wazuh (SIEM)",
-    image: "/labs/wazuh.avif",
-    description: [
-      "Implementación de Wazuh como centro de vigilancia",
-      "Revisión ordenada de registros (logs) de los equipos",
-      "Detección de intentos repetidos de acceso indebido y revisión en contexto",
-      "Cuadros de mando simples para ver el estado del laboratorio",
-    ],
-    status: "En curso",
-    ongoing: true,
-    learned:
-      "Experimenté cómo reunir avisos de muchas fuentes, priorizarlos y mantener evidencia que explique por qué algo parece sospechoso.",
-  },
-  {
-    id: "python-log-analyzer",
-    name: "Analizador de registros en Python",
-    description: [
-      "Script que lee archivos de registro y señala patrones llamativos",
-      "Exportación de hallazgos a CSV o JSON para revisarlos con calma",
-    ],
-    learned:
-      "Reforcé cómo automatizar la lectura repetitiva de logs y comunicar hallazgos en formatos que otras personas pueden abrir sin herramientas raras.",
-  },
-  {
-    id: "enterprise-network-security",
-    name: "Red empresarial con segmentación (modelo en laboratorio)",
-    description: [
-      "Segmentación básica de red y acceso administrado por SSH",
-      "Opciones contra suplantación de direcciones y tráfego no autorizado",
-      "Protección física‑lógica de puertos de conmutación",
-      "Topología modelada en Packet Tracer como guía de estudio",
-    ],
-    learned:
-      "Organicé cómo pensar una red como capas de confianza: si una pieza falla, el diseño debe limitar el alcance del problema.",
-  },
 ];
 
 export const CERTIFICATIONS: CertificationRecord[] = [
@@ -319,37 +238,3 @@ export const CONTACT = {
     },
   ],
 };
-
-
-/** Mismo orden que las pestañas del HUD (mapData `HUD_TAB_ORDER`). Dev Apps solo desde el mapa. */
-export const GUIDED_TOUR_STEPS: TourStep[] = [
-  {
-    nodeId: "core",
-    logMessage: "Recorrido · Perfil central y lectura del mapa",
-  },
-  {
-    nodeId: "projects",
-    logMessage: "Recorrido · Proyectos públicos y resultados entregados",
-  },
-  {
-    nodeId: "security-labs",
-    anchorId: "python-log-analyzer",
-    logMessage: "Recorrido · Laboratorios de seguridad y análisis prácticos",
-  },
-  {
-    nodeId: "experience",
-    logMessage: "Recorrido · Experiencia y contexto de equipo",
-  },
-  {
-    nodeId: "certifications",
-    logMessage: "Recorrido · Certificaciones y formación",
-  },
-  {
-    nodeId: "skills",
-    logMessage: "Recorrido · Competencias y tecnologías frecuentes",
-  },
-  {
-    nodeId: "contact",
-    logMessage: "Recorrido · Canales de contacto y próximos pasos",
-  },
-];
