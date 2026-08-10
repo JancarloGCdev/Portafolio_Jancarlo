@@ -397,7 +397,7 @@ export const SKILL_MODULES = [
 
 export const QUICK_LINKS = {
   github: "https://github.com/JancarloGCdev",
-  linkedin: "https://www.linkedin.com/in/jancarlo-gallon-cano",
+  linkedin: "https://www.linkedin.com/in/jancarlo-gc",
   email: "mailto:jancarlogallonc@gmail.com",
 };
 

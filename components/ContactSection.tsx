@@ -32,7 +32,7 @@ export function ContactSection() {
   const [imgError, setImgError] = useState(false);
 
   const email = profile.email || "jancarlogallonc@gmail.com";
-  const linkedinUrl = "https://www.linkedin.com/in/jancarlo-gallon-cano";
+  const linkedinUrl = "https://www.linkedin.com/in/jancarlo-gc";
   const githubUrl = "https://github.com/JancarloGCdev";
 
   const copyEmail = () => {
@@ -199,7 +199,7 @@ export function ContactSection() {
                         </span>
                       </div>
                       <div className="text-xs text-blue-100/90 font-mono">
-                        linkedin.com/in/jancarlo-gallon-cano
+                        linkedin.com/in/jancarlo-gc
                       </div>
                     </div>
                   </div>

@@ -119,7 +119,7 @@ export function HeroSection() {
                   <Github className="w-4 h-4" />
                 </a>
                 <a
-                  href="https://linkedin.com/in/jancarlo-gallon-cano"
+                  href="https://www.linkedin.com/in/jancarlo-gc"
                   target="_blank"
                   rel="noreferrer"
                   className="p-2.5 rounded-lg border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800 hover:text-cyan-400 text-zinc-400 transition-colors"

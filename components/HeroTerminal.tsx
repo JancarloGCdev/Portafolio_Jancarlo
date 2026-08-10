@@ -421,8 +421,8 @@ export function HeroTerminal() {
               </div>
               <div className="p-2.5 rounded bg-zinc-900 border border-zinc-800">
                 <span className="text-cyan-400 font-medium block text-[10px]">LINKEDIN:</span>
-                <a href="https://www.linkedin.com/in/jancarlo-gallon-cano" target="_blank" rel="noreferrer" className="text-zinc-200 hover:text-cyan-300 hover:underline truncate block font-mono">
-                  linkedin.com/in/jancarlo-gallon-cano
+                <a href="https://www.linkedin.com/in/jancarlo-gc" target="_blank" rel="noreferrer" className="text-zinc-200 hover:text-cyan-300 hover:underline truncate block font-mono">
+                  linkedin.com/in/jancarlo-gc
                 </a>
               </div>
               <div className="p-2.5 rounded bg-zinc-900 border border-zinc-800">

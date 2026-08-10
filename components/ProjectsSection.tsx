@@ -23,6 +23,7 @@ import {
   ChevronRight,
   ImageIcon,
   ExternalLink,
+  Linkedin,
 } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -751,16 +752,25 @@ export function ProjectsSection() {
           </div>
         </div>
 
-        {/* Action Link to Experience / Skills */}
+        {/* Action Link & Strategic LinkedIn CTA */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-6 flex flex-col sm:flex-row sm:items-center justify-between border-t border-zinc-800/80 text-xs text-zinc-500 font-mono gap-4">
-          <span>{locale === "es" ? "VOLVER A EXPERIENCIA" : "BACK TO EXPERIENCE"}</span>
-          <a
-            href="#experience"
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-zinc-900 border border-zinc-800 text-cyan-400 hover:text-cyan-300 hover:bg-zinc-800 font-sans font-semibold transition-all group shadow-sm shadow-cyan-950/20"
-          >
-            <span>{locale === "es" ? "Revisar experiencia profesional" : "Review work experience"}</span>
-            <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </a>
+          <div className="flex items-center gap-2 text-zinc-300">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+            <span>{locale === "es" ? "¿Tienes un proyecto o vacante en mente?" : "Have a project or open role in mind?"}</span>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <a
+              href="https://www.linkedin.com/in/jancarlo-gc"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-[#0077b5] to-[#005582] hover:from-[#006093] hover:to-[#004166] text-white font-sans font-bold text-xs transition-all shadow-md active:scale-95 group"
+            >
+              <Linkedin className="w-3.5 h-3.5 fill-current text-white" />
+              <span>{locale === "es" ? "Contactar por LinkedIn" : "Connect on LinkedIn"}</span>
+              <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
+          </div>
         </div>
       </div>
     </section>
