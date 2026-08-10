@@ -11,7 +11,6 @@ export const PROFILE = {
   status: "Open to new opportunities",
   focus: "Building high-performance web applications, structured backends with REST APIs, SQL database optimization, and maintainable code grounded in security best practices.",
   email: "jancarlogallonc@gmail.com",
-  phone: "+57 3014151748",
   languages: "Spanish (Native) · English (B1-B2 Conversational)",
 } as const;
 
@@ -68,80 +67,16 @@ export const EDUCATION: EducationRecord[] = [
 
 export const DEV_PROJECTS: DevProject[] = [
   {
-    id: "smart-school-reports",
-    name: "Smart School Reports",
-    type: "Intelligent Incident & Report Management Platform",
-    tagline: "AI-driven duplicate detection and automated incident clustering for academic institutions.",
-    image: "/projects/github-wordmark.avif",
-    features: [
-      "Automated NLP-based duplicate detection and grouping to prevent redundant operational workload.",
-      "Real-time ticket status lifecycle (Open, In Progress, Resolved) with role-based routing.",
-      "Administrative dashboard with filtering by severity, category, and institutional stakeholder.",
-      "Modular decoupled architecture connecting an intelligent processing engine to modern web views.",
-    ],
-    stack: ["Next.js", "React", "TypeScript", "Python / FastAPI", "PostgreSQL", "Tailwind CSS", "REST API"],
-    learned:
-      "Architected a solution tailored to real operational workflows, combining natural language processing with intuitive, user-centric interface design.",
-    links: [
-      {
-        label: "View on GitHub",
-        href: "https://github.com/JancarloGCdev",
-        variant: "github",
-      },
-    ],
-  },
-  {
-    id: "papertrail-commerce",
-    name: "PaperTrail Commerce (v2)",
-    type: "Full Stack Bookstore E-Commerce Platform",
-    tagline: "End-to-end digital commerce solution with dynamic catalog, shopping cart, and Strapi CMS management.",
-    image: "/projects/github-wordmark.avif",
-    features: [
-      "Interactive book storefront with multi-attribute filtering, live search, and optimized pagination.",
-      "Client-side cart state management and structured multi-step checkout workflow.",
-      "Headless CMS integration (Strapi) via REST APIs for dynamic inventory and editorial control.",
-      "Role-based access control separating customer accounts from administrative store operations.",
-    ],
-    stack: ["React", "Next.js", "TypeScript", "Strapi CMS", "REST API", "Tailwind CSS", "Git"],
-    learned:
-      "Reinforced modular frontend design patterns, decoupled API consumption, and full e-commerce transactional flows.",
-    links: [
-      {
-        label: "View on GitHub",
-        href: "https://github.com/JancarloGCdev/papertrailv2",
-        variant: "github",
-      },
-    ],
-  },
-  {
-    id: "solarbrain-techos",
-    name: "SolarBrain (TechosRentables)",
-    type: "Solar Asset Monitoring & Management Platform (Hackathon)",
-    tagline: "Operational analytics dashboard for commercial photovoltaic deployments and performance monitoring.",
-    image: "/projects/github-wordmark.avif",
-    features: [
-      "Real-time energy generation telemetry and executive KPI monitoring tiles.",
-      "Automated threshold alert system flagging photovoltaic output anomalies.",
-      "Exportable summary reports in PDF format for operational and client review.",
-      "Relational data modeling powered by PostgreSQL and Prisma ORM.",
-    ],
-    stack: ["Next.js", "React", "TypeScript", "Prisma", "PostgreSQL", "Tailwind CSS"],
-    learned:
-      "Rapid iterative development during a hackathon sprint, transforming field telemetry data into actionable executive insights.",
-    links: [
-      {
-        label: "View on GitHub",
-        href: "https://github.com/JancarloGCdev/TechosRentables-Proyecto",
-        variant: "github",
-      },
-    ],
-  },
-  {
     id: "portfolio-engineering",
     name: "Engineering Portfolio & Interactive CLI",
     type: "High-Performance Portfolio Landing with Interactive Linux Shell",
     tagline: "Commercial personal landing crafted with Next.js 15, React 19, TypeScript, GSAP, and manual i18n.",
-    image: "/projects/github-wordmark.avif",
+    image: "/projects/portfolio-engineering/preview.png",
+    images: [
+      "/projects/portfolio-engineering/1.png",
+      "/projects/portfolio-engineering/2.png",
+      "/projects/portfolio-engineering/3.png",
+    ],
     features: [
       "Interactive Linux terminal with simulated command execution and quick touch triggers.",
       "Cookie-based manual internationalization (ES / EN) with zero hydration flicker.",
@@ -160,11 +95,100 @@ export const DEV_PROJECTS: DevProject[] = [
     ],
   },
   {
+    id: "smart-school-reports",
+    name: "Smart School Reports",
+    type: "Intelligent Incident & Report Management Platform",
+    tagline: "AI-driven duplicate detection and automated incident clustering for academic institutions.",
+    image: "/projects/smart-school-reports/preview.png",
+    images: [
+      "/projects/smart-school-reports/1.png",
+      "/projects/smart-school-reports/2.png",
+      "/projects/smart-school-reports/3.png",
+    ],
+    features: [
+      "Automated NLP-based duplicate detection and grouping to prevent redundant operational workload.",
+      "Real-time ticket status lifecycle (Open, In Progress, Resolved) with role-based routing.",
+      "Administrative dashboard with filtering by severity, category, and institutional stakeholder.",
+      "Modular decoupled architecture connecting an intelligent processing engine to modern web views.",
+    ],
+    stack: ["Next.js", "React", "TypeScript", "Python / FastAPI", "PostgreSQL", "Tailwind CSS", "REST API"],
+    learned:
+      "Architected a solution tailored to real operational workflows, combining natural language processing with intuitive, user-centric interface design.",
+    links: [
+      {
+        label: "View on GitHub",
+        href: "https://github.com/JancarloGCdev/edufix-ai",
+        variant: "github",
+      },
+    ],
+  },
+  {
+    id: "solarbrain-techos",
+    name: "SolarBrain (TechosRentables)",
+    type: "Solar Asset Monitoring & Management Platform (Hackathon)",
+    tagline: "Operational analytics dashboard for commercial photovoltaic deployments and performance monitoring.",
+    image: "/projects/solarbrain-techos/preview.png",
+    images: [
+      "/projects/solarbrain-techos/1.png",
+      "/projects/solarbrain-techos/2.png",
+      "/projects/solarbrain-techos/3.png",
+    ],
+    features: [
+      "Real-time energy generation telemetry and executive KPI monitoring tiles.",
+      "Automated threshold alert system flagging photovoltaic output anomalies.",
+      "Exportable summary reports in PDF format for operational and client review.",
+      "Relational data modeling powered by PostgreSQL and Prisma ORM.",
+    ],
+    stack: ["Next.js", "React", "TypeScript", "Prisma", "PostgreSQL", "Tailwind CSS"],
+    learned:
+      "Rapid iterative development during a hackathon sprint, transforming field telemetry data into actionable executive insights.",
+    links: [
+      {
+        label: "View on GitHub",
+        href: "https://github.com/JancarloGCdev/TechosRentables-Proyecto",
+        variant: "github",
+      },
+    ],
+  },
+  {
+    id: "papertrail-commerce",
+    name: "PaperTrail Commerce (v2)",
+    type: "Full Stack Bookstore E-Commerce Platform",
+    tagline: "End-to-end digital commerce solution with dynamic catalog, shopping cart, and Strapi CMS management.",
+    image: "/projects/papertrail-commerce/preview.png",
+    images: [
+      "/projects/papertrail-commerce/1.png",
+      "/projects/papertrail-commerce/2.png",
+      "/projects/papertrail-commerce/3.png",
+    ],
+    features: [
+      "Interactive book storefront with multi-attribute filtering, live search, and optimized pagination.",
+      "Client-side cart state management and structured multi-step checkout workflow.",
+      "Headless CMS integration (Strapi) via REST APIs for dynamic inventory and editorial control.",
+      "Role-based access control separating customer accounts from administrative store operations.",
+    ],
+    stack: ["React", "Next.js", "TypeScript", "Strapi CMS", "REST API", "Tailwind CSS", "Git"],
+    learned:
+      "Reinforced modular frontend design patterns, decoupled API consumption, and full e-commerce transactional flows.",
+    links: [
+      {
+        label: "View on GitHub",
+        href: "https://github.com/JancarloGCdev/papertrailv2",
+        variant: "github",
+      },
+    ],
+  },
+  {
     id: "quine-mccluskey-simplifier",
     name: "Quine-McCluskey Logic Simplifier",
     type: "Algorithmic Circuit & Boolean Function Optimizer",
     tagline: "Python implementation for exact minimization and tabular reduction of digital logic functions.",
-    image: "/projects/github-wordmark.avif",
+    image: "/projects/quine-mccluskey-simplifier/preview.png",
+    images: [
+      "/projects/quine-mccluskey-simplifier/1.png",
+      "/projects/quine-mccluskey-simplifier/2.png",
+      "/projects/quine-mccluskey-simplifier/3.png",
+    ],
     features: [
       "Step-by-step tabular algorithmic computation of minterms and don't-care conditions.",
       "Modular architecture enabling clean prime implicant table generation and code reusability.",
@@ -176,7 +200,7 @@ export const DEV_PROJECTS: DevProject[] = [
     links: [
       {
         label: "View on GitHub",
-        href: "https://github.com/JancarloGCdev",
+        href: "https://github.com/JancarloGCdev/McCluskeyReductor",
         variant: "github",
       },
     ],
@@ -325,9 +349,8 @@ export const SKILL_MODULES = [
 
 export const CONTACT = {
   headline: "Have a technical challenge or an open position? Let's connect.",
-  sub: "I am available for Software Engineer and Full Stack Developer roles (remote or hybrid). Feel free to reach out directly via email, connect on LinkedIn, or review my projects on GitHub.",
+  sub: "I am available for Software Engineer and Full Stack Developer roles (remote or hybrid). My preferred channel for professional contact is LinkedIn, or you can email me directly.",
   email: "jancarlogallonc@gmail.com",
-  phone: "+57 3014151748",
   location: "Pereira, Risaralda, Colombia",
   links: [
     {

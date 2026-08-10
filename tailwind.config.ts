@@ -30,6 +30,15 @@ const config: Config = {
         "glow-strong": "0 0 36px rgba(34, 211, 238, 0.24)",
         "glow-emerald": "0 0 24px rgba(74, 222, 128, 0.15)",
       },
+      keyframes: {
+        'fade-in-up': {
+          '0%': { opacity: '0', transform: 'translateY(24px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        }
+      },
+      animation: {
+        'fade-in-up': 'fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+      }
     },
   },
   plugins: [],

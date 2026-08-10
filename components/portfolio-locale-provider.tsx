@@ -28,6 +28,7 @@ type ProfileSummary = {
   location: string;
   status: string;
   focus: string;
+  email?: string;
 };
 
 type SkillModule = { readonly title: string; readonly items: readonly string[] };

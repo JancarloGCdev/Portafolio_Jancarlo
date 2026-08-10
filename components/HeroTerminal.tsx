@@ -227,40 +227,67 @@ export function HeroTerminal() {
       case "projects":
         outputNode = (
           <div className="text-xs space-y-3">
-            <p className="text-zinc-400 text-[11px]">
+            <p className="text-zinc-400 text-[11px] font-mono">
               {locale === "es"
-                ? "Proyectos con arquitectura probada, código limpio y foco en resolver problemas de negocio:"
-                : "Projects demonstrating modular architecture, clean code, and business problem-solving:"}
+                ? `${devProjects.length} proyectos · arquitectura probada, código limpio y foco en resolver problemas de negocio:`
+                : `${devProjects.length} projects · proven architecture, clean code, and business problem-solving:`}
             </p>
-            {devProjects.map((proj) => (
-              <div key={proj.id} className="border-l-2 border-emerald-500/60 pl-3 py-1 bg-zinc-900/40 rounded-r space-y-1">
-                <div className="flex flex-wrap items-center justify-between gap-1">
-                  <span className="text-emerald-400 font-bold text-xs">{proj.name}</span>
-                  <span className="text-[10px] text-zinc-500 font-mono">
-                    {proj.links[0]?.href ? (
-                      <a href={proj.links[0].href} target="_blank" rel="noreferrer" className="text-cyan-400 hover:underline inline-flex items-center gap-0.5">
+            <div className="grid grid-cols-1 gap-2">
+              {devProjects.map((proj, pIdx) => (
+                <div
+                  key={proj.id}
+                  className="border border-zinc-800/80 rounded-lg bg-zinc-900/40 p-3 space-y-1.5 hover:border-zinc-700 transition-colors"
+                >
+                  {/* Header row */}
+                  <div className="flex flex-wrap items-start justify-between gap-1">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] font-mono text-zinc-600">
+                        {String(pIdx + 1).padStart(2, "0")}.
+                      </span>
+                      <span className="text-emerald-400 font-bold text-xs">{proj.name}</span>
+                    </div>
+                    {proj.links[0]?.href && (
+                      <a
+                        href={proj.links[0].href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-cyan-400 hover:underline inline-flex items-center gap-0.5 text-[10px] font-mono shrink-0"
+                      >
                         GitHub <ArrowUpRight className="w-2.5 h-2.5" />
                       </a>
-                    ) : null}
-                  </span>
+                    )}
+                  </div>
+                  {/* Type + tagline */}
+                  <div className="text-[10px] font-mono text-cyan-400/70">{proj.type}</div>
+                  <div className="text-[11px] text-zinc-300 leading-snug">{proj.tagline}</div>
+                  {/* Stack pills */}
+                  <div className="flex flex-wrap gap-1 pt-0.5">
+                    {proj.stack.slice(0, 4).map((s, i) => (
+                      <span
+                        key={i}
+                        className="px-1.5 py-0.5 text-[10px] rounded bg-zinc-950 text-zinc-400 border border-zinc-800 font-mono"
+                      >
+                        {s}
+                      </span>
+                    ))}
+                    {proj.stack.length > 4 && (
+                      <span className="text-[10px] text-zinc-600 font-mono py-0.5">
+                        +{proj.stack.length - 4}
+                      </span>
+                    )}
+                  </div>
                 </div>
-                <div className="text-zinc-200 text-[11px] font-medium leading-snug">{proj.tagline || proj.type}</div>
-                <ul className="text-[10.5px] text-zinc-400 space-y-0.5 mt-1">
-                  {proj.features.slice(0, 2).map((feat, fIdx) => (
-                    <li key={fIdx} className="flex items-start gap-1 leading-normal">
-                      <span className="text-emerald-400">›</span>
-                      <span>{feat}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="text-[10px] text-zinc-500 font-mono pt-0.5">
-                  <span className="text-cyan-400/80">Stack:</span> {proj.stack.join(" · ")}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            <p className="text-[10px] text-zinc-500 font-mono pt-1">
+              {locale === "es"
+                ? "→ Ver sección completa de proyectos para mockups y detalles técnicos."
+                : "→ See the full projects section for mockups and technical deep dives."}
+            </p>
           </div>
         );
         break;
+
 
       case "experience":
         outputNode = (
@@ -405,8 +432,8 @@ export function HeroTerminal() {
                 </a>
               </div>
               <div className="p-2.5 rounded bg-zinc-900 border border-zinc-800">
-                <span className="text-cyan-400 font-medium block text-[10px]">UBICACIÓN & TELÉFONO:</span>
-                <span className="text-zinc-300 block font-mono">Pereira, CO · +57 3014151748</span>
+                <span className="text-cyan-400 font-medium block text-[10px]">UBICACIÓN:</span>
+                <span className="text-zinc-300 block font-mono">Pereira, Risaralda, CO (Remoto / Híbrido)</span>
               </div>
             </div>
           </div>
