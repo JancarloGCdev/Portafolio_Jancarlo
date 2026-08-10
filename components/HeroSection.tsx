@@ -34,7 +34,7 @@ export function HeroSection() {
         }}
       />
 
-      <div className={`max-w-7xl w-full mx-auto flex flex-col gap-10 lg:gap-14 transition-opacity duration-700 ${mounted ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`max-w-6xl w-full mx-auto flex flex-col gap-10 lg:gap-14 transition-opacity duration-700 ${mounted ? 'opacity-100' : 'opacity-0'}`}>
         {/* =========================================================================
             STAGE 1 (DESKTOP & MOBILE): UNIFIED IDENTITY & PORTRAIT BLOCK
             [ FOTO (A LA IZQUIERDA) + NOMBRE / ROL / PROPUESTA / CTAs (A LA DERECHA) ]

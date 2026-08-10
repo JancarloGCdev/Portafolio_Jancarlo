@@ -74,7 +74,7 @@ export function ContactSection() {
         <div className="w-[900px] h-[900px] rounded-full bg-gradient-to-tr from-cyan-950/25 via-blue-950/20 to-transparent blur-[160px] opacity-70" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 lg:space-y-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 lg:space-y-16">
         {/* =========================================================================
             1. SECTION HEADER
            ========================================================================= */}

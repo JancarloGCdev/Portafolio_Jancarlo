@@ -58,7 +58,7 @@ export function AboutSection() {
         <div className="w-[800px] h-[800px] rounded-full bg-gradient-to-tr from-cyan-950/20 via-blue-950/15 to-transparent blur-[140px] opacity-60" />
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {/* =========================================================================
             1. SECTION HEADER (Ultra-compact, fits in 1 screen view)
            ========================================================================= */}
