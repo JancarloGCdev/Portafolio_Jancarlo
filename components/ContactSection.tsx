@@ -97,12 +97,6 @@ export function ContactSection() {
               </>
             )}
           </h2>
-
-          <p className="contact-anim text-sm sm:text-base text-zinc-400 leading-relaxed max-w-2xl mx-auto">
-            {locale === "es"
-              ? "Estoy disponible para incorporarme como Software Engineer o Full Stack Developer (remoto o híbrido). Mi canal preferido para mensajes profesionales es LinkedIn, o puedes enviarme un correo directo."
-              : "Available for Software Engineer and Full Stack Developer roles (remote or hybrid). My preferred contact channel for opportunities is LinkedIn, or you can send an email directly."}
-          </p>
         </div>
 
         {/* =========================================================================

@@ -4,16 +4,12 @@ import React, { useRef, useState, useCallback, useEffect } from "react";
 import { usePortfolio } from "@/components/portfolio-locale-provider";
 import { TechBadge } from "@/components/TechBadge";
 import {
-  Briefcase,
+  Building2,
   CheckCircle2,
-  ShieldCheck,
-  Terminal,
   Calendar,
   MapPin,
   ChevronLeft,
   ChevronRight,
-  Server,
-  Layers,
 } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -37,7 +33,6 @@ export function ExperienceSection() {
 
   const total = experiences.length;
 
-  // Center active experience card in exact middle of viewport (50vw)
   const goTo = useCallback(
     (idx: number) => {
       const clamped = Math.max(0, Math.min(idx, total - 1));
@@ -88,7 +83,6 @@ export function ExperienceSection() {
   const prev = useCallback(() => goTo(activeIdx - 1), [activeIdx, goTo]);
   const next = useCallback(() => goTo(activeIdx + 1), [activeIdx, goTo]);
 
-  // Initial positioning & window resize listener
   useEffect(() => {
     const handleResize = () => goTo(activeIdx);
     const timer = setTimeout(() => goTo(activeIdx), 50);
@@ -99,7 +93,6 @@ export function ExperienceSection() {
     };
   }, [activeIdx, goTo]);
 
-  // Keyboard navigation
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") prev();
@@ -109,7 +102,6 @@ export function ExperienceSection() {
     return () => window.removeEventListener("keydown", handleKey);
   }, [prev, next]);
 
-  // Touch & Mouse Drag handlers
   const onDragStart = (clientX: number) => {
     dragStartX.current = clientX;
     dragDelta.current = 0;
@@ -128,7 +120,6 @@ export function ExperienceSection() {
     else if (dragDelta.current > 45 && total > 1) prev();
   };
 
-  // Entrance reveal animations
   useGSAP(
     () => {
       const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -173,11 +164,11 @@ export function ExperienceSection() {
         <div className="w-[850px] h-[850px] rounded-full bg-gradient-to-tr from-cyan-950/20 via-emerald-950/10 to-transparent blur-[140px] opacity-60" />
       </div>
 
-      <div className="w-full max-w-6xl mx-auto space-y-8 lg:space-y-12">
+      <div className="w-full max-w-6xl mx-auto space-y-8 lg:space-y-10">
         {/* =========================================================================
             1. SECTION HEADER
            ========================================================================= */}
-        <div className="max-w-3xl space-y-4 mx-auto text-center px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl space-y-3 mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="exp-header-anim text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.15]">
             {locale === "es" ? (
               <>
@@ -200,8 +191,8 @@ export function ExperienceSection() {
 
           <p className="exp-header-anim text-sm sm:text-base text-zinc-400 leading-relaxed max-w-2xl mx-auto">
             {locale === "es"
-              ? "Evidencia de experiencia directa trabajando en sistemas empresariales críticos, optimizando lógica de negocio, bases de datos SQL y apoyando despliegues productivos."
-              : "Direct proof of building and maintaining business-critical systems, optimizing SQL database performance, and supporting production deployments."}
+              ? "Desarrollo de software empresarial, optimización de sistemas y mantenimiento en entornos productivos reales."
+              : "Building enterprise software, optimizing systems, and maintaining software in production."}
           </p>
         </div>
 
@@ -210,7 +201,7 @@ export function ExperienceSection() {
            ========================================================================= */}
         <div
           ref={viewportRef}
-          className="exp-carousel-viewport relative w-full overflow-hidden space-y-8 select-none"
+          className="exp-carousel-viewport relative w-full overflow-hidden space-y-6 select-none"
         >
           {/* Main Track Viewport */}
           <div
@@ -227,21 +218,11 @@ export function ExperienceSection() {
             {/* Sliding Track containing Experiences */}
             <div
               ref={trackRef}
-              className="flex items-stretch gap-6 md:gap-10 will-change-transform py-4"
+              className="flex items-stretch gap-6 md:gap-10 will-change-transform py-2"
             >
               {experiences.map((exp, idx) => {
                 const bullets = exp.bullets || [];
                 const stack = exp.stack || [];
-                const modalTakeaways =
-                  ((exp as Record<string, unknown>).modalTakeaways as string[]) || [
-                    "La reproducibilidad metódica y el registro riguroso de contexto reducen drásticamente los tiempos de resolución en entornos productivos.",
-                    "La validación temprana en bases de datos y la gestión estricta de permisos previenen incidentes recurrentes tras cada despliegue.",
-                  ];
-                const securityConsiderations =
-                  ((exp as Record<string, unknown>).securityConsiderations as string[]) || [
-                    "Principio de menor privilegio en credenciales de producción y ventanas controladas para despliegues.",
-                  ];
-
                 const isActive = activeIdx === idx;
 
                 return (
@@ -250,142 +231,76 @@ export function ExperienceSection() {
                     ref={(el) => {
                       cardsRef.current[idx] = el;
                     }}
-                    className="exp-slide-card shrink-0 w-[88vw] sm:w-[78vw] md:w-[68vw] lg:w-[60vw] max-w-4xl transition-all duration-300"
+                    className="exp-slide-card shrink-0 w-[88vw] sm:w-[78vw] md:w-[68vw] lg:w-[58vw] max-w-4xl transition-all duration-300"
                     style={{
                       opacity: isActive ? 1 : 0.45,
                       transform: isActive ? "scale(1)" : "scale(0.92)",
                     }}
                   >
-                    {/* High-Contrast Experience Card */}
-                    <div className="relative h-full rounded-2xl border border-zinc-700/80 bg-[#09111c]/95 backdrop-blur-2xl p-5 sm:p-8 lg:p-10 shadow-[0_25px_60px_rgba(0,0,0,0.9)] flex flex-col justify-between overflow-hidden group hover:border-zinc-500/80">
+                    {/* Compact & Attractive Experience Card */}
+                    <div className="relative h-full rounded-2xl border border-zinc-700/80 bg-[#09111c]/95 backdrop-blur-2xl p-6 sm:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.8)] flex flex-col justify-between overflow-hidden group hover:border-zinc-500/80 space-y-5">
                       {/* Top cyan glow line */}
                       <div className="pointer-events-none absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
 
-                      {/* MEMORABLE VISUAL ELEMENT: Production Telemetry & Timeline Indicator Bar */}
-                      <div className="flex items-center justify-between pb-4 mb-6 border-b border-zinc-800/80 font-mono text-xs">
-                        <div className="flex items-center gap-2">
-                          <span className="relative flex h-2.5 w-2.5">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
-                          </span>
-                          <span className="text-emerald-400 font-bold text-[11px] tracking-wide">
-                            {locale === "es" ? "ENTORNO PRODUCTIVO ACTIVO" : "LIVE PRODUCTION SYSTEM"}
-                          </span>
+                      {/* Header: Company Logo, Role, Period & Location */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-zinc-800/80">
+                        <div className="flex items-center gap-3.5">
+                          <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-950 to-zinc-900 border border-cyan-500/40 flex items-center justify-center text-cyan-400 font-bold shadow-md shrink-0">
+                            <Building2 className="w-5.5 h-5.5 text-cyan-400" />
+                          </div>
+                          <div className="space-y-0.5">
+                            <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+                              {exp.role}
+                            </h3>
+                            <p className="text-sm font-bold text-cyan-400">
+                              {exp.company}
+                            </p>
+                          </div>
                         </div>
 
-                        <div className="flex items-center gap-3 text-zinc-500 text-[10px]">
-                          <span className="hidden sm:inline-flex items-center gap-1">
-                            <Server className="w-3 h-3 text-cyan-400" /> SLA_UPTIME: 99.9%
-                          </span>
-                          <span className="bg-zinc-900 border border-zinc-800 text-zinc-400 px-2 py-0.5 rounded font-bold">
-                            {String(idx + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
-                          </span>
+                        <div className="flex flex-col sm:items-end gap-1 text-xs font-mono text-zinc-400 shrink-0">
+                          <div className="flex items-center gap-1.5 px-3 py-1 rounded-md bg-zinc-900/90 border border-zinc-800 text-zinc-200">
+                            <Calendar className="w-3.5 h-3.5 text-cyan-400" />
+                            <span>{exp.period}</span>
+                          </div>
+                          <div className="flex items-center gap-1 text-zinc-400 text-[11px]">
+                            <MapPin className="w-3 h-3 text-zinc-500" />
+                            <span>{exp.location}</span>
+                          </div>
                         </div>
                       </div>
 
-                      {/* 5-SECOND RECRUITER CHECK: Role, Company, Period */}
-                      <div className="space-y-6">
-                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-zinc-800/80">
-                          <div className="space-y-1.5">
-                            <div className="flex flex-wrap items-center gap-2.5">
-                              <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                                {exp.role}
-                              </h3>
-                            </div>
-                            <div className="flex items-center gap-2 text-base font-bold text-cyan-400">
-                              <Briefcase className="w-4 h-4 text-cyan-400" />
-                              <span>{exp.company}</span>
-                            </div>
-                          </div>
+                      {/* Brief Summary Context */}
+                      <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-medium">
+                        {exp.summary}
+                      </p>
 
-                          <div className="flex flex-col sm:items-end gap-1.5 text-xs font-mono text-zinc-400 shrink-0">
-                            <div className="flex items-center gap-1.5 px-3 py-1 rounded-md bg-zinc-900/90 border border-zinc-800 text-zinc-200">
-                              <Calendar className="w-3.5 h-3.5 text-cyan-400" />
-                              <span>{exp.period}</span>
+                      {/* Key Impact Bullet Points */}
+                      <div className="space-y-2">
+                        <span className="text-[11px] font-mono uppercase tracking-widest text-zinc-400 font-bold block">
+                          {locale === "es" ? "Aportes & Logros Clave:" : "Key Contributions:"}
+                        </span>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-xs text-zinc-300">
+                          {bullets.slice(0, 4).map((bullet, bIdx) => (
+                            <div
+                              key={bIdx}
+                              className="flex items-start gap-2.5 p-2.5 rounded-lg bg-zinc-900/60 border border-zinc-800/80 leading-relaxed"
+                            >
+                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                              <span>{bullet}</span>
                             </div>
-                            <div className="flex items-center gap-1.5 text-zinc-400 text-[11px] px-1">
-                              <MapPin className="w-3.5 h-3.5 text-zinc-500" />
-                              <span>{exp.location}</span>
-                            </div>
-                          </div>
+                          ))}
                         </div>
+                      </div>
 
-                        {/* Brief Summary Context */}
-                        <div className="p-4 rounded-xl bg-[#060b13]/80 border border-zinc-800/90 text-sm text-zinc-300 leading-relaxed font-medium">
-                          {exp.summary}
-                        </div>
-
-                        {/* Core Grid: Left (Impact Bullet Points) + Right (Production Criteria) */}
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-                          {/* LEFT: Impact & Responsibilities */}
-                          <div className="lg:col-span-7 space-y-3">
-                            <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 block font-bold">
-                              {locale === "es"
-                                ? "Impacto Operativo & Responsabilidades:"
-                                : "Operational Impact & Responsibilities:"}
-                            </span>
-                            <div className="space-y-2 text-xs text-zinc-300">
-                              {bullets.map((bullet, bIdx) => (
-                                <div
-                                  key={bIdx}
-                                  className="flex items-start gap-2.5 p-2.5 rounded-lg bg-zinc-900/60 border border-zinc-800/80 leading-relaxed"
-                                >
-                                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                                  <span>{bullet}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-
-                          {/* RIGHT: Production Criteria & Security */}
-                          <div className="lg:col-span-5 space-y-3">
-                            <div className="p-4 rounded-xl bg-gradient-to-b from-[#070d18] to-zinc-900/40 border border-zinc-800 space-y-3">
-                              <div className="flex items-center justify-between pb-2 border-b border-zinc-800/80 font-mono text-xs">
-                                <span className="font-bold text-white flex items-center gap-1.5 text-[11px]">
-                                  <Terminal className="w-3.5 h-3.5 text-cyan-400" />
-                                  {locale === "es" ? "Criterio en Producción" : "Production Mindset"}
-                                </span>
-                                <span className="text-[10px] text-cyan-400 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-500/30">
-                                  SLA_STABLE
-                                </span>
-                              </div>
-
-                              <div className="space-y-2 text-[11px] text-zinc-300 leading-normal">
-                                {modalTakeaways.map((takeaway, tIdx) => (
-                                  <div key={tIdx} className="flex items-start gap-2">
-                                    <span className="text-cyan-400 font-mono font-bold text-xs">0{tIdx + 1}.</span>
-                                    <p className="text-zinc-300">{takeaway}</p>
-                                  </div>
-                                ))}
-                              </div>
-
-                              {securityConsiderations && securityConsiderations.length > 0 && (
-                                <div className="pt-2 border-t border-zinc-800/60 flex items-start gap-2 text-[10.5px] text-zinc-400">
-                                  <ShieldCheck className="w-3.5 h-3.5 text-purple-400 shrink-0 mt-0.5" />
-                                  <span>
-                                    <strong className="text-zinc-200">
-                                      {locale === "es" ? "Seguridad:" : "Security:"}
-                                    </strong>{" "}
-                                    {securityConsiderations[0]}
-                                  </span>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Full-Width Container for Tech Stack & Tools with Official Brand Logos */}
-                        <div className="pt-4 border-t border-zinc-800/80 space-y-2.5 bg-[#060b13]/60 p-4 rounded-xl border border-zinc-800/90">
-                          <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-400 block font-bold flex items-center gap-1.5">
-                            <Layers className="w-3.5 h-3.5 text-cyan-400" />
-                            {locale === "es" ? "Herramientas & Entorno de Trabajo:" : "Tools & Operating Environment:"}
-                          </span>
-                          <div className="flex flex-wrap gap-2">
-                            {stack.map((tech, sIdx) => (
-                              <TechBadge key={sIdx} tech={tech} size="md" />
-                            ))}
-                          </div>
-                        </div>
+                      {/* Tech Stack & Tools Badges */}
+                      <div className="pt-3 border-t border-zinc-800/80 flex flex-wrap items-center gap-2">
+                        <span className="text-[11px] font-mono uppercase tracking-widest text-cyan-400 font-bold mr-1">
+                          {locale === "es" ? "Tecnologías:" : "Technologies:"}
+                        </span>
+                        {stack.map((tech, sIdx) => (
+                          <TechBadge key={sIdx} tech={tech} size="sm" />
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -394,42 +309,38 @@ export function ExperienceSection() {
             </div>
           </div>
 
-          {/* =========================================================================
-              3. CAROUSEL CONTROLS BAR (Only active if > 1 experience, or indicator)
-             ========================================================================= */}
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 pt-2">
-            {/* Dots / Indicators */}
-            <div className="flex items-center gap-2">
-              {experiences.map((_, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => goTo(idx)}
-                  aria-label={`Go to experience ${idx + 1}`}
-                  className={`transition-all duration-300 rounded-full ${activeIdx === idx
-                      ? "w-7 h-2.5 bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)]"
-                      : "w-2 h-2 bg-zinc-700 hover:bg-zinc-500"
-                    }`}
-                />
-              ))}
-            </div>
+          {/* Controls Bar */}
+          {total > 1 && (
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 pt-2">
+              <div className="flex items-center gap-2">
+                {experiences.map((_, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => goTo(idx)}
+                    aria-label={`Go to experience ${idx + 1}`}
+                    className={`transition-all duration-300 rounded-full ${activeIdx === idx
+                        ? "w-7 h-2.5 bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)]"
+                        : "w-2 h-2 bg-zinc-700 hover:bg-zinc-500"
+                      }`}
+                  />
+                ))}
+              </div>
 
-            {/* Navigation Arrows & Counter */}
-            <div className="flex items-center gap-3 font-mono text-xs text-zinc-400">
-              <span>
-                <strong className="text-white">{String(activeIdx + 1).padStart(2, "0")}</strong> / {String(total).padStart(2, "0")}
-              </span>
+              <div className="flex items-center gap-3 font-mono text-xs text-zinc-400">
+                <span>
+                  <strong className="text-white">{String(activeIdx + 1).padStart(2, "0")}</strong> / {String(total).padStart(2, "0")}
+                </span>
 
-              {total > 1 && (
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
                     onClick={prev}
                     disabled={activeIdx === 0}
                     aria-label="Previous experience"
-                    className="w-10 h-10 rounded-full border border-zinc-700/80 bg-zinc-900 text-zinc-200 flex items-center justify-center hover:bg-cyan-950 hover:border-cyan-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95 shadow-md"
+                    className="w-9 h-9 rounded-full border border-zinc-700/80 bg-zinc-900 text-zinc-200 flex items-center justify-center hover:bg-cyan-950 hover:border-cyan-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95 shadow-md"
                   >
-                    <ChevronLeft className="w-5 h-5" />
+                    <ChevronLeft className="w-4 h-4" />
                   </button>
 
                   <button
@@ -437,16 +348,17 @@ export function ExperienceSection() {
                     onClick={next}
                     disabled={activeIdx === total - 1}
                     aria-label="Next experience"
-                    className="w-10 h-10 rounded-full border border-zinc-700/80 bg-zinc-900 text-zinc-200 flex items-center justify-center hover:bg-cyan-950 hover:border-cyan-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95 shadow-md"
+                    className="w-9 h-9 rounded-full border border-zinc-700/80 bg-zinc-900 text-zinc-200 flex items-center justify-center hover:bg-cyan-950 hover:border-cyan-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95 shadow-md"
                   >
-                    <ChevronRight className="w-5 h-5" />
+                    <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
-              )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </section>
   );
 }
+
