@@ -7,7 +7,6 @@ import { TechBadge } from "@/components/TechBadge";
 import {
   ArrowUpRight,
   Sparkles,
-  CheckCircle2,
   Github,
   Activity,
   ShoppingCart,
@@ -538,7 +537,7 @@ export function ProjectsSection() {
     <section
       ref={containerRef}
       id="projects"
-      className="relative w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#050b14] border-t border-zinc-900/80 overflow-hidden"
+      className="relative w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 border-t border-zinc-900/80 overflow-hidden"
     >
       {/* Background Ambient Glow & Shapes */}
       <div className="proj-bg-glow pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden">

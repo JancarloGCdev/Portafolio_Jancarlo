@@ -159,7 +159,7 @@ export function SkillsSection() {
     <section
       ref={containerRef}
       id="skills"
-      className="relative w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#050b14] border-t border-zinc-900/80 overflow-hidden"
+      className="relative w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 border-t border-zinc-900/80 overflow-hidden"
     >
       {/* Background ambient lighting & floating elements */}
       <div className="skills-bg-glow pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden">
