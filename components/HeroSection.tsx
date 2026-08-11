@@ -26,7 +26,7 @@ export function HeroSection() {
       </div>
 
       {/* Subtle background grid */}
-      <div 
+      <div
         className="pointer-events-none absolute inset-0 -z-10 opacity-[0.03] [mask-image:radial-gradient(ellipse_at_center,white,transparent_75%)]"
         style={{
           backgroundImage: `linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)`,
@@ -80,8 +80,8 @@ export function HeroSection() {
             {/* 4. Commercial Value Proposition */}
             <p className="text-sm sm:text-base text-zinc-300 leading-relaxed max-w-2xl mb-5">
               {locale === "es"
-                ? "Desarrollo aplicaciones web modernas, arquitecturas backend y productos full stack con Next.js, React, TypeScript, .NET (C#) y Python. Experiencia en producción empresarial, optimización de base de datos SQL y enfoque de ingeniería respaldado por formación en Cloud, AI y Ciberseguridad."
-                : "I build modern web applications, scalable backend architectures, and full-stack products using Next.js, React, TypeScript, .NET (C#), and Python. Backed by production enterprise experience, SQL database tuning, and engineering training in Cloud, AI, and Cybersecurity."}
+                ? "Soy Ingeniero de Sistemas y Computación (UTP) y Técnico en Desarrollo de Software (SENA). Me especializo en construir soluciones de software de alto impacto integrando desarrollo Full Stack (Next.js, React, TypeScript, .NET, Python), Inteligencia Artificial, LLMs, arquitecturas de datos y sistemas en producción. Combino rigor de ingeniería, aprendizaje continuo y adaptabilidad para resolver problemas reales."
+                : "Systems & Computer Engineer (UTP) and Software Development Technician (SENA). Specialized in building high-impact software combining Full Stack engineering (Next.js, React, TypeScript, .NET, Python), Artificial Intelligence, LLM integration, data architectures, and production systems. Combining technical rigor, continuous learning, and fast adaptability to solve real-world challenges."}
             </p>
 
             {/* MOBILE ONLY: Natural order in mobile (Photo appears right after value proposition) */}

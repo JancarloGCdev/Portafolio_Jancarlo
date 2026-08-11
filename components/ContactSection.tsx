@@ -4,7 +4,6 @@ import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { usePortfolio } from "@/components/portfolio-locale-provider";
 import {
-  MessageSquare,
   Mail,
   Linkedin,
   Github,
@@ -67,27 +66,18 @@ export function ContactSection() {
     <section
       ref={containerRef}
       id="contact"
-      className="relative w-full py-16 sm:py-24 lg:py-32 bg-[#050b14] border-t border-zinc-900/80 overflow-hidden select-none"
+      className="relative w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#050b14] border-t border-zinc-900/80 overflow-hidden select-none"
     >
       {/* Ambient background light */}
       <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden">
         <div className="w-[900px] h-[900px] rounded-full bg-gradient-to-tr from-cyan-950/25 via-blue-950/20 to-transparent blur-[160px] opacity-70" />
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 lg:space-y-16">
+      <div className="max-w-6xl w-full mx-auto space-y-12 lg:space-y-16">
         {/* =========================================================================
             1. SECTION HEADER
            ========================================================================= */}
         <div className="max-w-3xl space-y-4 mx-auto text-center">
-          <div className="contact-anim inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 text-[11px] font-mono text-cyan-400 tracking-wider uppercase shadow-[0_0_15px_rgba(34,211,238,0.1)]">
-            <MessageSquare className="w-3.5 h-3.5 text-cyan-400" />
-            <span>
-              {locale === "es"
-                ? "05. Contacto Directo & Oportunidades"
-                : "05. Direct Contact & Opportunities"}
-            </span>
-          </div>
-
           <h2 className="contact-anim text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.15]">
             {locale === "es" ? (
               <>
@@ -118,7 +108,7 @@ export function ContactSection() {
         {/* =========================================================================
             2. MAIN CONTACT CARD: PORTRAIT PHOTO + HIGH-CONVERTING CTA
            ========================================================================= */}
-        <div className="contact-anim max-w-5xl mx-auto rounded-3xl border border-zinc-700/80 bg-[#09111c]/95 backdrop-blur-2xl p-6 sm:p-10 lg:p-12 shadow-[0_25px_60px_rgba(0,0,0,0.9)] relative overflow-hidden">
+        <div className="contact-anim w-full mx-auto rounded-3xl border border-zinc-700/80 bg-[#09111c]/95 backdrop-blur-2xl p-6 sm:p-10 lg:p-12 shadow-[0_25px_60px_rgba(0,0,0,0.9)] relative overflow-hidden">
           {/* Subtle top glowing border line */}
           <div className="pointer-events-none absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
 
@@ -281,9 +271,6 @@ export function ContactSection() {
           <div className="flex items-center gap-4">
             <a href="#hero" className="hover:text-cyan-400 transition-colors">
               {locale === "es" ? "Inicio" : "Top"}
-            </a>
-            <a href="#about" className="hover:text-cyan-400 transition-colors">
-              {locale === "es" ? "Sobre mí" : "About"}
             </a>
             <a href="#experience" className="hover:text-cyan-400 transition-colors">
               {locale === "es" ? "Experiencia" : "Experience"}

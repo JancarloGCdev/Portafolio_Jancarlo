@@ -15,7 +15,7 @@ export const PROFILE = {
 } as const;
 
 export const DEFAULT_ABOUT_PARAGRAPHS_EN = [
-  "I am a Systems and Computer Engineering student at Universidad Tecnológica de Pereira (UTP) and a Software Development Technician from SENA. I have professional full-stack experience maintaining and scaling business-critical production applications using .NET (C#), Blazor Server, and SQL Server at Outsourcing S.A.S. BIC.",
+  "I am a Systems and Computer Engineer from Universidad Tecnológica de Pereira (UTP) and a Software Development Technician from SENA. Experienced in full-stack engineering with a strong focus on Artificial Intelligence, LLM integration, and data solutions that drive real commercial value.",
   "I specialize in architecting and delivering full-stack web products with Next.js, React, TypeScript, Python, and Tailwind CSS—implementing clean modular architectures, resilient REST API integrations, secure authentication, and relational data modeling with SQL Server and PostgreSQL.",
   "I complement my development background with networking and computer security coursework from Cisco (CCNA: Introduction to Networks) and Google, paired with problem-solving and decision-making training from UC Irvine. I communicate fluently in conversational English (B1-B2) and thrive in collaborative, delivery-oriented teams.",
 ] as const;

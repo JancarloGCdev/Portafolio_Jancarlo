@@ -10,13 +10,10 @@ import {
   Terminal,
   Calendar,
   MapPin,
-  ArrowRight,
   ChevronLeft,
   ChevronRight,
   Server,
   Layers,
-  Linkedin,
-  Sparkles,
 } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -169,42 +166,33 @@ export function ExperienceSection() {
     <section
       ref={containerRef}
       id="experience"
-      className="relative w-full py-16 sm:py-24 lg:py-32 bg-[#050b14] border-t border-zinc-900/80 overflow-hidden"
+      className="relative w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#050b14] border-t border-zinc-900/80 overflow-hidden"
     >
       {/* Background ambient lighting */}
       <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden">
         <div className="w-[850px] h-[850px] rounded-full bg-gradient-to-tr from-cyan-950/20 via-emerald-950/10 to-transparent blur-[140px] opacity-60" />
       </div>
 
-      <div className="w-full space-y-10 lg:space-y-14">
+      <div className="w-full max-w-6xl mx-auto space-y-8 lg:space-y-12">
         {/* =========================================================================
             1. SECTION HEADER
            ========================================================================= */}
-        <div className="max-w-3xl space-y-4 mx-auto text-center px-4 sm:px-6">
-          <div className="exp-header-anim inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 text-[11px] font-mono text-cyan-400 tracking-wider uppercase shadow-[0_0_15px_rgba(34,211,238,0.1)]">
-            <Briefcase className="w-3.5 h-3.5 text-cyan-400" />
-            <span>
-              {locale === "es"
-                ? `02. Experiencia Profesional & Sistemas en Producción`
-                : `02. Work Experience & Production Systems`}
-            </span>
-          </div>
-
+        <div className="max-w-3xl space-y-4 mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="exp-header-anim text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.15]">
             {locale === "es" ? (
               <>
-                Software en producción real:{" "}
+                Experiencia que se traduce en{" "}
                 <br className="hidden sm:block" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 drop-shadow-sm">
-                  estabilidad, soporte SLA y rigor de ingeniería.
+                  resultados y estabilidad.
                 </span>
               </>
             ) : (
               <>
-                Enterprise production software:{" "}
+                Experience that translates to{" "}
                 <br className="hidden sm:block" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 drop-shadow-sm">
-                  reliability, SLA support, and technical rigor.
+                  stability and results.
                 </span>
               </>
             )}
@@ -409,7 +397,7 @@ export function ExperienceSection() {
           {/* =========================================================================
               3. CAROUSEL CONTROLS BAR (Only active if > 1 experience, or indicator)
              ========================================================================= */}
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4 pt-2">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 pt-2">
             {/* Dots / Indicators */}
             <div className="flex items-center gap-2">
               {experiences.map((_, idx) => (
@@ -418,11 +406,10 @@ export function ExperienceSection() {
                   type="button"
                   onClick={() => goTo(idx)}
                   aria-label={`Go to experience ${idx + 1}`}
-                  className={`transition-all duration-300 rounded-full ${
-                    activeIdx === idx
+                  className={`transition-all duration-300 rounded-full ${activeIdx === idx
                       ? "w-7 h-2.5 bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)]"
                       : "w-2 h-2 bg-zinc-700 hover:bg-zinc-500"
-                  }`}
+                    }`}
                 />
               ))}
             </div>
@@ -457,27 +444,6 @@ export function ExperienceSection() {
                 </div>
               )}
             </div>
-          </div>
-        </div>
-
-        {/* Action Link & Strategic LinkedIn CTA */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-6 flex flex-col sm:flex-row sm:items-center justify-between border-t border-zinc-800/80 text-xs text-zinc-500 font-mono gap-4">
-          <div className="flex items-center gap-2 text-zinc-300">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-            <span>{locale === "es" ? "¿Buscas este nivel de resolución en tu equipo?" : "Looking for this level of execution in your team?"}</span>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <a
-              href="https://www.linkedin.com/in/jancarlo-gc"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-[#0077b5] to-[#005582] hover:from-[#006093] hover:to-[#004166] text-white font-sans font-bold text-xs transition-all shadow-md active:scale-95 group"
-            >
-              <Linkedin className="w-3.5 h-3.5 fill-current text-white" />
-              <span>{locale === "es" ? "Contactar por LinkedIn" : "Connect on LinkedIn"}</span>
-              <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-            </a>
           </div>
         </div>
       </div>

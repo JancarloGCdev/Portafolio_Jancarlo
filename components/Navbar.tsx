@@ -8,7 +8,6 @@ export function Navbar() {
   const { profile, locale } = usePortfolio();
 
   const navLabels = {
-    about: locale === "es" ? "Sobre mí" : "About",
     experience: locale === "es" ? "Experiencia" : "Experience",
     projects: locale === "es" ? "Proyectos" : "Projects",
     skills: locale === "es" ? "Skills" : "Skills",
@@ -27,7 +26,6 @@ export function Navbar() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-400">
-          <a href="#about" className="hover:text-cyan-400 transition-colors">{navLabels.about}</a>
           <a href="#experience" className="hover:text-cyan-400 transition-colors">{navLabels.experience}</a>
           <a href="#projects" className="hover:text-cyan-400 transition-colors">{navLabels.projects}</a>
           <a href="#skills" className="hover:text-cyan-400 transition-colors">{navLabels.skills}</a>
@@ -42,7 +40,6 @@ export function Navbar() {
       {/* Mobile Links Navigation */}
       <div className="md:hidden border-t border-zinc-800/50 bg-[#050b14]/95 px-4 py-2">
         <div className="flex flex-wrap gap-4 text-xs font-medium text-zinc-400 justify-center">
-          <a href="#about" className="hover:text-cyan-400 transition-colors">{navLabels.about}</a>
           <a href="#experience" className="hover:text-cyan-400 transition-colors">{navLabels.experience}</a>
           <a href="#projects" className="hover:text-cyan-400 transition-colors">{navLabels.projects}</a>
           <a href="#skills" className="hover:text-cyan-400 transition-colors">{navLabels.skills}</a>

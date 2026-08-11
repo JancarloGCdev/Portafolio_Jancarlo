@@ -5,7 +5,6 @@ import { usePortfolio } from "@/components/portfolio-locale-provider";
 import type { DevProject } from "@/lib/data";
 import { TechBadge } from "@/components/TechBadge";
 import {
-  FolderGit2,
   ArrowUpRight,
   Sparkles,
   CheckCircle2,
@@ -23,7 +22,6 @@ import {
   ChevronRight,
   ImageIcon,
   ExternalLink,
-  Linkedin,
 } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -341,11 +339,10 @@ function ProjectScreenshotGallery({ project, locale }: { project: DevProject; lo
                 type="button"
                 onClick={() => setCurrentSlide(idx)}
                 aria-label={`Slide ${idx}`}
-                className={`transition-all duration-200 rounded-full ${
-                  currentSlide === idx
+                className={`transition-all duration-200 rounded-full ${currentSlide === idx
                     ? "w-4 h-1.5 bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.6)]"
                     : "w-1.5 h-1.5 bg-zinc-700 hover:bg-zinc-500"
-                }`}
+                  }`}
               />
             ))}
           </div>
@@ -502,27 +499,18 @@ export function ProjectsSection() {
     <section
       ref={containerRef}
       id="projects"
-      className="relative w-full py-16 sm:py-24 lg:py-32 bg-[#050b14] border-t border-zinc-900/80 overflow-hidden"
+      className="relative w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#050b14] border-t border-zinc-900/80 overflow-hidden"
     >
       {/* Background Ambient Glow */}
       <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden">
         <div className="w-[900px] h-[900px] rounded-full bg-gradient-to-tr from-cyan-950/20 via-purple-950/10 to-transparent blur-[160px] opacity-60" />
       </div>
 
-      <div className="w-full space-y-10 lg:space-y-14">
+      <div className="w-full max-w-6xl mx-auto space-y-8 lg:space-y-12">
         {/* =========================================================================
             1. SECTION HEADER
            ========================================================================= */}
-        <div className="max-w-3xl space-y-4 mx-auto text-center px-4 sm:px-6">
-          <div className="proj-header-anim inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 text-[11px] font-mono text-cyan-400 tracking-wider uppercase shadow-[0_0_15px_rgba(34,211,238,0.1)]">
-            <FolderGit2 className="w-3.5 h-3.5 text-cyan-400" />
-            <span>
-              {locale === "es"
-                ? `03. Proyectos Seleccionados · ${total} Productos Reales`
-                : `03. Selected Projects · ${total} Shipped Products`}
-            </span>
-          </div>
-
+        <div className="max-w-3xl space-y-4 mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="proj-header-anim text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.15]">
             {locale === "es" ? (
               <>
@@ -703,7 +691,7 @@ export function ProjectsSection() {
           {/* =========================================================================
               3. CAROUSEL CONTROLS BAR [ ← ] [ Dots / Counter ] [ → ]
              ========================================================================= */}
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4 pt-2">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 pt-2">
             {/* Dots */}
             <div className="flex items-center gap-2">
               {devProjects.map((_, idx) => (
@@ -712,11 +700,10 @@ export function ProjectsSection() {
                   type="button"
                   onClick={() => goTo(idx)}
                   aria-label={`Go to project ${idx + 1}`}
-                  className={`transition-all duration-300 rounded-full ${
-                    activeIdx === idx
+                  className={`transition-all duration-300 rounded-full ${activeIdx === idx
                       ? "w-7 h-2.5 bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)]"
                       : "w-2 h-2 bg-zinc-700 hover:bg-zinc-500"
-                  }`}
+                    }`}
                 />
               ))}
             </div>
@@ -749,27 +736,6 @@ export function ProjectsSection() {
                 </button>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Action Link & Strategic LinkedIn CTA */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-6 flex flex-col sm:flex-row sm:items-center justify-between border-t border-zinc-800/80 text-xs text-zinc-500 font-mono gap-4">
-          <div className="flex items-center gap-2 text-zinc-300">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-            <span>{locale === "es" ? "¿Tienes un proyecto o vacante en mente?" : "Have a project or open role in mind?"}</span>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <a
-              href="https://www.linkedin.com/in/jancarlo-gc"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-[#0077b5] to-[#005582] hover:from-[#006093] hover:to-[#004166] text-white font-sans font-bold text-xs transition-all shadow-md active:scale-95 group"
-            >
-              <Linkedin className="w-3.5 h-3.5 fill-current text-white" />
-              <span>{locale === "es" ? "Contactar por LinkedIn" : "Connect on LinkedIn"}</span>
-              <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
           </div>
         </div>
       </div>

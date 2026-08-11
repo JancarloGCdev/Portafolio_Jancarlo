@@ -3,15 +3,12 @@
 import React, { useRef } from "react";
 import { usePortfolio } from "@/components/portfolio-locale-provider";
 import {
-  UserCheck,
-  Zap,
-  ShieldCheck,
   Code2,
   CheckCircle2,
-  Linkedin,
   ArrowUpRight,
-  Sparkles,
   Layers,
+  Sparkles,
+  Briefcase,
 } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -51,164 +48,155 @@ export function AboutSection() {
     <section
       ref={containerRef}
       id="about"
-      className="relative w-full py-12 sm:py-16 bg-[#050b14] border-t border-zinc-900/80 overflow-hidden select-none"
+      className="relative w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#050b14] border-t border-zinc-900/80 overflow-hidden select-none"
     >
       {/* Background ambient lighting */}
       <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden">
         <div className="w-[800px] h-[800px] rounded-full bg-gradient-to-tr from-cyan-950/20 via-blue-950/15 to-transparent blur-[140px] opacity-60" />
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      <div className="max-w-6xl w-full mx-auto space-y-6">
         {/* =========================================================================
-            1. SECTION HEADER (Ultra-compact, fits in 1 screen view)
+            1. SECTION HEADER: HUMAN, DIRECT & MEMORABLE
            ========================================================================= */}
-        <div className="about-single-anim flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-          <div className="space-y-1.5">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-cyan-400 tracking-wider uppercase">
-              <UserCheck className="w-3 h-3 text-cyan-400" />
-              <span>{locale === "es" ? "01. Perfil de Ingeniería" : "01. Engineering Profile"}</span>
-            </div>
+        <div className="about-single-anim max-w-3xl space-y-4 mx-auto text-center px-4 sm:px-6 mb-10">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.15]">
+            {locale === "es" ? (
+              <>
+                Construyo software que{" "}
+                <br className="hidden sm:block" />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 drop-shadow-sm">
+                  resuelve problemas reales.
+                </span>
+              </>
+            ) : (
+              <>
+                Building software that{" "}
+                <br className="hidden sm:block" />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 drop-shadow-sm">
+                  solves real-world problems.
+                </span>
+              </>
+            )}
+          </h2>
 
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-              {locale === "es" ? (
-                <>
-                  Resumen Ejecutivo &{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-300">
-                    Propuesta de Valor
-                  </span>
-                </>
-              ) : (
-                <>
-                  Executive Summary &{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-300">
-                    Value Proposition
-                  </span>
-                </>
-              )}
-            </h2>
-          </div>
-
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 font-mono text-[11px] font-semibold">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>{locale === "es" ? "Disponible para Contratación" : "Available for Hire"}</span>
-          </div>
+          <p className="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-2xl mx-auto">
+            {locale === "es"
+              ? "Más allá del lenguaje o el framework, me enfoco en entender el reto técnico, adaptarme al contexto y entregar soluciones sólidas que generen valor."
+              : "Beyond frameworks or languages, I focus on understanding the technical challenge, adapting to the context, and delivering solid solutions that drive value."}
+          </p>
         </div>
 
         {/* =========================================================================
-            2. UNIFIED SINGLE MASTER CONTAINER (Fits in 1 Screen View)
+            2. UNIFIED SINGLE MASTER CONTAINER (Clean hierarchy, high readability)
            ========================================================================= */}
-        <div className="about-single-anim rounded-2xl border border-zinc-700/80 bg-[#09111c]/95 backdrop-blur-2xl p-5 sm:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative overflow-hidden space-y-6">
-          {/* Top glowing line */}
+        <div className="about-single-anim rounded-2xl border border-zinc-700/80 bg-[#09111c]/95 backdrop-blur-2xl p-6 sm:p-8 lg:p-10 shadow-[0_25px_60px_rgba(0,0,0,0.8)] relative overflow-hidden space-y-6">
+          {/* Subtle glowing top line */}
           <div className="pointer-events-none absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-            {/* LEFT COLUMN: Concise Commercial Narrative */}
-            <div className="lg:col-span-7 space-y-4">
-              <div className="space-y-1.5">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-400 font-bold flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  {locale === "es" ? "Ingeniero de Software Versátil" : "Versatile Software Engineer"}
-                </span>
-
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+            {/* LEFT COLUMN: Human & Authoritative Engineering Story */}
+            <div className="lg:col-span-7 space-y-5">
+              <div className="space-y-2">
                 <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight leading-snug">
                   {locale === "es"
-                    ? "Resuelvo problemas complejos en producción adaptándome a cualquier stack técnico."
-                    : "Solving complex business problems with clean production code in any tech stack."}
+                    ? "Ingeniero de Sistemas con experiencia en producción, capacidad de adaptación y pensamiento crítico."
+                    : "Systems Engineer with production experience, fast adaptability, and critical thinking."}
                 </h3>
               </div>
 
               <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-medium">
                 {locale === "es"
-                  ? "Ingeniero de Sistemas (UTP, 9no sem) y Técnico en Software (SENA) con experiencia real en Outsourcing S.A.S. BIC (.NET, Blazor, SQL Server). Destaco por mi pensamiento crítico, adaptabilidad a diferentes tecnologías y código mantenible guiado por mejores prácticas."
-                  : "Systems Engineer (UTP) and Software Associate (SENA) with production experience at Outsourcing S.A.S. BIC (.NET, Blazor, SQL Server). Known for critical thinking, fast stack adaptation, and clean maintainable code."}
+                  ? "Soy Ingeniero de Sistemas y Computación (UTP) y Técnico en Desarrollo de Software (SENA). Mi trayectoria abarca desde el mantenimiento de aplicaciones empresariales en entornos productivos reales bajo SLA (Outsourcing S.A.S. BIC) hasta el desarrollo de productos web modernos y proyectos orientados a Inteligencia Artificial, LLMs, datos, cloud y ciberseguridad. Mi fortaleza no es memorizar un solo stack, sino entender el problema, aprender con rapidez y elegir las herramientas adecuadas para resolverlo de forma limpia, con comunicación clara y en equipo."
+                  : "I am a Systems & Computer Engineer (UTP) and Software Development Technician (SENA). My background spans maintaining mission-critical enterprise applications in production SLA environments (Outsourcing S.A.S. BIC) to building modern full-stack web products and exploring AI, LLM integration, data, cloud, and cybersecurity. My core strength isn't sticking to one stack, but understanding the core problem, learning fast, and picking the right tools to build maintainable software with clear communication and teamwork."}
               </p>
 
-              {/* 3 Micro Impact Pillars */}
-              <div className="grid grid-cols-3 gap-2.5 pt-1">
-                <div className="p-2.5 rounded-lg bg-[#060b13] border border-zinc-800 space-y-0.5">
-                  <div className="flex items-center gap-1 text-[11px] font-mono text-cyan-400 font-bold">
-                    <Zap className="w-3 h-3" />
-                    <span>{locale === "es" ? "Producción" : "Production"}</span>
+              {/* 3 VALUE PILLARS FOR RECRUITERS */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                <div className="p-3 rounded-xl bg-[#060b13] border border-zinc-800 space-y-1">
+                  <div className="flex items-center gap-1.5 text-xs font-mono text-cyan-400 font-bold">
+                    <Briefcase className="w-3.5 h-3.5" />
+                    <span>{locale === "es" ? "Experiencia Real" : "Real Experience"}</span>
                   </div>
-                  <p className="text-[10px] text-zinc-400 leading-tight">
-                    {locale === "es" ? "SLA 99.9% uptime." : "SLA 99.9% uptime."}
+                  <p className="text-[11px] text-zinc-400 leading-tight">
+                    {locale === "es"
+                      ? "Software empresarial y trabajo con sistemas en producción."
+                      : "Enterprise systems & production SLA support."}
                   </p>
                 </div>
 
-                <div className="p-2.5 rounded-lg bg-[#060b13] border border-zinc-800 space-y-0.5">
-                  <div className="flex items-center gap-1 text-[11px] font-mono text-emerald-400 font-bold">
-                    <Code2 className="w-3 h-3" />
-                    <span>{locale === "es" ? "Full Stack" : "Full Stack"}</span>
+                <div className="p-3 rounded-xl bg-[#060b13] border border-zinc-800 space-y-1">
+                  <div className="flex items-center gap-1.5 text-xs font-mono text-emerald-400 font-bold">
+                    <Code2 className="w-3.5 h-3.5" />
+                    <span>{locale === "es" ? "Versatilidad Técnica" : "Technical Range"}</span>
                   </div>
-                  <p className="text-[10px] text-zinc-400 leading-tight">
-                    {locale === "es" ? "Web, APIs & DBs." : "Web, APIs & DBs."}
+                  <p className="text-[11px] text-zinc-400 leading-tight">
+                    {locale === "es"
+                      ? "Frontend, backend, datos e IA según la necesidad."
+                      : "Frontend, backend, data & AI based on business needs."}
                   </p>
                 </div>
 
-                <div className="p-2.5 rounded-lg bg-[#060b13] border border-zinc-800 space-y-0.5">
-                  <div className="flex items-center gap-1 text-[11px] font-mono text-purple-400 font-bold">
-                    <ShieldCheck className="w-3 h-3" />
-                    <span>{locale === "es" ? "Credenciales" : "Credentials"}</span>
+                <div className="p-3 rounded-xl bg-[#060b13] border border-zinc-800 space-y-1">
+                  <div className="flex items-center gap-1.5 text-xs font-mono text-purple-400 font-bold">
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>{locale === "es" ? "Aprendizaje Continuo" : "Continuous Growth"}</span>
                   </div>
-                  <p className="text-[10px] text-zinc-400 leading-tight">
-                    {locale === "es" ? "Meta, Google, Cisco." : "Meta, Google, Cisco."}
+                  <p className="text-[11px] text-zinc-400 leading-tight">
+                    {locale === "es"
+                      ? "Ingeniería, cloud, redes, ciberseguridad e IA."
+                      : "Engineering, cloud, networking, security & AI."}
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* RIGHT COLUMN: Proof Box */}
-            <div className="lg:col-span-5">
-              <div className="p-4 sm:p-5 rounded-xl bg-gradient-to-b from-[#070d18] to-[#091222] border border-zinc-700/80 space-y-3.5 shadow-xl">
-                <div className="flex items-center justify-between pb-2.5 border-b border-zinc-800 font-mono text-xs">
+            {/* RIGHT COLUMN: Evidence / Technical Proof Card */}
+            <div className="lg:col-span-5 w-full">
+              <div className="p-5 sm:p-6 rounded-xl bg-gradient-to-b from-[#070d18] to-[#091222] border border-zinc-700/80 space-y-4 shadow-xl">
+                <div className="flex items-center justify-between pb-3 border-b border-zinc-800 font-mono text-xs">
                   <span className="text-white font-bold flex items-center gap-1.5">
                     <Layers className="w-3.5 h-3.5 text-cyan-400" />
-                    {locale === "es" ? "Compromiso Técnico" : "Technical Proof"}
+                    {locale === "es" ? "Evidencia de Experiencia" : "Proof of Execution"}
                   </span>
-                  <span className="px-2 py-0.5 rounded bg-cyan-950/80 text-cyan-400 text-[10px] font-bold border border-cyan-500/30">
+                  <span className="px-2.5 py-0.5 rounded bg-cyan-950/80 text-cyan-400 text-[10px] font-bold border border-cyan-500/30">
                     INGLÉS B1-B2
                   </span>
                 </div>
 
-                <ul className="space-y-2 text-xs text-zinc-300">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <ul className="space-y-3 text-xs text-zinc-300">
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                     <span>
-                      <strong className="text-white">
-                        {locale === "es" ? "Software de Producción:" : "Production Code:"}
-                      </strong>{" "}
-                      {locale === "es"
-                        ? ".NET Blazor Server & SQL Server Stored Procedures."
-                        : ".NET Blazor Server & SQL Server Stored Procedures."}
+                      <strong className="text-white block font-semibold">
+                        {locale === "es" ? "Software Empresarial:" : "Enterprise Software:"}
+                      </strong>
+                      <span className="text-zinc-400">.NET, Blazor Server, SQL Server</span>
                     </span>
                   </li>
 
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                     <span>
-                      <strong className="text-white">
-                        {locale === "es" ? "Desarrollo Web Moderno:" : "Modern Web Stack:"}
-                      </strong>{" "}
-                      {locale === "es"
-                        ? "React, Next.js App Router, FastAPI & Tailwind."
-                        : "React, Next.js App Router, FastAPI & Tailwind."}
+                      <strong className="text-white block font-semibold">
+                        {locale === "es" ? "Desarrollo Web & IA:" : "Web & AI Engineering:"}
+                      </strong>
+                      <span className="text-zinc-400">React, Next.js, TypeScript, Python / FastAPI</span>
                     </span>
                   </li>
 
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                     <span>
-                      <strong className="text-white">
-                        {locale === "es" ? "Redes & Seguridad:" : "Networking & Sec:"}
-                      </strong>{" "}
-                      {locale === "es"
-                        ? "Cisco CCNA (TCP/IP) y Ciberseguridad Google."
-                        : "Cisco CCNA (TCP/IP) & Google Cybersecurity."}
+                      <strong className="text-white block font-semibold">
+                        {locale === "es" ? "Redes & Seguridad:" : "Networking & Security:"}
+                      </strong>
+                      <span className="text-zinc-400">Cisco CCNA, Fundamentos de Ciberseguridad</span>
                     </span>
                   </li>
                 </ul>
 
-                <div className="pt-2 border-t border-zinc-800/80 flex items-center justify-between text-[11px] font-mono text-zinc-400">
+                <div className="pt-3 border-t border-zinc-800/80 flex items-center justify-between text-[11px] font-mono text-zinc-400">
                   <span>{locale === "es" ? "Soporte Remoto / Híbrido" : "Remote / Hybrid Support"}</span>
                   <a
                     href={linkedinUrl}
@@ -217,34 +205,11 @@ export function AboutSection() {
                     className="text-cyan-400 font-bold hover:underline inline-flex items-center gap-1"
                   >
                     <span>LinkedIn</span>
-                    <ArrowUpRight className="w-3 h-3" />
+                    <ArrowUpRight className="w-3.5 h-3.5" />
                   </a>
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Bottom Bar inside Card with Direct LinkedIn Button */}
-          <div className="pt-3 border-t border-zinc-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono">
-            <div className="flex items-center gap-2 text-zinc-400 text-[11px]">
-              <Sparkles className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-              <span>
-                {locale === "es"
-                  ? "¿Quieres evaluar mi perfil para una vacante abierta en tu empresa?"
-                  : "Want to review my profile for an open engineering position?"}
-              </span>
-            </div>
-
-            <a
-              href={linkedinUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#0077b5] to-[#005582] hover:from-[#006093] hover:to-[#004166] text-white font-mono text-xs font-bold transition-all shadow-lg active:scale-95 group shrink-0"
-            >
-              <Linkedin className="w-4 h-4 fill-current text-white" />
-              <span>{locale === "es" ? "Contactar por LinkedIn" : "Connect on LinkedIn"}</span>
-              <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
           </div>
         </div>
       </div>

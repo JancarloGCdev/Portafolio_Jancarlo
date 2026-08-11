@@ -49,9 +49,8 @@ export function TechBadge({
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-lg bg-[#070d18] border border-zinc-800 text-zinc-200 font-mono shadow-sm transition-all duration-200 hover:border-cyan-500/50 hover:text-cyan-300 hover:shadow-cyan-950/20 ${
-        size === "md" ? "px-3 py-1.5 text-xs font-semibold" : "px-2.5 py-1 text-[11px]"
-      }`}
+      className={`inline-flex items-center gap-1.5 rounded-lg bg-[#070d18] border border-zinc-800 text-zinc-200 font-mono shadow-sm transition-all duration-200 hover:border-cyan-500/50 hover:text-cyan-300 hover:shadow-cyan-950/20 ${size === "md" ? "px-3 py-1.5 text-xs font-semibold" : "px-2.5 py-1 text-[11px]"
+        }`}
     >
       {iconUrl ? (
         /* eslint-disable-next-line @next/next/no-img-element */

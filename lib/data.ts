@@ -63,7 +63,7 @@ export const PROFILE = {
 } as const;
 
 export const DEFAULT_ABOUT_PARAGRAPHS_ES = [
-  "Soy Ingeniero de Sistemas y Computación (en formación en la Universidad Tecnológica de Pereira) y Técnico en Desarrollo de Software del SENA. Cuento con experiencia profesional en desarrollo full stack, participando en el mantenimiento y evolución de aplicaciones empresariales críticas en producción con .NET (C#), Blazor Server y SQL Server en Outsourcing S.A.S. BIC.",
+  "Soy Ingeniero de Sistemas y Computación de la Universidad Tecnológica de Pereira (UTP) y Técnico en Desarrollo de Software del SENA. Cuento con experiencia profesional en desarrollo full stack y un fuerte enfoque en Inteligencia Artificial, integración de LLMs y análisis de datos para construir productos de tecnología escalables que generan valor comercial directo.",
   "Me especializo en diseñar y construir productos web completos y escalables con Next.js, React, TypeScript, Python y Tailwind CSS, implementando arquitecturas limpias, consumo eficiente de APIs REST, autenticación y modelado de datos con SQL Server y PostgreSQL.",
   "Complemento mi perfil con formación en redes y seguridad informática respaldada por cursos y certificaciones de Cisco (CCNA: Introduction to Networks) y Google, además de metodologías de resolución de problemas de UC Irvine. Manejo un nivel de inglés B1-B2 conversacional y me adapto con rapidez a entornos ágiles y orientados a resultados.",
 ] as const;
