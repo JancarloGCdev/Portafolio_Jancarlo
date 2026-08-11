@@ -193,7 +193,7 @@ export function SkillsSection() {
         </div>
 
         {/* Compact Narrative Flow - Zig-Zag Centered */}
-        <div className="space-y-12 md:space-y-16 relative z-10 w-full flex flex-col items-center">
+        <div className="space-y-6 md:space-y-8 relative z-10 w-full flex flex-col items-center">
           
           {story.map((step, idx) => {
             const isEven = idx % 2 === 0;
@@ -201,46 +201,48 @@ export function SkillsSection() {
             return (
               <div 
                 key={idx} 
-                className={`story-block w-full flex flex-col md:flex-row items-center justify-center gap-6 md:gap-16 group ${
-                  isEven ? 'md:flex-row' : 'md:flex-row-reverse'
-                }`}
+                className={`story-block w-full flex justify-center group`}
               >
-                {/* Contextual Icon */}
-                <div className="shrink-0 flex justify-center">
-                  <div className="p-4 md:p-5 rounded-2xl md:rounded-[2rem] bg-zinc-900/40 border border-zinc-800/80 text-zinc-600 transition-all duration-500 group-hover:text-cyan-400 group-hover:border-cyan-500/50 group-hover:bg-cyan-950/20 group-hover:shadow-[0_0_30px_rgba(34,211,238,0.15)] group-hover:scale-110">
-                    {step.icon}
-                  </div>
-                </div>
-                
-                {/* Content */}
-                <div className={`w-full max-w-xl flex flex-col items-center text-center ${
-                  isEven ? 'md:items-start md:text-left' : 'md:items-end md:text-right'
+                <div className={`w-full max-w-3xl flex flex-col md:flex-row items-center gap-6 md:gap-8 p-6 sm:p-8 rounded-3xl bg-[#09111c]/95 backdrop-blur-2xl border border-zinc-700/80 hover:border-cyan-500/40 transition-all duration-300 shadow-[0_25px_60px_rgba(0,0,0,0.9)] ${
+                  isEven ? 'md:flex-row' : 'md:flex-row-reverse'
                 }`}>
-                  <h4 className="text-xl sm:text-2xl font-bold text-zinc-100 tracking-tight">
-                    {step.title}
-                  </h4>
+                  {/* Contextual Icon */}
+                  <div className="shrink-0 flex justify-center">
+                    <div className="p-4 md:p-5 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 text-zinc-500 transition-all duration-500 group-hover:text-cyan-400 group-hover:border-cyan-500/40 group-hover:bg-cyan-950/20 group-hover:shadow-[0_0_30px_rgba(34,211,238,0.15)] group-hover:scale-105">
+                      {step.icon}
+                    </div>
+                  </div>
                   
-                  <p className="text-sm sm:text-base text-zinc-400 leading-relaxed font-medium mt-3">
-                    {step.text}
-                  </p>
-                  
-                  <div className={`flex flex-wrap gap-2 pt-4 justify-center ${
-                    isEven ? 'md:justify-start' : 'md:justify-end'
+                  {/* Content */}
+                  <div className={`w-full flex flex-col items-center text-center ${
+                    isEven ? 'md:items-start md:text-left' : 'md:items-end md:text-right'
                   }`}>
-                    {step.isSoft ? (
-                      step.techs.map((t, i) => (
-                        <span 
-                          key={i}
-                          className="inline-flex items-center px-3 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-[11px] font-semibold shadow-sm transition-colors hover:bg-emerald-500/20"
-                        >
-                          {t}
-                        </span>
-                      ))
-                    ) : (
-                      step.techs.map((t, i) => (
-                        <TechBadge key={i} tech={t} size="sm" />
-                      ))
-                    )}
+                    <h4 className="text-xl sm:text-2xl font-bold text-zinc-100 tracking-tight">
+                      {step.title}
+                    </h4>
+                    
+                    <p className="text-sm sm:text-base text-zinc-300 leading-relaxed font-medium mt-3">
+                      {step.text}
+                    </p>
+                    
+                    <div className={`flex flex-wrap gap-2 pt-5 justify-center ${
+                      isEven ? 'md:justify-start' : 'md:justify-end'
+                    }`}>
+                      {step.isSoft ? (
+                        step.techs.map((t, i) => (
+                          <span 
+                            key={i}
+                            className="inline-flex items-center px-3 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-[11px] font-semibold shadow-sm transition-colors hover:bg-emerald-500/20"
+                          >
+                            {t}
+                          </span>
+                        ))
+                      ) : (
+                        step.techs.map((t, i) => (
+                          <TechBadge key={i} tech={t} size="sm" />
+                        ))
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

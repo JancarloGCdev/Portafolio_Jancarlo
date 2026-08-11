@@ -28,29 +28,75 @@ export function MatrixBackground() {
     canvas.width = width;
     canvas.height = height;
 
-    const fontSize = 14;
-    const columns = Math.floor(width / fontSize) + 1;
+    const fontSize = 16;
+    const spacingX = 26; // ~60% horizontal density
+    const spacingY = 26; // ~60% vertical density
+    let columns = Math.floor(width / spacingX) + 1;
+    let rows = Math.floor(height / spacingY) + 1;
 
-    // Arrays to hold properties for each column
-    const drops: number[] = [];
-    const speeds: number[] = [];
-    const parallaxFactors: number[] = [];
-    const opacities: number[] = [];
+    let grid = new Float32Array(columns * rows);
+    let charGrid = new Uint8Array(columns * rows); 
+
+    let dxGrid = new Float32Array(columns * rows);
+    let dyGrid = new Float32Array(columns * rows);
+    let vxGrid = new Float32Array(columns * rows);
+    let vyGrid = new Float32Array(columns * rows);
+
+    let drops = new Float32Array(columns);
+    let speeds = new Float32Array(columns);
+    let opacities = new Float32Array(columns);
+
+    const initColumn = (x: number) => {
+      drops[x] = (Math.random() * height) / spacingY;
+      speeds[x] = 0.08 + Math.random() * 0.15; 
+      opacities[x] = 0.15 + Math.random() * 0.4;
+    };
 
     for (let x = 0; x < columns; x++) {
-      drops[x] = (Math.random() * height) / fontSize; 
-      speeds[x] = 0.08 + Math.random() * 0.15; // Base falling speed (slower)
-      parallaxFactors[x] = 0.1 + Math.random() * 0.5; // How much scroll affects it
-      opacities[x] = 0.05 + Math.random() * 0.15; // Base opacity
+      initColumn(x);
+    }
+    
+    for (let i = 0; i < grid.length; i++) {
+      charGrid[i] = Math.random() > 0.5 ? 1 : 0;
     }
 
     let mouseX = -1000;
     let mouseY = -1000;
-    let lastScrollY = window.scrollY;
+    let isRightMouseDown = false;
+
+    interface Shockwave {
+      x: number;
+      y: number;
+      radius: number;
+    }
+    const shockwaves: Shockwave[] = [];
+
+    interface GravityWell {
+      x: number;
+      y: number;
+      life: number;
+    }
+    const gravityWells: GravityWell[] = [];
 
     const handleMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
+    };
+
+    const handleMouseDown = (e: MouseEvent) => {
+      if (e.button === 0) {
+        // Left click - Explosion ripple
+        shockwaves.push({ x: e.clientX, y: e.clientY, radius: 0 });
+      } else if (e.button === 2) {
+        // Right click - Hold to attract
+        isRightMouseDown = true;
+      }
+    };
+
+    const handleMouseUp = (e: MouseEvent) => {
+      if (e.button === 2) {
+        isRightMouseDown = false;
+      }
     };
 
     const handleTouchMove = (e: TouchEvent) => {
@@ -60,15 +106,18 @@ export function MatrixBackground() {
       }
     };
 
-    const handleScroll = () => {
-      const currentScroll = window.scrollY;
-      const deltaScroll = currentScroll - lastScrollY;
-      lastScrollY = currentScroll;
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        shockwaves.push({ x: e.touches[0].clientX, y: e.touches[0].clientY, radius: 0 });
+      }
+    };
 
-      // Apply scroll displacement to create parallax depth
-      // Moving down (positive delta) makes the drops move up relative to the screen
-      for (let i = 0; i < drops.length; i++) {
-        drops[i] -= (deltaScroll * parallaxFactors[i]) / fontSize;
+    const handleContextMenu = (e: MouseEvent) => {
+      // Prevent context menu on the background so right click hold works
+      // Only allow it if they clicked on a link or button
+      const target = e.target as HTMLElement;
+      if (!target.closest('a, button, input, textarea')) {
+        e.preventDefault();
       }
     };
 
@@ -78,83 +127,204 @@ export function MatrixBackground() {
       canvas.width = width;
       canvas.height = height;
 
-      const newColumns = Math.floor(width / fontSize) + 1;
-      if (newColumns > drops.length) {
-        for (let i = drops.length; i < newColumns; i++) {
-          drops.push((Math.random() * height) / fontSize);
-          speeds.push(0.08 + Math.random() * 0.15); // Base falling speed (slower)
-          parallaxFactors.push(0.1 + Math.random() * 0.5);
-          opacities.push(0.05 + Math.random() * 0.15);
+      const newColumns = Math.floor(width / spacingX) + 1;
+      const newRows = Math.floor(height / spacingY) + 1;
+
+      const newGrid = new Float32Array(newColumns * newRows);
+      const newCharGrid = new Uint8Array(newColumns * newRows);
+      const newDxGrid = new Float32Array(newColumns * newRows);
+      const newDyGrid = new Float32Array(newColumns * newRows);
+      const newVxGrid = new Float32Array(newColumns * newRows);
+      const newVyGrid = new Float32Array(newColumns * newRows);
+      
+      for (let i = 0; i < newCharGrid.length; i++) {
+        newCharGrid[i] = Math.random() > 0.5 ? 1 : 0;
+      }
+      
+      const newDrops = new Float32Array(newColumns);
+      const newSpeeds = new Float32Array(newColumns);
+      const newOpacities = new Float32Array(newColumns);
+
+      for (let x = 0; x < newColumns; x++) {
+        if (x < columns) {
+          newDrops[x] = drops[x];
+          newSpeeds[x] = speeds[x];
+          newOpacities[x] = opacities[x];
+        } else {
+          newDrops[x] = (Math.random() * height) / spacingY;
+          newSpeeds[x] = 0.08 + Math.random() * 0.15;
+          newOpacities[x] = 0.15 + Math.random() * 0.4;
         }
       }
-      // Re-fill background to prevent artifacts
-      ctx.fillStyle = "#050b14";
-      ctx.fillRect(0, 0, width, height);
+
+      grid = newGrid;
+      charGrid = newCharGrid;
+      dxGrid = newDxGrid;
+      dyGrid = newDyGrid;
+      vxGrid = newVxGrid;
+      vyGrid = newVyGrid;
+      columns = newColumns;
+      rows = newRows;
+      drops = newDrops;
+      speeds = newSpeeds;
+      opacities = newOpacities;
     };
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("mousedown", handleMouseDown, { passive: true });
+    window.addEventListener("mouseup", handleMouseUp, { passive: true });
     window.addEventListener("touchmove", handleTouchMove, { passive: true });
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("contextmenu", handleContextMenu, { passive: false });
     window.addEventListener("resize", handleResize, { passive: true });
 
-    // Initial fill
-    ctx.fillStyle = "#050b14";
-    ctx.fillRect(0, 0, width, height);
-    ctx.font = `600 ${fontSize}px monospace`;
-
     const render = () => {
-      // Trail effect: Fade previous frames slightly
-      ctx.fillStyle = "rgba(5, 11, 20, 0.12)";
+      // Solid fill prevents the "ghost trail" painting
+      ctx.fillStyle = "#050b14";
       ctx.fillRect(0, 0, width, height);
+      ctx.font = `600 ${fontSize}px monospace`;
 
-      for (let i = 0; i < drops.length; i++) {
-        const text = Math.random() > 0.5 ? "1" : "0";
+      // Advance shockwaves
+      for (let i = shockwaves.length - 1; i >= 0; i--) {
+        shockwaves[i].radius += 20; 
+        if (shockwaves[i].radius > 1200) {
+          shockwaves.splice(i, 1);
+        }
+      }
 
-        const x = i * fontSize;
-        const y = drops[i] * fontSize;
+      // Handle persistent gravity well on right click
+      if (isRightMouseDown) {
+        let well = gravityWells.find(w => w.life > 0);
+        if (well) {
+          well.x = mouseX;
+          well.y = mouseY;
+          well.life = 1.0;
+        } else {
+          gravityWells.push({ x: mouseX, y: mouseY, life: 1.0 });
+        }
+      } else {
+        // Decay wells when released
+        for (let i = gravityWells.length - 1; i >= 0; i--) {
+          gravityWells[i].life -= 0.05; 
+          if (gravityWells[i].life <= 0) {
+            gravityWells.splice(i, 1);
+          }
+        }
+      }
 
-        // Interactive mouse repulsion
-        const dx = x - mouseX;
-        const dy = y - mouseY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        const maxDist = 120;
-        let drawX = x;
-        let drawY = y;
+      // 1. Advance drops and light up grid
+      for (let x = 0; x < columns; x++) {
+        const headY = Math.floor(drops[x]);
         
-        let currentOpacity = opacities[i];
-        let charColor = `rgba(34, 211, 238, ${currentOpacity})`; // Default Cyan
+        if (headY >= 0 && headY < rows) {
+          const idx = headY * columns + x;
+          grid[idx] = 1.0; // max brightness for head
+          // randomize char when head passes
+          charGrid[idx] = Math.random() > 0.5 ? 1 : 0; 
+        }
 
-        if (dist < maxDist) {
-          const force = (maxDist - dist) / maxDist;
-          // Repulsion: push character away from mouse center
-          drawX += (dx / dist) * force * 20;
-          drawY += (dy / dist) * force * 20;
+        drops[x] += speeds[x];
+        if (drops[x] > rows + 20 && Math.random() > 0.95) {
+          drops[x] = -2;
+        }
+      }
+
+      // 2. Draw grid and apply physics to physical draw position
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < columns; x++) {
+          const idx = y * columns + x;
           
-          // Glow effect: increase opacity and change color to emerald
-          currentOpacity = Math.min(1, currentOpacity + force * 0.8);
-          charColor = `rgba(52, 211, 153, ${currentOpacity})`; 
-        }
+          if (grid[idx] > 0.02) { // only draw if visible
+            grid[idx] *= 0.92; // decay brightness (trail fade)
 
-        ctx.fillStyle = charColor;
-        
-        // Randomly draw a bright "head" to the falling column
-        if (Math.random() > 0.95 && dist >= maxDist) {
-          ctx.fillStyle = `rgba(255, 255, 255, ${currentOpacity + 0.4})`;
-        }
-        
-        ctx.fillText(text, drawX, drawY);
+            const baseX = x * spacingX;
+            const baseY = y * spacingY;
 
-        // Advance drop
-        drops[i] += speeds[i];
+            let fx = 0;
+            let fy = 0;
+            
+            let currentOpacity = grid[idx] * opacities[x];
+            let isAmber = false;
+            let isPurple = false;
 
-        // Reset drop to top if it falls off screen
-        // Add random variance so they don't all reset at once
-        if (drops[i] * fontSize > height + 100 && Math.random() > 0.98) {
-          drops[i] = -2;
-        } else if (drops[i] * fontSize < -200) {
-          // If scrolled way too far up, wrap around to bottom
-          drops[i] = (height + 50) / fontSize;
+            // Hover Repulsion
+            const hdx = baseX - mouseX;
+            const hdy = baseY - mouseY;
+            const hDist = Math.sqrt(hdx * hdx + hdy * hdy);
+            const hMaxDist = 120;
+            if (hDist < hMaxDist) {
+              const force = (hMaxDist - hDist) / hMaxDist;
+              fx += (hdx / hDist) * force * 4.0;
+              fy += (hdy / hDist) * force * 4.0;
+              currentOpacity = Math.min(1, currentOpacity + force * 0.5);
+            }
+
+            // Shockwaves (Left Click)
+            for (const wave of shockwaves) {
+              const wdx = baseX - wave.x;
+              const wdy = baseY - wave.y;
+              const wDist = Math.sqrt(wdx * wdx + wdy * wdy);
+              const thickness = 60;
+              
+              if (wDist > wave.radius - thickness && wDist < wave.radius + thickness) {
+                const force = 1 - Math.abs(wDist - wave.radius) / thickness;
+                // Push outwards strongly
+                fx += (wdx / wDist) * force * 15.0;
+                fy += (wdy / wDist) * force * 15.0;
+                currentOpacity = Math.min(1, currentOpacity + force * 1.5);
+                isAmber = true;
+              }
+            }
+
+            // Gravity Wells (Right Click Hold)
+            for (const well of gravityWells) {
+              const gdx = baseX - well.x;
+              const gdy = baseY - well.y;
+              const gDist = Math.sqrt(gdx * gdx + gdy * gdy);
+              const gRadius = 450;
+
+              if (gDist < gRadius && gDist > 0) {
+                const force = Math.pow((gRadius - gDist) / gRadius, 1.5) * well.life;
+                const pull = Math.min(gDist, force * 15.0); 
+                fx -= (gdx / gDist) * pull;
+                fy -= (gdy / gDist) * pull;
+                currentOpacity = Math.min(1, currentOpacity + force * 2.0);
+                isPurple = true;
+              }
+            }
+
+            // Spring Physics simulation for smooth particle movement
+            const k = 0.08; // Spring stiffness (lower = more bouncy, higher = snaps faster)
+            const damp = 0.85; // Damping/friction (lower = less bouncy, higher = jelly)
+
+            fx -= dxGrid[idx] * k; // Spring force pulling back to 0
+            fy -= dyGrid[idx] * k;
+
+            vxGrid[idx] = (vxGrid[idx] + fx) * damp;
+            vyGrid[idx] = (vyGrid[idx] + fy) * damp;
+
+            dxGrid[idx] += vxGrid[idx];
+            dyGrid[idx] += vyGrid[idx];
+
+            const drawX = baseX + dxGrid[idx];
+            const drawY = baseY + dyGrid[idx];
+
+            // Color selection
+            if (grid[idx] > 0.9) {
+              // Bright head
+              ctx.fillStyle = `rgba(255, 255, 255, ${currentOpacity + 0.3})`;
+            } else if (isAmber) {
+              ctx.fillStyle = `rgba(251, 191, 36, ${currentOpacity})`;
+            } else if (isPurple) {
+              ctx.fillStyle = `rgba(167, 139, 250, ${currentOpacity})`;
+            } else {
+              // Trail
+              ctx.fillStyle = `rgba(34, 211, 238, ${currentOpacity})`;
+            }
+
+            const char = charGrid[idx] === 1 ? "1" : "0";
+            ctx.fillText(char, drawX, drawY);
+          }
         }
       }
 
@@ -166,8 +336,11 @@ export function MatrixBackground() {
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mouseup", handleMouseUp);
       window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("contextmenu", handleContextMenu);
       window.removeEventListener("resize", handleResize);
     };
   }, []);
