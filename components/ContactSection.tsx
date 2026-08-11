@@ -52,11 +52,36 @@ export function ContactSection() {
           start: "top 78%",
           toggleActions: "play none none none",
         },
-        y: 25,
+        y: 35,
         opacity: 0,
-        duration: 0.75,
-        stagger: 0.12,
+        duration: 0.8,
+        stagger: 0.15,
         ease: "power3.out",
+      });
+
+      const isMobile = window.innerWidth < 768;
+
+      gsap.to(".contact-bg-glow", {
+        y: isMobile ? 50 : 200,
+        ease: "none",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+      
+      gsap.to(".contact-shape-1", {
+        y: isMobile ? -20 : -100,
+        rotation: 45,
+        ease: "none",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
       });
     },
     { scope: containerRef }
@@ -68,10 +93,11 @@ export function ContactSection() {
       id="contact"
       className="relative w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#050b14] border-t border-zinc-900/80 overflow-hidden select-none"
     >
-      {/* Ambient background light */}
-      <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden">
+      {/* Ambient background light & floating elements */}
+      <div className="contact-bg-glow pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden">
         <div className="w-[900px] h-[900px] rounded-full bg-gradient-to-tr from-cyan-950/25 via-blue-950/20 to-transparent blur-[160px] opacity-70" />
       </div>
+      <div className="contact-shape-1 pointer-events-none absolute bottom-[20%] right-[10%] w-56 h-56 rounded-full border-[12px] border-cyan-500/5 blur-[8px] -z-10" />
 
       <div className="max-w-6xl w-full mx-auto space-y-12 lg:space-y-16">
         {/* =========================================================================

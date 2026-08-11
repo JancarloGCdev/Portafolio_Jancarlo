@@ -149,6 +149,31 @@ export function ExperienceSection() {
         duration: 0.8,
         ease: "power2.out",
       });
+
+      const isMobile = window.innerWidth < 768;
+
+      gsap.to(".exp-bg-glow", {
+        y: isMobile ? 80 : 300,
+        ease: "none",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+
+      gsap.to(".exp-shape-1", {
+        y: isMobile ? -30 : -150,
+        rotation: -45,
+        ease: "none",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
     },
     { scope: containerRef }
   );
@@ -159,10 +184,11 @@ export function ExperienceSection() {
       id="experience"
       className="relative w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#050b14] border-t border-zinc-900/80 overflow-hidden"
     >
-      {/* Background ambient lighting */}
-      <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden">
+      {/* Background ambient lighting & floating elements */}
+      <div className="exp-bg-glow pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden">
         <div className="w-[850px] h-[850px] rounded-full bg-gradient-to-tr from-cyan-950/20 via-emerald-950/10 to-transparent blur-[140px] opacity-60" />
       </div>
+      <div className="exp-shape-1 pointer-events-none absolute bottom-[10%] left-[5%] w-64 h-64 rounded-full border-[15px] border-emerald-500/5 blur-[8px] -z-10" />
 
       <div className="w-full max-w-6xl mx-auto space-y-8 lg:space-y-10">
         {/* =========================================================================

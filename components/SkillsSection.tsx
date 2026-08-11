@@ -126,6 +126,31 @@ export function SkillsSection() {
         duration: 0.6,
         ease: "power2.out",
       });
+
+      const isMobile = window.innerWidth < 768;
+
+      gsap.to(".skills-bg-glow", {
+        y: isMobile ? 60 : 250,
+        ease: "none",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+
+      gsap.to(".skills-shape-1", {
+        y: isMobile ? -20 : -100,
+        rotation: 45,
+        ease: "none",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
     },
     { scope: containerRef }
   );
@@ -136,6 +161,12 @@ export function SkillsSection() {
       id="skills"
       className="relative w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#050b14] border-t border-zinc-900/80 overflow-hidden"
     >
+      {/* Background ambient lighting & floating elements */}
+      <div className="skills-bg-glow pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden">
+        <div className="w-[850px] h-[850px] rounded-full bg-gradient-to-tr from-cyan-950/10 via-blue-950/10 to-transparent blur-[140px] opacity-50" />
+      </div>
+      <div className="skills-shape-1 pointer-events-none absolute top-[30%] left-[10%] w-48 h-48 rounded-full border-[10px] border-cyan-500/5 blur-[8px] -z-10" />
+
       <div className="max-w-6xl w-full mx-auto flex flex-col items-center">
         
         {/* Editorial Header */}

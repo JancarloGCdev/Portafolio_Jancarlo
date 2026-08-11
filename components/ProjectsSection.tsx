@@ -287,7 +287,7 @@ function ProjectScreenshotGallery({ project, locale }: { project: DevProject; lo
               <img
                 src={slides[currentSlide]}
                 alt={`${project.name} screenshot ${currentSlide}`}
-                className="w-full h-full object-cover transition-opacity duration-300"
+                className="proj-image-parallax w-full h-[115%] absolute top-[-7.5%] object-cover transition-opacity duration-300"
                 onError={() => setImgError((prev) => ({ ...prev, [currentSlide]: true }))}
               />
             )}
@@ -461,11 +461,13 @@ export function ProjectsSection() {
     else if (dragDelta.current > 45) prev();
   };
 
-  // Entrance animations on scroll
+  // Entrance animations and Parallax on scroll
   useGSAP(
     () => {
       const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (prefersReduced) return;
+
+      const isMobile = window.innerWidth < 768;
 
       gsap.from(".proj-header-anim", {
         scrollTrigger: {
@@ -491,6 +493,43 @@ export function ProjectsSection() {
         duration: 0.8,
         ease: "power2.out",
       });
+
+      // Subtle Background Glow Parallax (Increased Intensity)
+      gsap.to(".proj-bg-glow", {
+        y: isMobile ? 80 : 300,
+        ease: "none",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+
+      // Geometric floating shapes
+      gsap.to(".proj-shape-1", {
+        y: isMobile ? -30 : -120,
+        rotation: 45,
+        ease: "none",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+
+      // Project Images Subtle Pan Parallax (Increased Intensity)
+      gsap.to(".proj-image-parallax", {
+        y: isMobile ? 30 : 70,
+        ease: "none",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
     },
     { scope: containerRef }
   );
@@ -501,10 +540,11 @@ export function ProjectsSection() {
       id="projects"
       className="relative w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#050b14] border-t border-zinc-900/80 overflow-hidden"
     >
-      {/* Background Ambient Glow */}
-      <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden">
+      {/* Background Ambient Glow & Shapes */}
+      <div className="proj-bg-glow pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden">
         <div className="w-[900px] h-[900px] rounded-full bg-gradient-to-tr from-cyan-950/20 via-purple-950/10 to-transparent blur-[160px] opacity-60" />
       </div>
+      <div className="proj-shape-1 pointer-events-none absolute top-[20%] right-[10%] w-48 h-48 rounded-full border-[20px] border-cyan-500/5 blur-[10px] -z-10" />
 
       <div className="w-full max-w-6xl mx-auto space-y-8 lg:space-y-12">
         {/* =========================================================================
@@ -619,22 +659,32 @@ export function ProjectsSection() {
                                 {project.tagline}
                               </p>
 
-                              {/* Features list */}
-                              <div className="space-y-2 pt-1">
-                                <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 block font-bold">
-                                  {locale === "es" ? "Solución Técnica & Aportes:" : "Key Features & Architecture:"}
-                                </span>
-                                <ul className="space-y-1.5 text-xs text-zinc-300">
-                                  {project.features.map((feat, fIdx) => (
-                                    <li
-                                      key={fIdx}
-                                      className="flex items-start gap-2 bg-zinc-900/60 p-2 rounded-lg border border-zinc-800/80 leading-snug"
-                                    >
-                                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                                      <span>{feat}</span>
-                                    </li>
-                                  ))}
-                                </ul>
+                              {/* Logros & Aprendizaje */}
+                              <div className="space-y-4 pt-1">
+                                <div className="space-y-1.5">
+                                  <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-400 flex items-center gap-1.5 font-bold">
+                                    <Sparkles className="w-3 h-3" />
+                                    {locale === "es" ? "Lo que logré:" : "What I achieved:"}
+                                  </span>
+                                  <ul className="space-y-1 text-[11px] sm:text-xs text-zinc-300">
+                                    {project.features.slice(0, 2).map((feat, fIdx) => (
+                                      <li key={fIdx} className="flex items-start gap-1.5 leading-snug">
+                                        <span className="text-emerald-400 font-bold mt-0.5">✓</span>
+                                        <span>{feat}</span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+
+                                <div className="space-y-1.5">
+                                  <span className="text-[10px] font-mono uppercase tracking-widest text-purple-400 flex items-center gap-1.5 font-bold">
+                                    <Zap className="w-3 h-3" />
+                                    {locale === "es" ? "Lo que aprendí:" : "What I learned:"}
+                                  </span>
+                                  <p className="text-[11px] sm:text-xs text-zinc-400 leading-relaxed border-l-2 border-purple-500/30 pl-2.5">
+                                    {project.learned}
+                                  </p>
+                                </div>
                               </div>
                             </div>
 

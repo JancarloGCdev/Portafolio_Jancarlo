@@ -122,30 +122,13 @@ export function HeroTerminal() {
     ];
 
     if (prefersReduced) {
-      setHistory(initialOutputs);
+      setHistory([]);
       return;
     }
 
-    // Sequential initialization
+    // Initialize clear
     setHistory([]);
-    let timer2: NodeJS.Timeout;
-    let timer3: NodeJS.Timeout;
 
-    const timer1 = setTimeout(() => {
-      setHistory([initialOutputs[0]]);
-      timer2 = setTimeout(() => {
-        setHistory([initialOutputs[0], initialOutputs[1]]);
-        timer3 = setTimeout(() => {
-          setHistory(initialOutputs);
-        }, 500);
-      }, 500);
-    }, 300);
-
-    return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-      clearTimeout(timer3);
-    };
   }, [locale, profile]);
 
   const executeCommand = (cmd: string) => {
@@ -550,6 +533,11 @@ export function HeroTerminal() {
         {!isTyping && (
           <div className="flex items-center gap-1.5 text-zinc-400 pt-0.5">
             <span className="text-cyan-400 font-semibold select-none">jancarlo@dev:~$</span>
+            {history.length === 0 && (
+              <span className="text-cyan-500/80 font-mono text-[11px] italic animate-pulse">
+                {locale === "es" ? "Elige una opción..." : "Choose an option..."}
+              </span>
+            )}
             <span className="w-2 h-3.5 bg-cyan-400/80 inline-block animate-pulse" />
           </div>
         )}
