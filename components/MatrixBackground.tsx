@@ -194,7 +194,7 @@ export function MatrixBackground() {
 
       // Handle persistent gravity well on right click
       if (isRightMouseDown) {
-        let well = gravityWells.find(w => w.life > 0);
+        const well = gravityWells.find(w => w.life > 0);
         if (well) {
           well.x = mouseX;
           well.y = mouseY;
