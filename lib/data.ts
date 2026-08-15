@@ -145,8 +145,8 @@ export const DEV_PROJECTS: DevProject[] = [
   {
     id: "smart-school-reports",
     name: "Smart School Reports",
-    type: "Plataforma Inteligente de Gestión de Incidencias Escolares",
-    tagline: "Detección inteligente de reportes duplicados y priorización de casos con IA para instituciones educativas.",
+    type: "Plataforma Web de Gestión de Incidencias Escolares",
+    tagline: "Gestión y canalización de reportes escolares con acceso exclusivo para estudiantes de la institución vía Google OAuth y base de datos en Supabase.",
     image: "/projects/smart-school-reports/preview.png",
     images: [
       "/projects/smart-school-reports/1.png",
@@ -154,14 +154,14 @@ export const DEV_PROJECTS: DevProject[] = [
       "/projects/smart-school-reports/3.png",
     ],
     features: [
-      "Detección y agrupación automática de reportes similares mediante IA para evitar duplicidad de trabajo.",
-      "Flujo de estados en tiempo real para seguimiento de incidencias (Abierto, En Proceso, Resuelto).",
-      "Panel administrativo con filtrado por criticidad, categoría y rol institucional.",
-      "Arquitectura modular orientada a desacoplar el motor de procesamiento inteligente de la interfaz.",
+      "Autenticación segura con Google OAuth con restricción estricta de dominio para permitir el ingreso exclusivo a estudiantes de la institución educativa (I.E.).",
+      "Gestión y canalización de incidencias escolares en tiempo real con ciclo de estados (Abierto, En Revisión, Resuelto).",
+      "Modelado relacional y políticas de seguridad a nivel de fila (RLS) en Supabase (PostgreSQL).",
+      "Panel ágil y responsivo para el seguimiento y resolución de problemas dentro de la institución.",
     ],
-    stack: ["Next.js", "React", "TypeScript", "Python / FastAPI", "PostgreSQL", "Tailwind CSS", "REST API"],
+    stack: ["Next.js", "React", "TypeScript", "Supabase", "Google OAuth", "Tailwind CSS", "PostgreSQL"],
     learned:
-      "Diseñé una solución orientada a problemas reales de gestión operativa, optimizando la categorización de información mediante procesamiento de lenguaje natural y diseño centrado en el usuario.",
+      "Aprendí e implementé autenticación con Google OAuth para restringir el acceso exclusivo a los estudiantes de la institución educativa, además del modelado y persistencia de datos en Supabase con Next.js y TypeScript.",
     links: [
       {
         label: "Ver en GitHub",
@@ -172,9 +172,9 @@ export const DEV_PROJECTS: DevProject[] = [
   },
   {
     id: "solarbrain-techos",
-    name: "SolarBrain (TechosRentables)",
-    type: "Plataforma de Monitoreo y Gestión de Energía Solar (Hackathon)",
-    tagline: "Panel analítico para supervisión de despliegues solares fotovoltaicos e indicadores de rendimiento.",
+    name: "SolarBrain",
+    type: "Plataforma de Monitoreo y Telemetría de Energía Solar (Hackathon)",
+    tagline: "Supervisión en tiempo real de paneles solares mediante middleware con detección de fallas y alertas automáticas por WhatsApp.",
     image: "/projects/solarbrain-techos/preview.png",
     images: [
       "/projects/solarbrain-techos/1.png",
@@ -182,14 +182,14 @@ export const DEV_PROJECTS: DevProject[] = [
       "/projects/solarbrain-techos/3.png",
     ],
     features: [
-      "Dashboard con tarjetas de KPIs energéticos en tiempo real y telemetría de instalaciones.",
-      "Sistema de alertas operativas ante desviaciones de generación fotovoltaica.",
-      "Generación y descarga de resúmenes operativos en formato PDF para clientes y técnicos.",
-      "Modelado de datos relacional con PostgreSQL y Prisma ORM.",
+      "Consumo e ingesta de telemetría de paneles solares en tiempo real a través de un middleware especializado provisto en la hackathon.",
+      "Sistema de detección y geolocalización de fallas, identificando con exactitud cuál panel falló y su ubicación.",
+      "Mecanismo de alertas automáticas multicanal ante caídas de rendimiento, incluyendo notificaciones instantáneas vía WhatsApp.",
+      "Dashboard analítico interactivo con KPIs de generación fotovoltaica y exportación de reportes operativos en PDF.",
     ],
-    stack: ["Next.js", "React", "TypeScript", "Prisma", "PostgreSQL", "Tailwind CSS"],
+    stack: ["Next.js", "React", "TypeScript", "Prisma", "PostgreSQL", "Middleware API", "WhatsApp API", "Tailwind CSS"],
     learned:
-      "Desarrollo colaborativo de alta velocidad durante hackathon, transformando requerimientos operativos en una interfaz de toma de decisiones clara y confiable.",
+      "Aprendí a consumir e interpretar telemetría de paneles solares en tiempo real mediante el middleware provisto en la hackathon, y a diseñar un sistema de alertas críticas capaz de identificar la ubicación del panel averiado y notificar de inmediato por WhatsApp.",
     links: [
       {
         label: "Ver en GitHub",
@@ -203,12 +203,6 @@ export const DEV_PROJECTS: DevProject[] = [
     name: "PaperTrail Commerce (v2)",
     type: "Plataforma Full Stack de E-Commerce para Librería",
     tagline: "Solución de comercio electrónico completa con catálogo dinámico, carrito y gestión con Strapi CMS.",
-    image: "/projects/papertrail-commerce/preview.png",
-    images: [
-      "/projects/papertrail-commerce/1.png",
-      "/projects/papertrail-commerce/2.png",
-      "/projects/papertrail-commerce/3.png",
-    ],
     features: [
       "Catálogo interactivo de libros con filtrado por categorías, búsqueda en tiempo real y paginación.",
       "Gestión de carrito de compras y flujo estructurado de checkout.",
@@ -231,12 +225,6 @@ export const DEV_PROJECTS: DevProject[] = [
     name: "Quine-McCluskey Logic Simplifier",
     type: "Software de Simplificación Algorítmica de Circuitos Lógicos",
     tagline: "Implementación en Python para reducción y optimización exacta de funciones booleanas.",
-    image: "/projects/quine-mccluskey-simplifier/preview.png",
-    images: [
-      "/projects/quine-mccluskey-simplifier/1.png",
-      "/projects/quine-mccluskey-simplifier/2.png",
-      "/projects/quine-mccluskey-simplifier/3.png",
-    ],
     features: [
       "Procesamiento algorítmico tabular paso a paso de minitérminos y condiciones no importa (don't care).",
       "Estructura modular orientada a reutilización de código y generación de tablas de implicantes primos.",

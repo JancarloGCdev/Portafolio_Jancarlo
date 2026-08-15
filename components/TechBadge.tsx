@@ -30,7 +30,10 @@ export function getTechIconInfo(tech: string) {
   if (norm.includes("node")) return { slug: "nodedotjs", color: "5FA04E" };
   if (norm.includes("postman")) return { slug: "postman", color: "FF6C37" };
   if (norm.includes("windows server")) return { slug: "windows", color: "0078D6", fallback: "server" };
-  if (norm.includes("meta")) return { slug: "meta", color: "0467DF" };
+  if (norm.includes("whatsapp")) return { slug: "whatsapp", color: "25D366" };
+  if (norm.includes("middleware")) return { slug: null, color: "F59E0B", fallback: "server" };
+  if (norm.includes("supabase")) return { slug: "supabase", color: "3ECF8E" };
+  if (norm.includes("oauth")) return { slug: "google", color: "4285F4" };
   if (norm.includes("google")) return { slug: "google", color: "4285F4" };
   if (norm.includes("entity framework")) return { slug: "dotnet", color: "512BD4" };
   if (norm.includes("ai") || norm.includes("ia") || norm.includes("embeddings")) return { slug: "openai", color: "412991" };

@@ -97,8 +97,8 @@ export const DEV_PROJECTS: DevProject[] = [
   {
     id: "smart-school-reports",
     name: "Smart School Reports",
-    type: "Intelligent Incident & Report Management Platform",
-    tagline: "AI-driven duplicate detection and automated incident clustering for academic institutions.",
+    type: "School Incident Management & Reporting Platform",
+    tagline: "School incident management portal with access restricted exclusively to institutional students via Google OAuth and Supabase.",
     image: "/projects/smart-school-reports/preview.png",
     images: [
       "/projects/smart-school-reports/1.png",
@@ -106,14 +106,14 @@ export const DEV_PROJECTS: DevProject[] = [
       "/projects/smart-school-reports/3.png",
     ],
     features: [
-      "Automated NLP-based duplicate detection and grouping to prevent redundant operational workload.",
-      "Real-time ticket status lifecycle (Open, In Progress, Resolved) with role-based routing.",
-      "Administrative dashboard with filtering by severity, category, and institutional stakeholder.",
-      "Modular decoupled architecture connecting an intelligent processing engine to modern web views.",
+      "Secure Google OAuth authentication with strict domain filtering to allow exclusive access only to students of the institution.",
+      "Real-time ticket lifecycle tracking for campus issues and maintenance reports (Open, In Review, Resolved).",
+      "Relational data modeling and Row Level Security (RLS) policies configured in Supabase (PostgreSQL).",
+      "Responsive administrative dashboard for tracking and resolving student reports.",
     ],
-    stack: ["Next.js", "React", "TypeScript", "Python / FastAPI", "PostgreSQL", "Tailwind CSS", "REST API"],
+    stack: ["Next.js", "React", "TypeScript", "Supabase", "Google OAuth", "Tailwind CSS", "PostgreSQL"],
     learned:
-      "Architected a solution tailored to real operational workflows, combining natural language processing with intuitive, user-centric interface design.",
+      "Mastered Google OAuth integration to enforce exclusive student-only domain access, along with relational database management and cloud architecture using Supabase and Next.js.",
     links: [
       {
         label: "View on GitHub",
@@ -124,9 +124,9 @@ export const DEV_PROJECTS: DevProject[] = [
   },
   {
     id: "solarbrain-techos",
-    name: "SolarBrain (TechosRentables)",
-    type: "Solar Asset Monitoring & Management Platform (Hackathon)",
-    tagline: "Operational analytics dashboard for commercial photovoltaic deployments and performance monitoring.",
+    name: "SolarBrain",
+    type: "Solar Telemetry & Energy Monitoring Platform (Hackathon)",
+    tagline: "Real-time solar panel monitoring via telemetry middleware with pinpoint fault detection and WhatsApp alerts.",
     image: "/projects/solarbrain-techos/preview.png",
     images: [
       "/projects/solarbrain-techos/1.png",
@@ -134,14 +134,14 @@ export const DEV_PROJECTS: DevProject[] = [
       "/projects/solarbrain-techos/3.png",
     ],
     features: [
-      "Real-time energy generation telemetry and executive KPI monitoring tiles.",
-      "Automated threshold alert system flagging photovoltaic output anomalies.",
-      "Exportable summary reports in PDF format for operational and client review.",
-      "Relational data modeling powered by PostgreSQL and Prisma ORM.",
+      "Real-time solar panel telemetry consumption and ingestion via a specialized hackathon middleware.",
+      "Granular fault detection system identifying the exact malfunctioning panel and its physical array location.",
+      "Automated critical incident alerting with instant multi-channel notifications sent via WhatsApp.",
+      "Executive KPI dashboard for energy output monitoring with downloadable PDF operational reports.",
     ],
-    stack: ["Next.js", "React", "TypeScript", "Prisma", "PostgreSQL", "Tailwind CSS"],
+    stack: ["Next.js", "React", "TypeScript", "Prisma", "PostgreSQL", "Middleware API", "WhatsApp API", "Tailwind CSS"],
     learned:
-      "Rapid iterative development during a hackathon sprint, transforming field telemetry data into actionable executive insights.",
+      "Learned to consume and process live solar panel telemetry via the hackathon middleware, architecting an alert system that pinpoints faulty panel locations and delivers instant WhatsApp notifications.",
     links: [
       {
         label: "View on GitHub",
@@ -155,12 +155,6 @@ export const DEV_PROJECTS: DevProject[] = [
     name: "PaperTrail Commerce (v2)",
     type: "Full Stack Bookstore E-Commerce Platform",
     tagline: "End-to-end digital commerce solution with dynamic catalog, shopping cart, and Strapi CMS management.",
-    image: "/projects/papertrail-commerce/preview.png",
-    images: [
-      "/projects/papertrail-commerce/1.png",
-      "/projects/papertrail-commerce/2.png",
-      "/projects/papertrail-commerce/3.png",
-    ],
     features: [
       "Interactive book storefront with multi-attribute filtering, live search, and optimized pagination.",
       "Client-side cart state management and structured multi-step checkout workflow.",
@@ -183,12 +177,6 @@ export const DEV_PROJECTS: DevProject[] = [
     name: "Quine-McCluskey Logic Simplifier",
     type: "Algorithmic Circuit & Boolean Function Optimizer",
     tagline: "Python implementation for exact minimization and tabular reduction of digital logic functions.",
-    image: "/projects/quine-mccluskey-simplifier/preview.png",
-    images: [
-      "/projects/quine-mccluskey-simplifier/1.png",
-      "/projects/quine-mccluskey-simplifier/2.png",
-      "/projects/quine-mccluskey-simplifier/3.png",
-    ],
     features: [
       "Step-by-step tabular algorithmic computation of minterms and don't-care conditions.",
       "Modular architecture enabling clean prime implicant table generation and code reusability.",

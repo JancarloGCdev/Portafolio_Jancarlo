@@ -8,7 +8,6 @@ import {
   ArrowUpRight,
   Sparkles,
   Github,
-  Activity,
   ShoppingCart,
   FileText,
   Terminal,
@@ -42,10 +41,10 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
           <div className="flex items-center justify-between pb-2.5 border-b border-zinc-800/80 text-xs font-mono">
             <span className="flex items-center gap-1.5 text-cyan-400 font-bold">
               <Sparkles className="w-3.5 h-3.5" />
-              NLP_TRIAGE // ENGINE
+              AUTH_GATEWAY // INCIDENTS
             </span>
             <span className="px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-400 text-[10px] font-mono border border-emerald-500/30">
-              {locale === "es" ? "Detección Activa" : "Active Detection"}
+              {locale === "es" ? "Acceso Estudiantes I.E." : "Restricted Student Access"}
             </span>
           </div>
           <div className="space-y-3 my-auto py-2">
@@ -53,27 +52,27 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
               <div className="flex items-center justify-between text-[11px]">
                 <span className="text-zinc-200 font-semibold flex items-center gap-1.5">
                   <Workflow className="w-3.5 h-3.5 text-cyan-400" />
-                  {locale === "es" ? "Incidencia #1042 — Falla de Hardware" : "Incident #1042 — Hardware Fault"}
+                  {locale === "es" ? "Google OAuth (Dominio Institucional)" : "Google OAuth (School Domain)"}
                 </span>
-                <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-500/30">
-                  98% {locale === "es" ? "Similitud" : "Match"}
+                <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/30">
+                  IE ONLY
                 </span>
               </div>
               <p className="text-[11px] text-zinc-400 leading-snug">
                 {locale === "es"
-                  ? "Reporte duplicado #1039 agrupado automáticamente en clúster operativo."
-                  : "Duplicate report #1039 automatically clustered to prevent redundant work."}
+                  ? "Acceso restringido únicamente a estudiantes de la institución mediante autenticación Google OAuth y control estricto de dominio."
+                  : "Access restricted exclusively to active students of the institution via Google OAuth and strict domain verification."}
               </p>
             </div>
             <div className="grid grid-cols-3 gap-2 text-center text-[10px] font-mono">
-              <div className="p-1.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">1. Open</div>
-              <div className="p-1.5 rounded bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-semibold">2. Triaged</div>
-              <div className="p-1.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-500">3. Resolved</div>
+              <div className="p-1.5 rounded bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-semibold">1. OAuth I.E.</div>
+              <div className="p-1.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">2. Incidencia</div>
+              <div className="p-1.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-500">3. Supabase RLS</div>
             </div>
           </div>
           <div className="flex items-center justify-between text-[10px] font-mono text-zinc-500 pt-2 border-t border-zinc-800/60">
-            <span>FASTAPI · POSTGRESQL</span>
-            <span className="text-cyan-400 font-medium">NEXT.JS 15</span>
+            <span>SUPABASE · GOOGLE OAUTH</span>
+            <span className="text-cyan-400 font-medium">NEXT.JS · TYPESCRIPT</span>
           </div>
         </div>
       );
@@ -117,33 +116,38 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
           <div className="flex items-center justify-between pb-2.5 border-b border-zinc-800/80 text-xs font-mono">
             <span className="flex items-center gap-1.5 text-amber-400 font-bold">
               <SunMedium className="w-3.5 h-3.5" />
-              TELEMETRY // DASHBOARD
+              TELEMETRY_MIDDLEWARE // HACKATHON
             </span>
             <span className="px-2 py-0.5 rounded bg-amber-950/80 text-amber-400 text-[10px] font-mono border border-amber-500/30">
               HACKATHON
             </span>
           </div>
-          <div className="grid grid-cols-2 gap-3 my-auto py-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 my-auto py-2">
             <div className="p-3 rounded-lg bg-zinc-900/90 border border-zinc-800 space-y-1 shadow-md">
-              <div className="text-[10px] font-mono text-zinc-500 uppercase">Live Generation</div>
-              <div className="text-base font-bold text-white flex items-center gap-1">
-                <Zap className="w-4 h-4 text-amber-400" />
-                42.8 kWh
+              <div className="text-[10px] font-mono text-amber-400 flex items-center justify-between">
+                <span>TELEMETRÍA EN VIVO</span>
               </div>
-              <div className="text-[10px] text-emerald-400 font-mono">+12.4% vs baseline</div>
+              <div className="text-sm font-bold text-white flex items-center gap-1">
+                <Zap className="w-3.5 h-3.5 text-amber-400" />
+                42.8 kWh · 96.4% Eficiencia
+              </div>
+              <div className="text-[10px] text-zinc-400 font-mono">Ingesta de datos de paneles solares</div>
             </div>
-            <div className="p-3 rounded-lg bg-zinc-900/90 border border-zinc-800 space-y-1 shadow-md">
-              <div className="text-[10px] font-mono text-zinc-500 uppercase">Efficiency</div>
-              <div className="text-base font-bold text-white flex items-center gap-1">
-                <Activity className="w-4 h-4 text-emerald-400" />
-                96.4%
+            <div className="p-3 rounded-lg bg-zinc-900/90 border border-amber-500/40 space-y-1 shadow-md bg-amber-950/20">
+              <div className="text-[10px] font-mono text-red-400 flex items-center justify-between">
+                <span>DETECCIÓN DE FALLA</span>
               </div>
-              <div className="text-[10px] text-zinc-400 font-mono">PRISMA / POSTGRES</div>
+              <div className="text-xs font-bold text-zinc-200">
+                {locale === "es" ? "Panel #14 (Zona B) — Falla de Voltaje" : "Panel #14 (Zone B) — Voltage Drop"}
+              </div>
+              <div className="text-[10px] text-emerald-300 font-mono">
+                {locale === "es" ? "Alerta y ubicación enviadas a WhatsApp" : "Alert & location dispatched via WhatsApp"}
+              </div>
             </div>
           </div>
           <div className="flex items-center justify-between text-[10px] font-mono text-zinc-400 pt-2 border-t border-zinc-800/60">
-            <span>EXPORT_ENGINE // PDF_GEN</span>
-            <span className="text-amber-400">ALERT_STATUS: NOMINAL</span>
+            <span>MIDDLEWARE · PRISMA · POSTGRES</span>
+            <span className="text-amber-400 font-medium">WHATSAPP API · PDF GEN</span>
           </div>
         </div>
       );
@@ -212,7 +216,7 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
 // ---------------------------------------------------------------------------
 
 function ProjectScreenshotGallery({ project, locale }: { project: DevProject; locale: string }) {
-  const imageList = project.images || (project.image ? [project.image] : []);
+  const imageList = (project.images && project.images.length > 0) ? project.images : (project.image ? [project.image] : []);
   const slides = ["mockup", ...imageList];
 
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -339,8 +343,8 @@ function ProjectScreenshotGallery({ project, locale }: { project: DevProject; lo
                 onClick={() => setCurrentSlide(idx)}
                 aria-label={`Slide ${idx}`}
                 className={`transition-all duration-200 rounded-full ${currentSlide === idx
-                    ? "w-4 h-1.5 bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.6)]"
-                    : "w-1.5 h-1.5 bg-zinc-700 hover:bg-zinc-500"
+                  ? "w-4 h-1.5 bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.6)]"
+                  : "w-1.5 h-1.5 bg-zinc-700 hover:bg-zinc-500"
                   }`}
               />
             ))}
@@ -750,8 +754,8 @@ export function ProjectsSection() {
                   onClick={() => goTo(idx)}
                   aria-label={`Go to project ${idx + 1}`}
                   className={`transition-all duration-300 rounded-full ${activeIdx === idx
-                      ? "w-7 h-2.5 bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)]"
-                      : "w-2 h-2 bg-zinc-700 hover:bg-zinc-500"
+                    ? "w-7 h-2.5 bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)]"
+                    : "w-2 h-2 bg-zinc-700 hover:bg-zinc-500"
                     }`}
                 />
               ))}
