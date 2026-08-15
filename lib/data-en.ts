@@ -70,7 +70,7 @@ export const DEV_PROJECTS: DevProject[] = [
     id: "portfolio-engineering",
     name: "Engineering Portfolio & Interactive CLI",
     type: "High-Performance Portfolio Landing with Interactive Linux Shell",
-    tagline: "Commercial personal landing crafted with Next.js 15, React 19, TypeScript, GSAP, and manual i18n.",
+    tagline: "Interactive web experience built with Next.js 15, React 19, TypeScript, GSAP choreography, and Canvas Matrix physics with Three.js.",
     image: "/projects/portfolio-engineering/preview.png",
     images: [
       "/projects/portfolio-engineering/1.png",
@@ -78,14 +78,14 @@ export const DEV_PROJECTS: DevProject[] = [
       "/projects/portfolio-engineering/3.png",
     ],
     features: [
-      "Interactive Linux terminal with simulated command execution and quick touch triggers.",
-      "Cookie-based manual internationalization (ES / EN) with zero hydration flicker.",
-      "Smooth entrance and scroll storytelling animations powered by GSAP.",
-      "Strict type-safe architecture with comprehensive SEO (JSON-LD, OpenGraph, dynamic metadata).",
+      "Interactive Matrix-style rain background featuring shockwave physics, right-click gravity wells, and continuous 60 FPS canvas rendering.",
+      "Sophisticated micro-interactions, entrance choreography, and scroll-storytelling orchestrated via GSAP and ScrollTrigger.",
+      "Interactive simulated Linux terminal with real-time command execution, interactive guided tours, and rich feedback.",
+      "Zero-flicker cookie-based internationalization (ES / EN), Next.js 15 architecture, strict type-safety, and complete SEO.",
     ],
-    stack: ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS", "GSAP", "Server Actions"],
+    stack: ["Next.js 15", "React 19", "TypeScript", "GSAP", "Three.js", "Canvas / WebGL", "Tailwind CSS", "Server Actions"],
     learned:
-      "Engineered an interactive personal product that combines commercial storytelling, top performance, and technical character.",
+      "Mastered high-performance Canvas/WebGL rendering and Three.js techniques, tuning frame loops to sustain smooth 60 FPS without GPU/CPU bottlenecks, while orchestrating advanced GSAP animations and architecting a clean, accessible Next.js web application.",
     links: [
       {
         label: "View on GitHub",

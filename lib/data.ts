@@ -118,7 +118,7 @@ export const DEV_PROJECTS: DevProject[] = [
     id: "portfolio-engineering",
     name: "Engineering Portfolio & Interactive CLI",
     type: "Portafolio Web de Alto Rendimiento con Terminal Interactiva",
-    tagline: "Landing comercial moderna construida con Next.js 15, React 19, TypeScript, GSAP e i18n manual.",
+    tagline: "Experiencia web interactiva con Next.js 15, React 19, TypeScript, animaciones complejas en GSAP, física Matrix interactiva en Canvas y Three.js.",
     image: "/projects/portfolio-engineering/preview.png",
     images: [
       "/projects/portfolio-engineering/1.png",
@@ -126,14 +126,14 @@ export const DEV_PROJECTS: DevProject[] = [
       "/projects/portfolio-engineering/3.png",
     ],
     features: [
-      "Terminal Linux interactiva con sesión simulada y comandos dinámicos.",
-      "Sistema de internacionalización estricto (ES / EN) basado en cookies sin parpadeos de hidratación.",
-      "Animaciones de entrada y scroll-storytelling orquestadas con GSAP.",
-      "Arquitectura de componentes optimizada con 100% type-safety y SEO completo (JSON-LD, OpenGraph).",
+      "Background interactivo tipo Matrix con simulación de ondas de choque, pozos de gravedad con click secundario y renderizado optimizado a 60 FPS.",
+      "Orquestación de micro-interacciones, animaciones de entrada y scroll-storytelling impulsadas por GSAP y ScrollTrigger.",
+      "Terminal Linux interactiva con emulación de comandos en vivo, modo guiado y feedback táctil.",
+      "Arquitectura modular full stack con Next.js 15, internacionalización (ES / EN) basada en cookies sin parpadeo y SEO integral.",
     ],
-    stack: ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS", "GSAP", "Server Actions"],
+    stack: ["Next.js 15", "React 19", "TypeScript", "GSAP", "Three.js", "Canvas / WebGL", "Tailwind CSS", "Server Actions"],
     learned:
-      "Construí una experiencia web que combina narrativa comercial, rendimiento óptimo, interactividad técnica y accesibilidad.",
+      "Diseñé e implementé gráficos interactivos en Canvas/WebGL y Three.js, optimizando el ciclo de renderizado para mantener 60 FPS estables sin sobrecargar la GPU/CPU. Además, dominé la sincronización de animaciones complejas con GSAP y la creación de una arquitectura full-stack rápida, accesible y de alta calidad visual.",
     links: [
       {
         label: "Ver en GitHub",

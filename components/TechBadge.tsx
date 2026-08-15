@@ -35,6 +35,8 @@ export function getTechIconInfo(tech: string) {
   if (norm.includes("supabase")) return { slug: "supabase", color: "3ECF8E" };
   if (norm.includes("oauth")) return { slug: "google", color: "4285F4" };
   if (norm.includes("google")) return { slug: "google", color: "4285F4" };
+  if (norm.includes("three")) return { slug: "threedotjs", color: "ffffff" };
+  if (norm.includes("canvas") || norm.includes("webgl")) return { slug: "webgl", color: "990000", fallback: "code" };
   if (norm.includes("entity framework")) return { slug: "dotnet", color: "512BD4" };
   if (norm.includes("ai") || norm.includes("ia") || norm.includes("embeddings")) return { slug: "openai", color: "412991" };
   return { slug: null, color: "22D3EE", fallback: "code" };

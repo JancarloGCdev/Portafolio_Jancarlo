@@ -37,7 +37,7 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
   switch (project.id) {
     case "smart-school-reports":
       return (
-        <div className="w-full h-full min-h-[240px] sm:min-h-[280px] rounded-xl bg-gradient-to-br from-cyan-950/50 via-zinc-900/95 to-[#060b13] border border-cyan-500/30 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
+        <div className="w-full h-full min-h-[310px] sm:min-h-[360px] lg:min-h-[390px] rounded-xl bg-gradient-to-br from-cyan-950/50 via-zinc-900/95 to-[#060b13] border border-cyan-500/30 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
           <div className="flex items-center justify-between pb-2.5 border-b border-zinc-800/80 text-xs font-mono">
             <span className="flex items-center gap-1.5 text-cyan-400 font-bold">
               <Sparkles className="w-3.5 h-3.5" />
@@ -47,8 +47,8 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
               {locale === "es" ? "Acceso Estudiantes I.E." : "Restricted Student Access"}
             </span>
           </div>
-          <div className="space-y-3 my-auto py-2">
-            <div className="p-3 rounded-lg bg-zinc-900/90 border border-zinc-800 shadow-md space-y-2">
+          <div className="space-y-3.5 my-auto py-2">
+            <div className="p-3.5 rounded-lg bg-zinc-900/90 border border-zinc-800 shadow-md space-y-2">
               <div className="flex items-center justify-between text-[11px]">
                 <span className="text-zinc-200 font-semibold flex items-center gap-1.5">
                   <Workflow className="w-3.5 h-3.5 text-cyan-400" />
@@ -65,9 +65,9 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
               </p>
             </div>
             <div className="grid grid-cols-3 gap-2 text-center text-[10px] font-mono">
-              <div className="p-1.5 rounded bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-semibold">1. OAuth I.E.</div>
-              <div className="p-1.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">2. Incidencia</div>
-              <div className="p-1.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-500">3. Supabase RLS</div>
+              <div className="p-2 rounded bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-semibold">1. OAuth I.E.</div>
+              <div className="p-2 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">2. Incidencia</div>
+              <div className="p-2 rounded bg-zinc-900 border border-zinc-800 text-zinc-500">3. Supabase RLS</div>
             </div>
           </div>
           <div className="flex items-center justify-between text-[10px] font-mono text-zinc-500 pt-2 border-t border-zinc-800/60">
@@ -79,7 +79,7 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
 
     case "papertrail-commerce":
       return (
-        <div className="w-full h-full min-h-[240px] sm:min-h-[280px] rounded-xl bg-gradient-to-br from-emerald-950/50 via-zinc-900/95 to-[#060b13] border border-emerald-500/30 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
+        <div className="w-full h-full min-h-[310px] sm:min-h-[360px] lg:min-h-[390px] rounded-xl bg-gradient-to-br from-emerald-950/50 via-zinc-900/95 to-[#060b13] border border-emerald-500/30 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
           <div className="flex items-center justify-between pb-2.5 border-b border-zinc-800/80 text-xs font-mono">
             <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
               <ShoppingCart className="w-3.5 h-3.5" />
@@ -88,22 +88,22 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
             <span className="text-zinc-400 text-[10px] font-mono">REST_API: 200 OK</span>
           </div>
           <div className="grid grid-cols-2 gap-3 my-auto py-2">
-            <div className="p-3 rounded-lg bg-zinc-900/90 border border-zinc-800 space-y-1.5 shadow-md">
-              <div className="h-12 rounded bg-emerald-950/40 border border-emerald-500/20 flex items-center justify-center text-emerald-400/80">
-                <FileText className="w-6 h-6 stroke-[1.5]" />
+            <div className="p-3.5 rounded-lg bg-zinc-900/90 border border-zinc-800 space-y-2 shadow-md">
+              <div className="h-14 rounded bg-emerald-950/40 border border-emerald-500/20 flex items-center justify-center text-emerald-400/80">
+                <FileText className="w-7 h-7 stroke-[1.5]" />
               </div>
               <div className="text-[11px] font-bold text-zinc-200 truncate">Clean Architecture</div>
               <div className="text-[10px] font-mono text-emerald-400">$34.90 · In Stock</div>
             </div>
-            <div className="p-3 rounded-lg bg-zinc-900/90 border border-zinc-800 space-y-1.5 shadow-md">
-              <div className="h-12 rounded bg-cyan-950/40 border border-cyan-500/20 flex items-center justify-center text-cyan-400/80">
-                <Code2 className="w-6 h-6 stroke-[1.5]" />
+            <div className="p-3.5 rounded-lg bg-zinc-900/90 border border-zinc-800 space-y-2 shadow-md">
+              <div className="h-14 rounded bg-cyan-950/40 border border-cyan-500/20 flex items-center justify-center text-cyan-400/80">
+                <Code2 className="w-7 h-7 stroke-[1.5]" />
               </div>
               <div className="text-[11px] font-bold text-zinc-200 truncate">Designing Data-Intensive</div>
               <div className="text-[10px] font-mono text-emerald-400">$42.00 · In Stock</div>
             </div>
           </div>
-          <div className="p-2 rounded bg-zinc-900 border border-zinc-800/80 flex items-center justify-between text-[10px] font-mono">
+          <div className="p-2.5 rounded bg-zinc-900 border border-zinc-800/80 flex items-center justify-between text-[10px] font-mono">
             <span className="text-zinc-400">CART: 2 ITEMS</span>
             <span className="text-emerald-400 font-bold">TOTAL: $76.90 → CHECKOUT</span>
           </div>
@@ -112,7 +112,7 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
 
     case "solarbrain-techos":
       return (
-        <div className="w-full h-full min-h-[240px] sm:min-h-[280px] rounded-xl bg-gradient-to-br from-amber-950/50 via-zinc-900/95 to-[#060b13] border border-amber-500/30 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
+        <div className="w-full h-full min-h-[310px] sm:min-h-[360px] lg:min-h-[390px] rounded-xl bg-gradient-to-br from-amber-950/50 via-zinc-900/95 to-[#060b13] border border-amber-500/30 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
           <div className="flex items-center justify-between pb-2.5 border-b border-zinc-800/80 text-xs font-mono">
             <span className="flex items-center gap-1.5 text-amber-400 font-bold">
               <SunMedium className="w-3.5 h-3.5" />
@@ -123,7 +123,7 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
             </span>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 my-auto py-2">
-            <div className="p-3 rounded-lg bg-zinc-900/90 border border-zinc-800 space-y-1 shadow-md">
+            <div className="p-3.5 rounded-lg bg-zinc-900/90 border border-zinc-800 space-y-1.5 shadow-md">
               <div className="text-[10px] font-mono text-amber-400 flex items-center justify-between">
                 <span>TELEMETRÍA EN VIVO</span>
               </div>
@@ -133,7 +133,7 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
               </div>
               <div className="text-[10px] text-zinc-400 font-mono">Ingesta de datos de paneles solares</div>
             </div>
-            <div className="p-3 rounded-lg bg-zinc-900/90 border border-amber-500/40 space-y-1 shadow-md bg-amber-950/20">
+            <div className="p-3.5 rounded-lg bg-zinc-900/90 border border-amber-500/40 space-y-1.5 shadow-md bg-amber-950/20">
               <div className="text-[10px] font-mono text-red-400 flex items-center justify-between">
                 <span>DETECCIÓN DE FALLA</span>
               </div>
@@ -154,31 +154,50 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
 
     case "portfolio-engineering":
       return (
-        <div className="w-full h-full min-h-[240px] sm:min-h-[280px] rounded-xl bg-gradient-to-br from-cyan-950/50 via-zinc-900/95 to-[#060b13] border border-cyan-500/30 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
+        <div className="w-full h-full min-h-[310px] sm:min-h-[360px] lg:min-h-[390px] rounded-xl bg-gradient-to-br from-cyan-950/50 via-zinc-900/95 to-[#060b13] border border-cyan-500/30 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
           <div className="flex items-center justify-between pb-2.5 border-b border-zinc-800/80 text-xs font-mono">
             <span className="flex items-center gap-1.5 text-cyan-400 font-bold">
               <Terminal className="w-3.5 h-3.5" />
-              CLI_ENGINE // NEXT.JS 15
+              MATRIX_CANVAS // GSAP & THREE.JS
             </span>
-            <span className="text-emerald-400 font-mono text-[10px]">100% TYPE_SAFE</span>
+            <span className="text-emerald-400 font-mono text-[10px] bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/30">
+              60 FPS RENDER
+            </span>
           </div>
-          <div className="p-3.5 rounded-lg bg-black/80 border border-zinc-800 font-mono text-xs space-y-2 my-auto">
-            <div className="text-zinc-400 text-[11px]">
-              <span className="text-cyan-400 font-bold">jancarlo@dev:~$</span> ./build --target=prod
+          <div className="space-y-3 my-auto py-2">
+            <div className="p-3.5 rounded-lg bg-black/85 border border-zinc-800 font-mono text-xs space-y-2 shadow-inner">
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="text-cyan-400 font-bold flex items-center gap-1.5">
+                  <Sparkles className="w-3 h-3 text-cyan-300" />
+                  Matrix Rain & Physics:
+                </span>
+                <span className="text-zinc-500 text-[10px]">Shockwaves + Gravity Wells</span>
+              </div>
+              <div className="text-emerald-400 text-[11px] font-mono leading-snug">
+                ✓ Canvas 2D / Three.js math-driven particle engine
+              </div>
+              <div className="text-zinc-400 text-[10px] leading-snug">
+                {locale === "es"
+                  ? "• Orquestación GSAP ScrollTrigger & timelines fluidas"
+                  : "• GSAP ScrollTrigger choreography & fluid timelines"}
+              </div>
             </div>
-            <div className="text-emerald-400 text-[11px]">✓ Compiled 13 static & dynamic routes in 8.9s</div>
-            <div className="text-zinc-500 text-[10px]">GSAP Timelines · Cookie i18n · Strict Hydration</div>
+            <div className="grid grid-cols-3 gap-2 text-center text-[10px] font-mono">
+              <div className="p-2 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">Canvas 60fps</div>
+              <div className="p-2 rounded bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-semibold">GSAP Story</div>
+              <div className="p-2 rounded bg-zinc-900 border border-zinc-800 text-emerald-400 font-semibold">Next.js 15</div>
+            </div>
           </div>
           <div className="flex items-center justify-between text-[10px] font-mono text-zinc-500 pt-2 border-t border-zinc-800/60">
-            <span>REACT 19 · TAILWIND CSS</span>
-            <span className="text-cyan-400">WCAG ACCESSIBLE</span>
+            <span>CANVAS · THREE.JS · GSAP</span>
+            <span className="text-cyan-400">100% TYPE_SAFE</span>
           </div>
         </div>
       );
 
     case "quine-mccluskey-simplifier":
       return (
-        <div className="w-full h-full min-h-[240px] sm:min-h-[280px] rounded-xl bg-gradient-to-br from-purple-950/50 via-zinc-900/95 to-[#060b13] border border-purple-500/30 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
+        <div className="w-full h-full min-h-[310px] sm:min-h-[360px] lg:min-h-[390px] rounded-xl bg-gradient-to-br from-purple-950/50 via-zinc-900/95 to-[#060b13] border border-purple-500/30 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
           <div className="flex items-center justify-between pb-2.5 border-b border-zinc-800/80 text-xs font-mono">
             <span className="flex items-center gap-1.5 text-purple-400 font-bold">
               <Binary className="w-3.5 h-3.5" />
@@ -204,7 +223,7 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
 
     default:
       return (
-        <div className="w-full h-full min-h-[240px] rounded-xl bg-zinc-900/50 border border-zinc-800 p-6 flex items-center justify-center text-zinc-500 font-mono text-xs">
+        <div className="w-full h-full min-h-[310px] sm:min-h-[360px] lg:min-h-[390px] rounded-xl bg-zinc-900/50 border border-zinc-800 p-6 flex items-center justify-center text-zinc-500 font-mono text-xs">
           PROJECT_PREVIEW // LIVE
         </div>
       );
@@ -262,7 +281,7 @@ function ProjectScreenshotGallery({ project, locale }: { project: DevProject; lo
     >
       {/* Slide Content Viewport */}
       <div
-        className="relative w-full min-h-[240px] sm:min-h-[280px] flex items-center justify-center overflow-hidden"
+        className="relative w-full min-h-[310px] sm:min-h-[360px] lg:min-h-[390px] flex items-center justify-center overflow-hidden"
         onMouseDown={(e) => onDragStart(e.clientX)}
         onMouseMove={(e) => onDragMove(e.clientX)}
         onMouseUp={onDragEnd}
@@ -274,7 +293,7 @@ function ProjectScreenshotGallery({ project, locale }: { project: DevProject; lo
         {currentSlide === 0 ? (
           <ArchitecturalMockup project={project} locale={locale} />
         ) : (
-          <div className="w-full h-full min-h-[240px] sm:min-h-[280px] relative bg-black/85 flex items-center justify-center">
+          <div className="w-full h-full min-h-[310px] sm:min-h-[360px] lg:min-h-[390px] relative bg-black/85 flex items-center justify-center">
             {imgError[currentSlide] ? (
               <div className="p-6 text-center space-y-2 font-mono text-xs text-zinc-400">
                 <ImageIcon className="w-8 h-8 mx-auto text-zinc-600" />
@@ -621,7 +640,7 @@ export function ProjectsSection() {
                     ref={(el) => {
                       cardsRef.current[idx] = el;
                     }}
-                    className="proj-slide-card shrink-0 w-[88vw] sm:w-[78vw] md:w-[68vw] lg:w-[58vw] max-w-4xl transition-all duration-300"
+                    className="proj-slide-card shrink-0 w-[90vw] sm:w-[82vw] md:w-[74vw] lg:w-[65vw] max-w-5xl transition-all duration-300"
                     style={{
                       opacity: isActive ? 1 : 0.45,
                       transform: isActive ? "scale(1)" : "scale(0.92)",
