@@ -3,8 +3,22 @@
 import React, { useState } from "react";
 import { Database, Cloud, Server, TerminalSquare, ShieldCheck, Code2 } from "lucide-react";
 
-export function getTechIconInfo(tech: string) {
+export function getTechIconInfo(tech: string): {
+  slug?: string | null;
+  localSrc?: string;
+  color: string;
+  fallback?: "database" | "cloud" | "server" | "terminal" | "shield" | "code";
+} {
   const norm = tech.toLowerCase().trim();
+  if (norm === "sql" || norm.includes("sql server") || norm.includes("stored procedures") || norm.includes("tsql") || norm.includes("t-sql")) {
+    return { localSrc: "/tech/microsoft-sql-server.svg", color: "CC292B", fallback: "database" };
+  }
+  if (norm.includes("windows server") || norm === "windows" || norm.includes("windows")) {
+    return { localSrc: "/tech/windows-server.svg", color: "0078D6", fallback: "server" };
+  }
+  if (norm.includes("azure")) {
+    return { localSrc: "/tech/azure.svg", color: "0078D4", fallback: "cloud" };
+  }
   if (norm.includes("next")) return { slug: "nextdotjs", color: "ffffff" };
   if (norm.includes("react")) return { slug: "react", color: "61DAFB" };
   if (norm.includes("typescript")) return { slug: "typescript", color: "3178C6" };
@@ -20,16 +34,13 @@ export function getTechIconInfo(tech: string) {
   if (norm.includes("docker")) return { slug: "docker", color: "2496ED" };
   if (norm.includes("git")) return { slug: "git", color: "F05032" };
   if (norm.includes("blazor")) return { slug: "blazor", color: "512BD4" };
-  if (norm.includes("sql server") || norm.includes("stored procedures")) return { slug: "microsoftsqlserver", color: "CC292B", fallback: "database" };
   if (norm.includes("pytest")) return { slug: "pytest", color: "0A9EDC" };
   if (norm.includes("linux") || norm.includes("bash")) return { slug: "linux", color: "FCC624", fallback: "terminal" };
   if (norm.includes("cisco") || norm.includes("ccna")) return { slug: "cisco", color: "1BA0D7", fallback: "shield" };
-  if (norm.includes("azure")) return { slug: "microsoftazure", color: "0078D4", fallback: "cloud" };
   if (norm.includes("html")) return { slug: "html5", color: "E34F26" };
   if (norm.includes("css")) return { slug: "css3", color: "1572B6" };
   if (norm.includes("node")) return { slug: "nodedotjs", color: "5FA04E" };
   if (norm.includes("postman")) return { slug: "postman", color: "FF6C37" };
-  if (norm.includes("windows server")) return { slug: "windows", color: "0078D6", fallback: "server" };
   if (norm.includes("whatsapp")) return { slug: "whatsapp", color: "25D366" };
   if (norm.includes("middleware")) return { slug: null, color: "F59E0B", fallback: "server" };
   if (norm.includes("supabase")) return { slug: "supabase", color: "3ECF8E" };
@@ -51,7 +62,9 @@ export function TechBadge({
 }) {
   const [hasError, setHasError] = useState(false);
   const info = getTechIconInfo(tech);
-  const iconUrl = info.slug && !hasError ? `https://cdn.simpleicons.org/${info.slug}/${info.color}` : null;
+  const iconUrl = !hasError
+    ? (info.localSrc || (info.slug ? `https://cdn.simpleicons.org/${info.slug}/${info.color}` : null))
+    : null;
 
   const renderFallback = () => {
     const props = { className: "w-3.5 h-3.5 shrink-0 text-cyan-400" };

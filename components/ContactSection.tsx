@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { usePortfolio } from "@/components/portfolio-locale-provider";
 import {
@@ -11,7 +11,6 @@ import {
   Copy,
   ExternalLink,
   ArrowUpRight,
-  User,
   Sparkles,
   Briefcase,
   MapPin,
@@ -28,7 +27,28 @@ export function ContactSection() {
   const { locale, profile } = usePortfolio();
   const containerRef = useRef<HTMLElement>(null);
   const [copied, setCopied] = useState(false);
-  const [imgError, setImgError] = useState(false);
+  const [isContactHovered, setIsContactHovered] = useState(false);
+  const [isContactTapped, setIsContactTapped] = useState(false);
+  const [isContactAutoPosed, setIsContactAutoPosed] = useState(false);
+  const isTouchDevice = useRef(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if ("ontouchstart" in window || navigator.maxTouchPoints > 0) {
+      isTouchDevice.current = true;
+      const interval = setInterval(() => {
+        setIsContactAutoPosed((prev) => !prev);
+      }, 4500);
+      return () => clearInterval(interval);
+    }
+  }, []);
+
+  const isPose2Active = isContactHovered || isContactTapped || isContactAutoPosed;
+
+  const handleToggleContactPose = () => {
+    setIsContactAutoPosed(false);
+    setIsContactTapped((prev) => !prev);
+  };
 
   const email = profile.email || "jancarlogallonc@gmail.com";
   const linkedinUrl = "https://www.linkedin.com/in/jancarlo-gc";
@@ -71,7 +91,7 @@ export function ContactSection() {
           scrub: true,
         },
       });
-      
+
       gsap.to(".contact-shape-1", {
         y: isMobile ? -20 : -100,
         rotation: 45,
@@ -133,24 +153,58 @@ export function ContactSection() {
           <div className="pointer-events-none absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* LEFT COLUMN: HERO PORTRAIT PHOTO INTEGRATION */}
+            {/* LEFT COLUMN: HERO PORTRAIT PHOTO INTEGRATION (TRON DUAL-POSE MORPH) */}
             <div className="lg:col-span-5 flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden border-2 border-cyan-500/40 p-1.5 bg-gradient-to-b from-cyan-950/60 to-zinc-900 shadow-2xl shadow-cyan-950/40 group">
-                <div className="relative w-full h-full rounded-full overflow-hidden bg-black/60">
-                  {!imgError ? (
-                    <Image
-                      src="/profile.avif"
-                      alt={`${profile.name} - Software Engineer`}
-                      fill
-                      sizes="(max-width: 640px) 200px, 256px"
-                      className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                      onError={() => setImgError(true)}
-                    />
-                  ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center text-cyan-400 bg-zinc-900">
-                      <User className="w-16 h-16 stroke-[1.2]" />
-                    </div>
-                  )}
+              <div
+                className={`relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden border-2 p-1.5 bg-gradient-to-b from-blue-950/70 via-indigo-950/40 to-black transition-all duration-500 cursor-pointer group select-none ${
+                  isPose2Active
+                    ? "border-cyan-400 shadow-[0_0_40px_rgba(0,140,255,0.7),inset_0_0_25px_rgba(0,140,255,0.45)]"
+                    : "border-blue-500/50 shadow-[0_0_30px_rgba(0,102,255,0.4),inset_0_0_20px_rgba(0,80,220,0.3)] hover:shadow-[0_0_45px_rgba(0,140,255,0.7),inset_0_0_25px_rgba(0,140,255,0.45)] hover:border-cyan-400"
+                }`}
+                onClick={handleToggleContactPose}
+                onMouseEnter={() => {
+                  if (!isTouchDevice.current) setIsContactHovered(true);
+                }}
+                onMouseLeave={() => {
+                  if (!isTouchDevice.current) setIsContactHovered(false);
+                }}
+                role="button"
+                tabIndex={0}
+                aria-label="Toggle profile photo pose"
+              >
+                <div className="relative w-full h-full rounded-full overflow-hidden bg-black/80">
+                  {/* Pose 1: Relaxed (profile.png) */}
+                  <Image
+                    src="/images/profile.png"
+                    alt={`${profile.name} - Software Engineer`}
+                    fill
+                    sizes="(max-width: 640px) 200px, 256px"
+                    className={`object-cover object-top will-change-transform transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                      isPose2Active
+                        ? "opacity-0 scale-[0.98] translate-y-1.5 pointer-events-none"
+                        : "opacity-100 scale-100 translate-y-0 group-hover:scale-105 pointer-events-auto"
+                    }`}
+                    style={{
+                      filter:
+                        "drop-shadow(0 0 8px rgba(0, 102, 204, 0.7)) drop-shadow(0 0 16px rgba(0, 51, 153, 0.5))",
+                    }}
+                  />
+                  {/* Pose 2: Arms Crossed (profile2.png) */}
+                  <Image
+                    src="/images/profile2.png"
+                    alt={`${profile.name} - Software Engineer (Focus Pose)`}
+                    fill
+                    sizes="(max-width: 640px) 200px, 256px"
+                    className={`object-cover object-top will-change-transform transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                      isPose2Active
+                        ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
+                        : "opacity-0 scale-[1.04] translate-y-3 rotate-[-0.6deg] pointer-events-none"
+                    }`}
+                    style={{
+                      filter:
+                        "drop-shadow(0 0 10px rgba(0, 140, 255, 0.8)) drop-shadow(0 0 22px rgba(0, 70, 200, 0.6))",
+                    }}
+                  />
                 </div>
               </div>
 
