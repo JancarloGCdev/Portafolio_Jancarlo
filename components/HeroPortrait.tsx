@@ -100,7 +100,9 @@ export function HeroPortrait({ className = "", priority = true }: HeroPortraitPr
                 fill
                 sizes="(max-width: 640px) 85vw, (max-width: 1024px) 42vw, 420px"
                 priority={priority}
-                className="object-contain object-bottom"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+                className="object-contain object-bottom pointer-events-none select-none"
                 onError={() => setHasError1(true)}
               />
             </div>
@@ -123,7 +125,9 @@ export function HeroPortrait({ className = "", priority = true }: HeroPortraitPr
                   fill
                   sizes="(max-width: 640px) 85vw, (max-width: 1024px) 42vw, 420px"
                   priority={priority}
-                  className="object-contain object-bottom"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
+                  className="object-contain object-bottom pointer-events-none select-none"
                   onError={() => setHasError2(true)}
                 />
               </div>

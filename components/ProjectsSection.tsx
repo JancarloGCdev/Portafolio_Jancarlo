@@ -11,12 +11,9 @@ import {
   Github,
   ShoppingCart,
   FileText,
-  Terminal,
   Binary,
-  SunMedium,
   Zap,
   Code2,
-  Workflow,
   ChevronLeft,
   ChevronRight,
   ImageIcon,
@@ -36,7 +33,7 @@ if (typeof window !== "undefined") {
 // Custom Architectural Visual Mockups (Slide 0 / Fallback for each project)
 // ---------------------------------------------------------------------------
 
-function ArchitecturalMockup({ project, locale }: { project: DevProject; locale: string }) {
+function ArchitecturalMockup({ project }: { project: DevProject; locale?: string }) {
   switch (project.id) {
     case "papertrail-commerce":
       return (
@@ -235,8 +232,9 @@ function ProjectLightboxModal({
           key={slides[currentIndex]}
           src={slides[currentIndex]}
           alt={`${projectName} screenshot ${currentIndex + 1}`}
-          className="max-w-full max-h-[72vh] sm:max-h-[76vh] w-auto h-auto object-contain rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] border border-zinc-800/80 select-none animate-in fade-in zoom-in-95 duration-200"
+          className="max-w-full max-h-[72vh] sm:max-h-[76vh] w-auto h-auto object-contain rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] border border-zinc-800/80 select-none pointer-events-none animate-in fade-in zoom-in-95 duration-200"
           onClick={(e) => e.stopPropagation()}
+          onContextMenu={(e) => e.preventDefault()}
           draggable={false}
         />
 
@@ -408,8 +406,10 @@ function ProjectScreenshotGallery({ project, locale }: { project: DevProject; lo
                   <img
                     src={slides[currentSlide]}
                     alt={`${project.name} screenshot ${currentSlide + 1}`}
-                    className="max-w-full max-h-full w-auto h-auto object-contain rounded-lg transition-all duration-300 drop-shadow-md select-none group-hover/img:scale-[1.02]"
+                    className="max-w-full max-h-full w-auto h-auto object-contain rounded-lg transition-all duration-300 drop-shadow-md select-none pointer-events-none group-hover/img:scale-[1.02]"
                     loading="lazy"
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
                     onError={() => setImgError((prev) => ({ ...prev, [currentSlide]: true }))}
                   />
 

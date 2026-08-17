@@ -88,7 +88,9 @@ export function TechBadge({
         <img
           src={iconUrl}
           alt={tech}
-          className="w-3.5 h-3.5 object-contain shrink-0"
+          draggable={false}
+          onContextMenu={(e) => e.preventDefault()}
+          className="w-3.5 h-3.5 object-contain shrink-0 pointer-events-none select-none"
           onError={() => setHasError(true)}
         />
       ) : (

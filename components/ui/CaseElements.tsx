@@ -26,7 +26,8 @@ export function StackTechBadge({ rawToken }: { rawToken: string }) {
           loading="lazy"
           sizes="22px"
           unoptimized
-          className="size-[22px] shrink-0 [filter:drop-shadow(0_0_10px_rgba(34,211,238,0.22))]"
+          draggable={false}
+          className="size-[22px] shrink-0 pointer-events-none select-none [filter:drop-shadow(0_0_10px_rgba(34,211,238,0.22))]"
         />
       ) : null}
       <span className="truncate text-[11px]">{resolved ? label : rawToken}</span>
@@ -96,7 +97,17 @@ export function EvRaster({ src, alt }: { src: string; alt: string }) {
   }
   return (
     <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-surface-border bg-black/25">
-      <Image src={src} alt={alt} fill className="object-cover object-center" sizes="320px" onError={() => setOk(false)} unoptimized />
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        draggable={false}
+        onContextMenu={(e) => e.preventDefault()}
+        className="object-cover object-center pointer-events-none select-none"
+        sizes="320px"
+        onError={() => setOk(false)}
+        unoptimized
+      />
     </div>
   );
 }
@@ -104,7 +115,16 @@ export function EvRaster({ src, alt }: { src: string; alt: string }) {
 export function EvSvg({ src, alt }: { src: string; alt: string }) {
   return (
     <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-surface-border bg-black/25">
-      <Image src={src} alt={alt} fill className="object-cover object-center" sizes="320px" unoptimized />
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        draggable={false}
+        onContextMenu={(e) => e.preventDefault()}
+        className="object-cover object-center pointer-events-none select-none"
+        sizes="320px"
+        unoptimized
+      />
     </div>
   );
 }

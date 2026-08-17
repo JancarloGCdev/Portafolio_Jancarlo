@@ -49,6 +49,19 @@ body {
   @apply bg-surface text-zinc-200 antialiased selection:bg-accent-cyan/20 selection:text-cyan-100;
 }
 
+/* Protección global contra descarga, arrastre y menú contextual de fotos en móviles y escritorio */
+img,
+picture {
+  -webkit-touch-callout: none !important; /* Deshabilita el menú emergente de descarga en iOS Safari */
+  -webkit-user-select: none !important;
+  -khtml-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-user-drag: none !important;
+  user-drag: none !important;
+}
+
 @layer utilities {
   /* Do not use pointer-events: none — it blocks focus/clicks when applied to wrappers that contain inputs/buttons */
   .crt-scan {

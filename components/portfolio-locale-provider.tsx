@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useMemo, type ReactNode } from "react";
+import { createContext, useContext, useMemo, useEffect, type ReactNode } from "react";
 
 import type { PortfolioLocale } from "@/lib/i18n/locale";
 import type {
@@ -82,6 +82,38 @@ export function PortfolioLocaleProvider({
       contact: CONTACT_ES,
     };
   }, [locale, bundles]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleContextMenu = (e: MouseEvent | TouchEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === "IMG" ||
+          target.closest("img") ||
+          target.tagName === "PICTURE" ||
+          target.getAttribute("data-protected-img") === "true")
+      ) {
+        e.preventDefault();
+      }
+    };
+
+    const handleDragStart = (e: DragEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target && (target.tagName === "IMG" || target.closest("img"))) {
+        e.preventDefault();
+      }
+    };
+
+    window.addEventListener("contextmenu", handleContextMenu, { capture: true });
+    window.addEventListener("dragstart", handleDragStart, { capture: true });
+
+    return () => {
+      window.removeEventListener("contextmenu", handleContextMenu, { capture: true });
+      window.removeEventListener("dragstart", handleDragStart, { capture: true });
+    };
+  }, []);
 
   return <PortfolioRuntimeContext.Provider value={value}>{children}</PortfolioRuntimeContext.Provider>;
 }

@@ -179,10 +179,12 @@ export function ContactSection() {
                     alt={`${profile.name} - Software Engineer`}
                     fill
                     sizes="(max-width: 640px) 200px, 256px"
-                    className={`object-cover object-top will-change-transform transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
+                    className={`object-cover object-top pointer-events-none select-none will-change-transform transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
                       isPose2Active
-                        ? "opacity-0 scale-[0.98] translate-y-1.5 pointer-events-none"
-                        : "opacity-100 scale-100 translate-y-0 group-hover:scale-105 pointer-events-auto"
+                        ? "opacity-0 scale-[0.98] translate-y-1.5"
+                        : "opacity-100 scale-100 translate-y-0 group-hover:scale-105"
                     }`}
                     style={{
                       filter:
@@ -195,10 +197,12 @@ export function ContactSection() {
                     alt={`${profile.name} - Software Engineer (Focus Pose)`}
                     fill
                     sizes="(max-width: 640px) 200px, 256px"
-                    className={`object-cover object-top will-change-transform transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
+                    className={`object-cover object-top pointer-events-none select-none will-change-transform transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
                       isPose2Active
-                        ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
-                        : "opacity-0 scale-[1.04] translate-y-3 rotate-[-0.6deg] pointer-events-none"
+                        ? "opacity-100 scale-100 translate-y-0"
+                        : "opacity-0 scale-[1.04] translate-y-3 rotate-[-0.6deg]"
                     }`}
                     style={{
                       filter:
