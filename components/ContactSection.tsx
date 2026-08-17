@@ -173,9 +173,9 @@ export function ContactSection() {
                 aria-label="Toggle profile photo pose"
               >
                 <div className="relative w-full h-full rounded-full overflow-hidden bg-black/80">
-                  {/* Pose 1: Relaxed (profile.png) */}
+                  {/* Pose 1: Relaxed (profile.avif) */}
                   <Image
-                    src="/images/profile.png"
+                    src="/images/profile.avif"
                     alt={`${profile.name} - Software Engineer`}
                     fill
                     sizes="(max-width: 640px) 200px, 256px"
@@ -189,9 +189,9 @@ export function ContactSection() {
                         "drop-shadow(0 0 8px rgba(0, 102, 204, 0.7)) drop-shadow(0 0 16px rgba(0, 51, 153, 0.5))",
                     }}
                   />
-                  {/* Pose 2: Arms Crossed (profile2.png) */}
+                  {/* Pose 2: Arms Crossed (profile2.avif) */}
                   <Image
-                    src="/images/profile2.png"
+                    src="/images/profile2.avif"
                     alt={`${profile.name} - Software Engineer (Focus Pose)`}
                     fill
                     sizes="(max-width: 640px) 200px, 256px"

@@ -83,7 +83,7 @@ export function HeroPortrait({ className = "", priority = true }: HeroPortraitPr
       <div className="relative w-full h-full flex items-end justify-center overflow-visible">
         {!hasError1 ? (
           <div className="relative w-full h-full min-h-[340px] sm:min-h-[420px] lg:min-h-[470px] flex items-end justify-center">
-            {/* POSE 1: Hands in pockets (profile.png) */}
+            {/* POSE 1: Hands in pockets (profile.avif) */}
             <div
               className={`absolute inset-0 flex items-end justify-center will-change-transform transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${isPose2Active
                   ? "opacity-0 scale-[0.985] translate-y-2 pointer-events-none"
@@ -95,7 +95,7 @@ export function HeroPortrait({ className = "", priority = true }: HeroPortraitPr
               }}
             >
               <Image
-                src="/images/profile.png"
+                src="/images/profile.avif"
                 alt={`${profile.name} - Software Engineer (Relaxed Pose)`}
                 fill
                 sizes="(max-width: 640px) 85vw, (max-width: 1024px) 42vw, 420px"
@@ -105,7 +105,7 @@ export function HeroPortrait({ className = "", priority = true }: HeroPortraitPr
               />
             </div>
 
-            {/* POSE 2: Arms crossed (profile2.png) */}
+            {/* POSE 2: Arms crossed (profile2.avif) */}
             {!hasError2 && (
               <div
                 className={`absolute inset-0 flex items-end justify-center will-change-transform transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${isPose2Active
@@ -118,7 +118,7 @@ export function HeroPortrait({ className = "", priority = true }: HeroPortraitPr
                 }}
               >
                 <Image
-                  src="/images/profile2.png"
+                  src="/images/profile2.avif"
                   alt={`${profile.name} - Software Engineer (Focus Pose)`}
                   fill
                   sizes="(max-width: 640px) 85vw, (max-width: 1024px) 42vw, 420px"
