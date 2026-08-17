@@ -178,8 +178,8 @@ export function HeroSection() {
             {/* 4. Commercial Value Proposition */}
             <p className="hero-anim text-sm sm:text-base text-zinc-300 leading-relaxed max-w-2xl mb-5">
               {locale === "es"
-                ? "Soy Ingeniero de Sistemas y Computación (UTP) y Técnico en Desarrollo de Software (SENA). Me especializo en construir soluciones de software de alto impacto integrando desarrollo Full Stack (Next.js, React, TypeScript, .NET, Python), Inteligencia Artificial, LLMs, arquitecturas de datos y sistemas en producción. Combino rigor de ingeniería, aprendizaje continuo y adaptabilidad para resolver problemas reales."
-                : "Systems & Computer Engineer (UTP) and Software Development Technician (SENA). Specialized in building high-impact software combining Full Stack engineering (Next.js, React, TypeScript, .NET, Python), Artificial Intelligence, LLM integration, data architectures, and production systems. Combining technical rigor, continuous learning, and fast adaptability to solve real-world challenges."}
+                ? "Soy Ingeniero de Sistemas y Computación de la Universidad Tecnológica de Pereira y Técnico en Desarrollo de Software (SENA). Me especializo en construir soluciones de software de alto impacto integrando desarrollo Full Stack (Next.js, React, TypeScript, .NET, Python), Inteligencia Artificial, LLMs, arquitecturas de datos y sistemas en producción. Combino rigor de ingeniería, aprendizaje continuo y adaptabilidad para resolver problemas reales."
+                : "Systems & Computer Engineer from Universidad Tecnológica de Pereira and Software Development Technician (SENA). Specialized in building high-impact software combining Full Stack engineering (Next.js, React, TypeScript, .NET, Python), Artificial Intelligence, LLM integration, data architectures, and production systems. Combining technical rigor, continuous learning, and fast adaptability to solve real-world challenges."}
             </p>
 
             {/* MOBILE ONLY: Natural order in mobile (Photo appears right after value proposition) */}

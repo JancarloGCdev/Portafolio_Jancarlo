@@ -37,40 +37,40 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
   switch (project.id) {
     case "smart-school-reports":
       return (
-        <div className="w-full h-full min-h-[310px] sm:min-h-[360px] lg:min-h-[390px] rounded-xl bg-gradient-to-br from-cyan-950/50 via-zinc-900/95 to-[#060b13] border border-cyan-500/30 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
+        <div className="w-full h-full min-h-[260px] sm:min-h-[300px] md:min-h-[330px] rounded-2xl bg-gradient-to-br from-cyan-950/50 via-zinc-900/95 to-[#060b13] border border-cyan-500/30 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
           <div className="flex items-center justify-between pb-2.5 border-b border-zinc-800/80 text-xs font-mono">
             <span className="flex items-center gap-1.5 text-cyan-400 font-bold">
               <Sparkles className="w-3.5 h-3.5" />
               AUTH_GATEWAY // INCIDENTS
             </span>
-            <span className="px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-400 text-[10px] font-mono border border-emerald-500/30">
+            <span className="px-2.5 py-0.5 rounded bg-emerald-950/80 text-emerald-400 text-[10px] font-mono border border-emerald-500/30">
               {locale === "es" ? "Acceso Estudiantes I.E." : "Restricted Student Access"}
             </span>
           </div>
-          <div className="space-y-3.5 my-auto py-2">
-            <div className="p-3.5 rounded-lg bg-zinc-900/90 border border-zinc-800 shadow-md space-y-2">
-              <div className="flex items-center justify-between text-[11px]">
+          <div className="space-y-3 my-auto py-2">
+            <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 shadow-md space-y-2">
+              <div className="flex items-center justify-between text-xs">
                 <span className="text-zinc-200 font-semibold flex items-center gap-1.5">
-                  <Workflow className="w-3.5 h-3.5 text-cyan-400" />
+                  <Workflow className="w-4 h-4 text-cyan-400" />
                   {locale === "es" ? "Google OAuth (Dominio Institucional)" : "Google OAuth (School Domain)"}
                 </span>
-                <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/30">
+                <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/30 font-bold">
                   IE ONLY
                 </span>
               </div>
-              <p className="text-[11px] text-zinc-400 leading-snug">
+              <p className="text-xs text-zinc-400 leading-relaxed">
                 {locale === "es"
-                  ? "Acceso restringido únicamente a estudiantes de la institución mediante autenticación Google OAuth y control estricto de dominio."
+                  ? "Acceso restringido únicamente a estudiantes de la institución educativa mediante autenticación Google OAuth y control estricto de dominio institucional."
                   : "Access restricted exclusively to active students of the institution via Google OAuth and strict domain verification."}
               </p>
             </div>
-            <div className="grid grid-cols-3 gap-2 text-center text-[10px] font-mono">
-              <div className="p-2 rounded bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-semibold">1. OAuth I.E.</div>
-              <div className="p-2 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">2. Incidencia</div>
-              <div className="p-2 rounded bg-zinc-900 border border-zinc-800 text-zinc-500">3. Supabase RLS</div>
+            <div className="grid grid-cols-3 gap-2.5 text-center text-[10px] sm:text-xs font-mono">
+              <div className="p-2 rounded-lg bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-semibold">1. OAuth I.E.</div>
+              <div className="p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 font-medium">2. Incidencia</div>
+              <div className="p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400">3. Supabase RLS</div>
             </div>
           </div>
-          <div className="flex items-center justify-between text-[10px] font-mono text-zinc-500 pt-2 border-t border-zinc-800/60">
+          <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400 pt-2 border-t border-zinc-800/60">
             <span>SUPABASE · GOOGLE OAUTH</span>
             <span className="text-cyan-400 font-medium">NEXT.JS · TYPESCRIPT</span>
           </div>
@@ -79,7 +79,7 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
 
     case "papertrail-commerce":
       return (
-        <div className="w-full h-full min-h-[310px] sm:min-h-[360px] lg:min-h-[390px] rounded-xl bg-gradient-to-br from-emerald-950/50 via-zinc-900/95 to-[#060b13] border border-emerald-500/30 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
+        <div className="w-full h-full min-h-[260px] sm:min-h-[300px] md:min-h-[330px] rounded-2xl bg-gradient-to-br from-emerald-950/50 via-zinc-900/95 to-[#060b13] border border-emerald-500/30 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
           <div className="flex items-center justify-between pb-2.5 border-b border-zinc-800/80 text-xs font-mono">
             <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
               <ShoppingCart className="w-3.5 h-3.5" />
@@ -88,22 +88,22 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
             <span className="text-zinc-400 text-[10px] font-mono">REST_API: 200 OK</span>
           </div>
           <div className="grid grid-cols-2 gap-3 my-auto py-2">
-            <div className="p-3.5 rounded-lg bg-zinc-900/90 border border-zinc-800 space-y-2 shadow-md">
-              <div className="h-14 rounded bg-emerald-950/40 border border-emerald-500/20 flex items-center justify-center text-emerald-400/80">
-                <FileText className="w-7 h-7 stroke-[1.5]" />
+            <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-2 shadow-md">
+              <div className="h-12 rounded-lg bg-emerald-950/40 border border-emerald-500/20 flex items-center justify-center text-emerald-400/80">
+                <FileText className="w-6 h-6 stroke-[1.5]" />
               </div>
-              <div className="text-[11px] font-bold text-zinc-200 truncate">Clean Architecture</div>
-              <div className="text-[10px] font-mono text-emerald-400">$34.90 · In Stock</div>
+              <div className="text-xs font-bold text-zinc-200 truncate">Clean Architecture</div>
+              <div className="text-[11px] font-mono text-emerald-400 font-semibold">$34.90 · In Stock</div>
             </div>
-            <div className="p-3.5 rounded-lg bg-zinc-900/90 border border-zinc-800 space-y-2 shadow-md">
-              <div className="h-14 rounded bg-cyan-950/40 border border-cyan-500/20 flex items-center justify-center text-cyan-400/80">
-                <Code2 className="w-7 h-7 stroke-[1.5]" />
+            <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-2 shadow-md">
+              <div className="h-12 rounded-lg bg-cyan-950/40 border border-cyan-500/20 flex items-center justify-center text-cyan-400/80">
+                <Code2 className="w-6 h-6 stroke-[1.5]" />
               </div>
-              <div className="text-[11px] font-bold text-zinc-200 truncate">Designing Data-Intensive</div>
-              <div className="text-[10px] font-mono text-emerald-400">$42.00 · In Stock</div>
+              <div className="text-xs font-bold text-zinc-200 truncate">Designing Data-Intensive</div>
+              <div className="text-[11px] font-mono text-emerald-400 font-semibold">$42.00 · In Stock</div>
             </div>
           </div>
-          <div className="p-2.5 rounded bg-zinc-900 border border-zinc-800/80 flex items-center justify-between text-[10px] font-mono">
+          <div className="p-2.5 rounded-lg bg-zinc-900 border border-zinc-800/80 flex items-center justify-between text-xs font-mono">
             <span className="text-zinc-400">CART: 2 ITEMS</span>
             <span className="text-emerald-400 font-bold">TOTAL: $76.90 → CHECKOUT</span>
           </div>
@@ -112,40 +112,40 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
 
     case "solarbrain-techos":
       return (
-        <div className="w-full h-full min-h-[310px] sm:min-h-[360px] lg:min-h-[390px] rounded-xl bg-gradient-to-br from-amber-950/50 via-zinc-900/95 to-[#060b13] border border-amber-500/30 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
+        <div className="w-full h-full min-h-[260px] sm:min-h-[300px] md:min-h-[330px] rounded-2xl bg-gradient-to-br from-amber-950/50 via-zinc-900/95 to-[#060b13] border border-amber-500/30 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
           <div className="flex items-center justify-between pb-2.5 border-b border-zinc-800/80 text-xs font-mono">
             <span className="flex items-center gap-1.5 text-amber-400 font-bold">
               <SunMedium className="w-3.5 h-3.5" />
               TELEMETRY_MIDDLEWARE // HACKATHON
             </span>
-            <span className="px-2 py-0.5 rounded bg-amber-950/80 text-amber-400 text-[10px] font-mono border border-amber-500/30">
+            <span className="px-2.5 py-0.5 rounded bg-amber-950/80 text-amber-400 text-[10px] font-mono border border-amber-500/30">
               HACKATHON
             </span>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 my-auto py-2">
-            <div className="p-3.5 rounded-lg bg-zinc-900/90 border border-zinc-800 space-y-1.5 shadow-md">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 my-auto py-2">
+            <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1.5 shadow-md">
               <div className="text-[10px] font-mono text-amber-400 flex items-center justify-between">
                 <span>TELEMETRÍA EN VIVO</span>
               </div>
-              <div className="text-sm font-bold text-white flex items-center gap-1">
-                <Zap className="w-3.5 h-3.5 text-amber-400" />
+              <div className="text-sm font-bold text-white flex items-center gap-1.5">
+                <Zap className="w-4 h-4 text-amber-400" />
                 42.8 kWh · 96.4% Eficiencia
               </div>
-              <div className="text-[10px] text-zinc-400 font-mono">Ingesta de datos de paneles solares</div>
+              <div className="text-[11px] text-zinc-400 font-mono">Ingesta middleware en tiempo real</div>
             </div>
-            <div className="p-3.5 rounded-lg bg-zinc-900/90 border border-amber-500/40 space-y-1.5 shadow-md bg-amber-950/20">
+            <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-amber-500/40 space-y-1.5 shadow-md bg-amber-950/20">
               <div className="text-[10px] font-mono text-red-400 flex items-center justify-between">
                 <span>DETECCIÓN DE FALLA</span>
               </div>
               <div className="text-xs font-bold text-zinc-200">
-                {locale === "es" ? "Panel #14 (Zona B) — Falla de Voltaje" : "Panel #14 (Zone B) — Voltage Drop"}
+                {locale === "es" ? "Panel #14 (Zona B) — Falla" : "Panel #14 (Zone B) — Fault"}
               </div>
-              <div className="text-[10px] text-emerald-300 font-mono">
-                {locale === "es" ? "Alerta y ubicación enviadas a WhatsApp" : "Alert & location dispatched via WhatsApp"}
+              <div className="text-[11px] text-emerald-300 font-mono">
+                {locale === "es" ? "Alerta y coordenadas enviadas a WhatsApp" : "Alert & coordinates sent to WhatsApp"}
               </div>
             </div>
           </div>
-          <div className="flex items-center justify-between text-[10px] font-mono text-zinc-400 pt-2 border-t border-zinc-800/60">
+          <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400 pt-2 border-t border-zinc-800/60">
             <span>MIDDLEWARE · PRISMA · POSTGRES</span>
             <span className="text-amber-400 font-medium">WHATSAPP API · PDF GEN</span>
           </div>
@@ -154,50 +154,50 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
 
     case "portfolio-engineering":
       return (
-        <div className="w-full h-full min-h-[310px] sm:min-h-[360px] lg:min-h-[390px] rounded-xl bg-gradient-to-br from-cyan-950/50 via-zinc-900/95 to-[#060b13] border border-cyan-500/30 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
+        <div className="w-full h-full min-h-[260px] sm:min-h-[300px] md:min-h-[330px] rounded-2xl bg-gradient-to-br from-cyan-950/50 via-zinc-900/95 to-[#060b13] border border-cyan-500/30 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
           <div className="flex items-center justify-between pb-2.5 border-b border-zinc-800/80 text-xs font-mono">
             <span className="flex items-center gap-1.5 text-cyan-400 font-bold">
               <Terminal className="w-3.5 h-3.5" />
               MATRIX_CANVAS // GSAP & THREE.JS
             </span>
-            <span className="text-emerald-400 font-mono text-[10px] bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/30">
+            <span className="text-emerald-400 font-mono text-[10px] bg-emerald-950/80 px-2.5 py-0.5 rounded border border-emerald-500/30 font-bold">
               60 FPS RENDER
             </span>
           </div>
-          <div className="space-y-3 my-auto py-2">
-            <div className="p-3.5 rounded-lg bg-black/85 border border-zinc-800 font-mono text-xs space-y-2 shadow-inner">
-              <div className="flex items-center justify-between text-[11px]">
+          <div className="space-y-2.5 my-auto py-2">
+            <div className="p-3.5 rounded-xl bg-black/85 border border-zinc-800 font-mono text-xs space-y-2 shadow-inner">
+              <div className="flex items-center justify-between text-xs">
                 <span className="text-cyan-400 font-bold flex items-center gap-1.5">
-                  <Sparkles className="w-3 h-3 text-cyan-300" />
+                  <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
                   Matrix Rain & Physics:
                 </span>
                 <span className="text-zinc-500 text-[10px]">Shockwaves + Gravity Wells</span>
               </div>
-              <div className="text-emerald-400 text-[11px] font-mono leading-snug">
+              <div className="text-emerald-400 text-xs font-mono leading-snug">
                 ✓ Canvas 2D / Three.js math-driven particle engine
               </div>
-              <div className="text-zinc-400 text-[10px] leading-snug">
+              <div className="text-zinc-400 text-xs leading-snug">
                 {locale === "es"
                   ? "• Orquestación GSAP ScrollTrigger & timelines fluidas"
                   : "• GSAP ScrollTrigger choreography & fluid timelines"}
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-2 text-center text-[10px] font-mono">
-              <div className="p-2 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">Canvas 60fps</div>
-              <div className="p-2 rounded bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-semibold">GSAP Story</div>
-              <div className="p-2 rounded bg-zinc-900 border border-zinc-800 text-emerald-400 font-semibold">Next.js 15</div>
+            <div className="grid grid-cols-3 gap-2 text-center text-[11px] font-mono">
+              <div className="p-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400">Canvas 60fps</div>
+              <div className="p-1.5 rounded-lg bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-semibold">GSAP Story</div>
+              <div className="p-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-emerald-400 font-semibold">Next.js 15</div>
             </div>
           </div>
-          <div className="flex items-center justify-between text-[10px] font-mono text-zinc-500 pt-2 border-t border-zinc-800/60">
+          <div className="flex items-center justify-between text-[11px] font-mono text-zinc-500 pt-2 border-t border-zinc-800/60">
             <span>CANVAS · THREE.JS · GSAP</span>
-            <span className="text-cyan-400">100% TYPE_SAFE</span>
+            <span className="text-cyan-400 font-medium">100% TYPE_SAFE</span>
           </div>
         </div>
       );
 
     case "quine-mccluskey-simplifier":
       return (
-        <div className="w-full h-full min-h-[310px] sm:min-h-[360px] lg:min-h-[390px] rounded-xl bg-gradient-to-br from-purple-950/50 via-zinc-900/95 to-[#060b13] border border-purple-500/30 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
+        <div className="w-full h-full min-h-[260px] sm:min-h-[300px] md:min-h-[330px] rounded-2xl bg-gradient-to-br from-purple-950/50 via-zinc-900/95 to-[#060b13] border border-purple-500/30 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
           <div className="flex items-center justify-between pb-2.5 border-b border-zinc-800/80 text-xs font-mono">
             <span className="flex items-center gap-1.5 text-purple-400 font-bold">
               <Binary className="w-3.5 h-3.5" />
@@ -205,25 +205,25 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
             </span>
             <span className="text-zinc-400 text-[10px] font-mono">PYTEST: 100% PASS</span>
           </div>
-          <div className="p-3.5 rounded-lg bg-black/80 border border-zinc-800 font-mono text-xs space-y-2 my-auto">
-            <div className="text-[11px] text-zinc-400">
-              <span className="text-purple-400">INPUT:</span> F(A,B,C,D) = Σm(0,1,2,5,7,8,9,10,14)
+          <div className="p-3.5 rounded-xl bg-black/80 border border-zinc-800 font-mono text-xs space-y-2 my-auto">
+            <div className="text-xs text-zinc-300">
+              <span className="text-purple-400 font-bold">INPUT:</span> F(A,B,C,D) = Σm(0,1,2,5,7,8,9,10,14)
             </div>
-            <div className="p-2 rounded bg-purple-950/60 border border-purple-500/40 text-[11px] text-purple-200 font-semibold">
+            <div className="p-2 rounded-lg bg-purple-950/60 border border-purple-500/40 text-xs text-purple-200 font-semibold">
               <span className="text-purple-400 font-bold">MINIMAL_COVER:</span> {"F = A'B' + B'D' + A C'"}
             </div>
             <div className="text-[10px] text-zinc-500">Prime Implicant Table · Exact Tabular Reduction</div>
           </div>
-          <div className="flex items-center justify-between text-[10px] font-mono text-zinc-500 pt-2 border-t border-zinc-800/60">
+          <div className="flex items-center justify-between text-[11px] font-mono text-zinc-500 pt-2 border-t border-zinc-800/60">
             <span>ALGORITHMS · DATA STRUCTURES</span>
-            <span className="text-purple-400">MODULAR CLI</span>
+            <span className="text-purple-400 font-medium">MODULAR CLI</span>
           </div>
         </div>
       );
 
     default:
       return (
-        <div className="w-full h-full min-h-[310px] sm:min-h-[360px] lg:min-h-[390px] rounded-xl bg-zinc-900/50 border border-zinc-800 p-6 flex items-center justify-center text-zinc-500 font-mono text-xs">
+        <div className="w-full h-full min-h-[260px] sm:min-h-[300px] md:min-h-[330px] rounded-2xl bg-zinc-900/50 border border-zinc-800 p-6 flex items-center justify-center text-zinc-500 font-mono text-xs">
           PROJECT_PREVIEW // LIVE
         </div>
       );
@@ -272,7 +272,7 @@ function ProjectScreenshotGallery({ project, locale }: { project: DevProject; lo
 
   return (
     <div
-      className="relative w-full h-full flex flex-col justify-between rounded-xl overflow-hidden border border-zinc-800/90 bg-[#060b13] shadow-xl select-none"
+      className="relative w-full h-full flex flex-col justify-between rounded-2xl overflow-hidden border border-zinc-800/90 bg-[#060b13] shadow-xl select-none"
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === "ArrowLeft") prevSlide();
@@ -281,7 +281,7 @@ function ProjectScreenshotGallery({ project, locale }: { project: DevProject; lo
     >
       {/* Slide Content Viewport */}
       <div
-        className="relative w-full min-h-[310px] sm:min-h-[360px] lg:min-h-[390px] flex items-center justify-center overflow-hidden"
+        className="relative w-full min-h-[260px] sm:min-h-[300px] md:min-h-[330px] flex items-center justify-center overflow-hidden"
         onMouseDown={(e) => onDragStart(e.clientX)}
         onMouseMove={(e) => onDragMove(e.clientX)}
         onMouseUp={onDragEnd}
@@ -293,7 +293,7 @@ function ProjectScreenshotGallery({ project, locale }: { project: DevProject; lo
         {currentSlide === 0 ? (
           <ArchitecturalMockup project={project} locale={locale} />
         ) : (
-          <div className="w-full h-full min-h-[310px] sm:min-h-[360px] lg:min-h-[390px] relative bg-black/85 flex items-center justify-center">
+          <div className="w-full h-full min-h-[260px] sm:min-h-[300px] md:min-h-[330px] relative bg-black/85 flex items-center justify-center">
             {imgError[currentSlide] ? (
               <div className="p-6 text-center space-y-2 font-mono text-xs text-zinc-400">
                 <ImageIcon className="w-8 h-8 mx-auto text-zinc-600" />
@@ -547,9 +547,6 @@ export function ProjectsSection() {
         ease: "none",
         scrollTrigger: {
           trigger: containerRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true,
         },
       });
     },
@@ -560,7 +557,7 @@ export function ProjectsSection() {
     <section
       ref={containerRef}
       id="projects"
-      className="relative w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 border-t border-zinc-900/80 overflow-hidden"
+      className="relative w-full py-12 sm:py-16 lg:py-20 border-t border-zinc-900/80 overflow-hidden"
     >
       {/* Background Ambient Glow & Shapes */}
       <div className="proj-bg-glow pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden">
@@ -568,7 +565,7 @@ export function ProjectsSection() {
       </div>
       <div className="proj-shape-1 pointer-events-none absolute top-[20%] right-[10%] w-48 h-48 rounded-full border-[20px] border-cyan-500/5 blur-[10px] -z-10" />
 
-      <div className="w-full max-w-6xl mx-auto space-y-8 lg:space-y-12">
+      <div className="w-full space-y-8 lg:space-y-12">
         {/* =========================================================================
             1. SECTION HEADER
            ========================================================================= */}
@@ -601,7 +598,7 @@ export function ProjectsSection() {
         </div>
 
         {/* =========================================================================
-            2. HORIZONTAL CAROUSEL — PERFECTLY CENTERED ACTIVE CARD WITH SIDE PEEKS
+            2. HORIZONTAL CAROUSEL — PERFECTLY CENTERED ACTIVE CARD WITH PROMINENT SIDE PEEKS
            ========================================================================= */}
         <div
           ref={viewportRef}
@@ -622,7 +619,7 @@ export function ProjectsSection() {
             {/* Sliding Track containing ALL 5 Projects */}
             <div
               ref={trackRef}
-              className="flex items-stretch gap-6 md:gap-10 will-change-transform py-4"
+              className="flex items-stretch gap-6 md:gap-8 lg:gap-10 will-change-transform py-4"
             >
               {devProjects.map((project, idx) => {
                 const githubLink = project.links.find(
@@ -640,117 +637,111 @@ export function ProjectsSection() {
                     ref={(el) => {
                       cardsRef.current[idx] = el;
                     }}
-                    className="proj-slide-card shrink-0 w-[90vw] sm:w-[82vw] md:w-[74vw] lg:w-[65vw] max-w-5xl transition-all duration-300"
+                    className="proj-slide-card shrink-0 w-[90vw] sm:w-[84vw] md:w-[78vw] lg:w-[68vw] xl:w-[58vw] 2xl:w-[50vw] max-w-3xl transition-all duration-300"
                     style={{
                       opacity: isActive ? 1 : 0.45,
                       transform: isActive ? "scale(1)" : "scale(0.92)",
                     }}
                   >
-                    {/* High-Contrast Card Panel */}
-                    <div className="relative h-full rounded-2xl border border-zinc-700/80 bg-[#09111c]/95 backdrop-blur-2xl p-5 sm:p-7 lg:p-9 shadow-[0_25px_60px_rgba(0,0,0,0.9)] flex flex-col justify-between overflow-hidden group hover:border-zinc-500/80">
+                    {/* High-Contrast Card Panel (Tinder-Style Vertical Stack Matching Skills Dimensions) */}
+                    <div className="relative h-full rounded-3xl border border-zinc-700/80 bg-[#09111c]/95 backdrop-blur-2xl p-6 sm:p-8 shadow-[0_25px_60px_rgba(0,0,0,0.9)] flex flex-col justify-between overflow-hidden group hover:border-zinc-500/80 space-y-6">
                       {/* Top cyan glow line */}
                       <div className="pointer-events-none absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
 
                       {/* Project Index Badge */}
-                      <div className="absolute top-5 right-5 font-mono text-[11px] text-zinc-500 font-bold bg-zinc-900/80 px-2.5 py-1 rounded border border-zinc-800">
+                      <div className="absolute top-5 right-5 z-20 font-mono text-xs text-zinc-400 font-bold bg-zinc-900/90 px-3 py-1 rounded-md border border-zinc-800 backdrop-blur-md shadow-md">
                         {String(idx + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
                       </div>
 
-                      {/* Card Content Layout */}
-                      <div className="space-y-6">
-                        {/* Top 2-Column Grid: Left (Gallery) + Right (Narrative & Features) */}
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
-                          {/* SCREENSHOT / MOCKUP GALLERY */}
-                          <div className="lg:col-span-6 w-full">
-                            <ProjectScreenshotGallery project={project} locale={locale} />
-                          </div>
+                      {/* 1. TOP ROW: SCREENSHOT / MOCKUP GALLERY (IMÁGENES ARRIBA) */}
+                      <div className="w-full">
+                        <ProjectScreenshotGallery project={project} locale={locale} />
+                      </div>
 
-                          {/* PROJECT NARRATIVE & SPECS */}
-                          <div className="lg:col-span-6 w-full flex flex-col justify-between space-y-4">
-                            <div className="space-y-3">
-                              <span className="text-[11px] font-mono uppercase tracking-widest text-cyan-400 flex items-center gap-1.5 font-bold">
-                                <Sparkles className="w-3.5 h-3.5" />
-                                {project.type}
+                      {/* 2. MIDDLE ROW: PROJECT NARRATIVE & SPECS (CONTENIDO DE TEXTO ABAJO) */}
+                      <div className="w-full flex flex-col justify-between space-y-4">
+                        <div className="space-y-3">
+                          <span className="text-xs font-mono uppercase tracking-widest text-cyan-400 flex items-center gap-1.5 font-bold">
+                            <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
+                            {project.type}
+                          </span>
+
+                          <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
+                            {project.name}
+                          </h3>
+
+                          <p className="text-sm sm:text-base text-zinc-300 font-medium leading-relaxed">
+                            {project.tagline}
+                          </p>
+
+                          {/* Logros & Aprendizaje */}
+                          <div className="space-y-3.5 pt-1">
+                            <div className="space-y-1.5">
+                              <span className="text-[11px] font-mono uppercase tracking-widest text-emerald-400 flex items-center gap-1.5 font-bold">
+                                <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+                                {locale === "es" ? "Lo que logré:" : "What I achieved:"}
                               </span>
-
-                              <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
-                                {project.name}
-                              </h3>
-
-                              <p className="text-xs sm:text-sm text-zinc-300 font-medium leading-relaxed">
-                                {project.tagline}
-                              </p>
-
-                              {/* Logros & Aprendizaje */}
-                              <div className="space-y-4 pt-1">
-                                <div className="space-y-1.5">
-                                  <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-400 flex items-center gap-1.5 font-bold">
-                                    <Sparkles className="w-3 h-3" />
-                                    {locale === "es" ? "Lo que logré:" : "What I achieved:"}
-                                  </span>
-                                  <ul className="space-y-1 text-[11px] sm:text-xs text-zinc-300">
-                                    {project.features.slice(0, 2).map((feat, fIdx) => (
-                                      <li key={fIdx} className="flex items-start gap-1.5 leading-snug">
-                                        <span className="text-emerald-400 font-bold mt-0.5">✓</span>
-                                        <span>{feat}</span>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
-
-                                <div className="space-y-1.5">
-                                  <span className="text-[10px] font-mono uppercase tracking-widest text-purple-400 flex items-center gap-1.5 font-bold">
-                                    <Zap className="w-3 h-3" />
-                                    {locale === "es" ? "Lo que aprendí:" : "What I learned:"}
-                                  </span>
-                                  <p className="text-[11px] sm:text-xs text-zinc-400 leading-relaxed border-l-2 border-purple-500/30 pl-2.5">
-                                    {project.learned}
-                                  </p>
-                                </div>
-                              </div>
+                              <ul className="space-y-1.5 text-xs sm:text-sm text-zinc-300">
+                                {project.features.slice(0, 2).map((feat, fIdx) => (
+                                  <li key={fIdx} className="flex items-start gap-2 leading-relaxed">
+                                    <span className="text-emerald-400 font-bold mt-0.5">✓</span>
+                                    <span>{feat}</span>
+                                  </li>
+                                ))}
+                              </ul>
                             </div>
 
-                            {/* Action Links */}
-                            <div className="flex flex-wrap items-center gap-2.5 pt-2">
-                              {githubLink && (
-                                <a
-                                  href={githubLink.href}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-zinc-900 hover:bg-cyan-950/80 border border-zinc-700/90 hover:border-cyan-500/60 text-xs font-semibold text-zinc-200 hover:text-cyan-300 transition-all active:scale-[0.98]"
-                                >
-                                  <Github className="w-3.5 h-3.5 text-cyan-400" />
-                                  <span>{githubLink.label || "Ver en GitHub"}</span>
-                                  <ArrowUpRight className="w-3 h-3 text-zinc-500" />
-                                </a>
-                              )}
-
-                              {liveLink && (
-                                <a
-                                  href={liveLink.href}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-emerald-950/80 border border-emerald-500/40 hover:border-emerald-400 text-xs font-semibold text-emerald-300 transition-all active:scale-[0.98]"
-                                >
-                                  <ExternalLink className="w-3.5 h-3.5 text-emerald-400" />
-                                  <span>{liveLink.label || "Ver Demo"}</span>
-                                </a>
-                              )}
+                            <div className="space-y-1.5">
+                              <span className="text-[11px] font-mono uppercase tracking-widest text-purple-400 flex items-center gap-1.5 font-bold">
+                                <Zap className="w-3.5 h-3.5 text-purple-400" />
+                                {locale === "es" ? "Lo que aprendí:" : "What I learned:"}
+                              </span>
+                              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed border-l-2 border-purple-500/40 pl-3 bg-purple-950/10 py-1.5 rounded-r">
+                                {project.learned}
+                              </p>
                             </div>
                           </div>
                         </div>
 
-                        {/* Full-Width Container for Technologies & Skills with Official Logos */}
-                        <div className="pt-4 border-t border-zinc-800/80 space-y-2.5 bg-[#060b13]/60 p-4 rounded-xl border border-zinc-800/90">
-                          <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-400 block font-bold flex items-center gap-1.5">
-                            <Code2 className="w-3.5 h-3.5 text-cyan-400" />
-                            {locale === "es" ? "Stack Tecnológico & Lenguajes:" : "Technology Stack & Languages:"}
-                          </span>
-                          <div className="flex flex-wrap gap-2">
-                            {project.stack.map((tech, tIdx) => (
-                              <TechBadge key={tIdx} tech={tech} size="md" />
-                            ))}
-                          </div>
+                        {/* Action Links */}
+                        <div className="flex flex-wrap items-center gap-3 pt-2">
+                          {githubLink && (
+                            <a
+                              href={githubLink.href}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-900 hover:bg-cyan-950/80 border border-zinc-700/90 hover:border-cyan-500/60 text-xs sm:text-sm font-semibold text-zinc-200 hover:text-cyan-300 transition-all active:scale-[0.98]"
+                            >
+                              <Github className="w-4 h-4 text-cyan-400" />
+                              <span>{githubLink.label || "Ver en GitHub"}</span>
+                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-500" />
+                            </a>
+                          )}
+
+                          {liveLink && (
+                            <a
+                              href={liveLink.href}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-950/80 border border-emerald-500/40 hover:border-emerald-400 text-xs sm:text-sm font-semibold text-emerald-300 transition-all active:scale-[0.98]"
+                            >
+                              <ExternalLink className="w-4 h-4 text-emerald-400" />
+                              <span>{liveLink.label || "Ver Demo"}</span>
+                            </a>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* 3. BOTTOM ROW: FULL-WIDTH CONTAINER FOR TECHNOLOGIES & TOOLS (DEBIDAS TOOLS) */}
+                      <div className="pt-4 border-t border-zinc-800/80 space-y-2.5 bg-[#060b13]/60 p-4 rounded-2xl border border-zinc-800/90">
+                        <span className="text-[11px] font-mono uppercase tracking-widest text-cyan-400 block font-bold flex items-center gap-1.5">
+                          <Code2 className="w-4 h-4 text-cyan-400" />
+                          {locale === "es" ? "Stack Tecnológico & Herramientas:" : "Technology Stack & Tools:"}
+                        </span>
+                        <div className="flex flex-wrap gap-2">
+                          {project.stack.map((tech, tIdx) => (
+                            <TechBadge key={tIdx} tech={tech} size="md" />
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -763,7 +754,7 @@ export function ProjectsSection() {
           {/* =========================================================================
               3. CAROUSEL CONTROLS BAR [ ← ] [ Dots / Counter ] [ → ]
              ========================================================================= */}
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 pt-2">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 pt-2">
             {/* Dots */}
             <div className="flex items-center gap-2">
               {devProjects.map((_, idx) => (

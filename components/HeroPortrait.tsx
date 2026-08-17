@@ -11,7 +11,7 @@ type HeroPortraitProps = {
 };
 
 export function HeroPortrait({ className = "", priority = true }: HeroPortraitProps) {
-  const { locale, profile } = usePortfolio();
+  const { profile } = usePortfolio();
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [isTapped, setIsTapped] = useState<boolean>(false);
   const [isAutoPosed, setIsAutoPosed] = useState<boolean>(false);

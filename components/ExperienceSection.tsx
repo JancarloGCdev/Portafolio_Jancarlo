@@ -182,7 +182,7 @@ export function ExperienceSection() {
     <section
       ref={containerRef}
       id="experience"
-      className="relative w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 border-t border-zinc-900/80 overflow-hidden"
+      className="relative w-full py-12 sm:py-16 lg:py-20 border-t border-zinc-900/80 overflow-hidden"
     >
       {/* Background ambient lighting & floating elements */}
       <div className="exp-bg-glow pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden">
@@ -190,7 +190,7 @@ export function ExperienceSection() {
       </div>
       <div className="exp-shape-1 pointer-events-none absolute bottom-[10%] left-[5%] w-64 h-64 rounded-full border-[15px] border-emerald-500/5 blur-[8px] -z-10" />
 
-      <div className="w-full max-w-6xl mx-auto space-y-8 lg:space-y-10">
+      <div className="w-full space-y-8 lg:space-y-10">
         {/* =========================================================================
             1. SECTION HEADER
            ========================================================================= */}
@@ -244,7 +244,7 @@ export function ExperienceSection() {
             {/* Sliding Track containing Experiences */}
             <div
               ref={trackRef}
-              className="flex items-stretch gap-6 md:gap-10 will-change-transform py-2"
+              className="flex items-stretch gap-6 md:gap-8 lg:gap-10 will-change-transform py-2"
             >
               {experiences.map((exp, idx) => {
                 const bullets = exp.bullets || [];
@@ -257,14 +257,14 @@ export function ExperienceSection() {
                     ref={(el) => {
                       cardsRef.current[idx] = el;
                     }}
-                    className="exp-slide-card shrink-0 w-[88vw] sm:w-[78vw] md:w-[68vw] lg:w-[58vw] max-w-4xl transition-all duration-300"
+                    className="exp-slide-card shrink-0 w-[90vw] sm:w-[84vw] md:w-[78vw] lg:w-[68vw] xl:w-[58vw] 2xl:w-[50vw] max-w-3xl transition-all duration-300"
                     style={{
                       opacity: isActive ? 1 : 0.45,
                       transform: isActive ? "scale(1)" : "scale(0.92)",
                     }}
                   >
-                    {/* Compact & Attractive Experience Card */}
-                    <div className="relative h-full rounded-2xl border border-zinc-700/80 bg-[#09111c]/95 backdrop-blur-2xl p-6 sm:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.8)] flex flex-col justify-between overflow-hidden group hover:border-zinc-500/80 space-y-5">
+                    {/* Compact & Attractive Experience Card (Matching Skills Card Dimensions) */}
+                    <div className="relative h-full rounded-3xl border border-zinc-700/80 bg-[#09111c]/95 backdrop-blur-2xl p-6 sm:p-8 shadow-[0_25px_60px_rgba(0,0,0,0.9)] flex flex-col justify-between overflow-hidden group hover:border-zinc-500/80 space-y-6">
                       {/* Top cyan glow line */}
                       <div className="pointer-events-none absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
 
@@ -337,7 +337,7 @@ export function ExperienceSection() {
 
           {/* Controls Bar */}
           {total > 1 && (
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 pt-2">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 pt-2">
               <div className="flex items-center gap-2">
                 {experiences.map((_, idx) => (
                   <button

@@ -227,7 +227,7 @@ export function HeroTerminal() {
               <div className="text-purple-300 font-bold text-xs">
                 {locale === "es" ? "Ingeniería de Sistemas y Computación" : "B.S. in Systems and Computer Engineering"}
               </div>
-              <div className="text-zinc-400 text-[11px]">Universidad Tecnológica de Pereira (UTP) · 2021 – 2026</div>
+              <div className="text-zinc-400 text-[11px]">Universidad Tecnológica de Pereira · 2021 – 2026</div>
               <p className="text-zinc-400 text-[11px] mt-0.5 leading-normal">
                 {locale === "es"
                   ? "Formación en algoritmos avanzados, estructuras de datos, arquitectura de software, bases de datos relacionales, redes e ingeniería web."
