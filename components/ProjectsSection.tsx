@@ -6,9 +6,7 @@ import { usePortfolio } from "@/components/portfolio-locale-provider";
 import type { DevProject } from "@/lib/data";
 import { TechBadge } from "@/components/TechBadge";
 import {
-  ArrowUpRight,
   Sparkles,
-  Github,
   ShoppingCart,
   FileText,
   Binary,
@@ -749,9 +747,6 @@ export function ProjectsSection() {
               className="flex items-stretch gap-6 md:gap-8 lg:gap-10 will-change-transform py-4"
             >
               {devProjects.map((project, idx) => {
-                const githubLink = project.links.find(
-                  (l) => l.variant === "github" || l.href.includes("github.com")
-                );
                 const liveLink =
                   project.links.find((l) => l.variant === "live") ||
                   (project.liveUrl ? { label: "Demo", href: project.liveUrl } : undefined);
@@ -831,21 +826,8 @@ export function ProjectsSection() {
                         </div>
 
                         {/* Action Links */}
-                        <div className="flex flex-wrap items-center gap-3 pt-2">
-                          {githubLink && (
-                            <a
-                              href={githubLink.href}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-900 hover:bg-cyan-950/80 border border-zinc-700/90 hover:border-cyan-500/60 text-xs sm:text-sm font-semibold text-zinc-200 hover:text-cyan-300 transition-all active:scale-[0.98]"
-                            >
-                              <Github className="w-4 h-4 text-cyan-400" />
-                              <span>{githubLink.label || "Ver en GitHub"}</span>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-500" />
-                            </a>
-                          )}
-
-                          {liveLink && (
+                        {liveLink && (
+                          <div className="flex flex-wrap items-center gap-3 pt-2">
                             <a
                               href={liveLink.href}
                               target="_blank"
@@ -855,8 +837,8 @@ export function ProjectsSection() {
                               <ExternalLink className="w-4 h-4 text-emerald-400" />
                               <span>{liveLink.label || "Ver Demo"}</span>
                             </a>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
 
                       {/* 3. BOTTOM ROW: FULL-WIDTH CONTAINER FOR TECHNOLOGIES & TOOLS (DEBIDAS TOOLS) */}

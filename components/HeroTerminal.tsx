@@ -145,14 +145,14 @@ export function HeroTerminal() {
                       </span>
                       <span className="text-emerald-400 font-bold text-xs">{proj.name}</span>
                     </div>
-                    {proj.links[0]?.href && (
+                    {proj.liveUrl && (
                       <a
-                        href={proj.links[0].href}
+                        href={proj.liveUrl}
                         target="_blank"
                         rel="noreferrer"
                         className="text-cyan-400 hover:underline inline-flex items-center gap-0.5 text-[10px] font-mono shrink-0"
                       >
-                        GitHub <ArrowUpRight className="w-2.5 h-2.5" />
+                        Demo <ArrowUpRight className="w-2.5 h-2.5" />
                       </a>
                     )}
                   </div>

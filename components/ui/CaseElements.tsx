@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Image from "next/image";
-import { ExternalLink, Github, Linkedin } from "lucide-react";
+import { ExternalLink, Linkedin } from "lucide-react";
 
 import { resolveTechLogo, techLogoImgSrc } from "@/lib/tech-logos";
 export type CaseActions = {
@@ -38,28 +38,6 @@ export function StackTechBadge({ rawToken }: { rawToken: string }) {
 export function CaseActionButtons({ actions, nm }: { actions: CaseActions; nm: PageCopy["nodeModal"] }) {
   return (
     <>
-      {actions.github ? (
-        <a
-          href={actions.github}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-2 rounded-lg border border-zinc-600 bg-zinc-900/85 px-3 py-2 text-[13px] font-medium text-white transition hover:border-accent-cyan/45 hover:text-accent-cyan"
-        >
-          <Github className="h-4 w-4" aria-hidden /> GitHub
-          <ExternalLink className="h-3 w-3 opacity-60" aria-hidden />
-        </a>
-      ) : null}
-      {actions.githubSecondary ? (
-        <a
-          href={actions.githubSecondary}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-2 rounded-lg border border-zinc-600/85 bg-black/55 px-3 py-2 text-[12px] font-medium text-zinc-200 transition hover:border-accent-cyan/45 hover:text-accent-cyan"
-        >
-          <Github className="h-4 w-4" aria-hidden /> {nm.repoSecondary}
-          <ExternalLink className="h-3 w-3 opacity-55" aria-hidden />
-        </a>
-      ) : null}
       {actions.demo ? (
         <a
           href={actions.demo}
