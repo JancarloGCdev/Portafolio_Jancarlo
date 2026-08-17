@@ -61,13 +61,13 @@ export function HeroTerminal() {
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-cyan-400 font-bold text-sm">{profile.name}</span>
               <span className="px-2 py-0.5 rounded bg-cyan-950/70 border border-cyan-500/30 text-cyan-300 text-[10px]">
-                Software Engineer
+                Software Engineer · Full Stack · Cyber, AI & Cloud
               </span>
             </div>
             <p className="text-zinc-300 leading-normal">
               {locale === "es"
-                ? "Ingeniero de Software y Desarrollador Full Stack. Uno la agilidad y velocidad del desarrollo frontend moderno (Next.js, React, TypeScript) con la solidez, seguridad y escalabilidad del backend empresarial (.NET, Blazor, Python) y la optimización de bases de datos SQL."
-                : "Software Engineer and Full Stack Developer. Combining the speed and UX polish of modern frontend (Next.js, React, TypeScript) with the reliability, security, and scalability of enterprise backend (.NET, Blazor, Python) and SQL optimization."}
+                ? "Ingeniero de Software y Desarrollador Full Stack con enfoque en Ciberseguridad, Inteligencia Artificial y Cloud. Uno la agilidad y experiencia visual del desarrollo web moderno (Next.js, React, TypeScript) con la solidez y seguridad de arquitecturas empresariales (.NET, Python, SQL)."
+                : "Software Engineer and Full Stack Developer with a strong focus on Cybersecurity, Artificial Intelligence, and Cloud. Combining modern web engineering (Next.js, React, TypeScript) with robust, secure enterprise architectures (.NET, Python, SQL)."}
             </p>
             <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-zinc-400 pt-1.5 border-t border-zinc-800/60">
               <span>📍 {profile.location}</span>

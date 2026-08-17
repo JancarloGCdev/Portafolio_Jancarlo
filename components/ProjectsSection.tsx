@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useCallback, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { usePortfolio } from "@/components/portfolio-locale-provider";
 import type { DevProject } from "@/lib/data";
 import { TechBadge } from "@/components/TechBadge";
@@ -20,6 +21,8 @@ import {
   ChevronRight,
   ImageIcon,
   ExternalLink,
+  X,
+  Maximize2,
 } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -35,48 +38,6 @@ if (typeof window !== "undefined") {
 
 function ArchitecturalMockup({ project, locale }: { project: DevProject; locale: string }) {
   switch (project.id) {
-    case "smart-school-reports":
-      return (
-        <div className="w-full h-full rounded-2xl bg-gradient-to-br from-cyan-950/50 via-zinc-900/95 to-[#060b13] border border-cyan-500/30 p-3.5 sm:p-4 md:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
-          <div className="flex items-center justify-between pb-2 border-b border-zinc-800/80 text-xs font-mono">
-            <span className="flex items-center gap-1.5 text-cyan-400 font-bold">
-              <Sparkles className="w-3.5 h-3.5" />
-              AUTH_GATEWAY // INCIDENTS
-            </span>
-            <span className="px-2.5 py-0.5 rounded bg-emerald-950/80 text-emerald-400 text-[10px] font-mono border border-emerald-500/30">
-              {locale === "es" ? "Acceso Estudiantes I.E." : "Restricted Student Access"}
-            </span>
-          </div>
-          <div className="space-y-2.5 my-auto py-1.5">
-            <div className="p-3 sm:p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 shadow-md space-y-1.5 sm:space-y-2">
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-zinc-200 font-semibold flex items-center gap-1.5">
-                  <Workflow className="w-4 h-4 text-cyan-400" />
-                  {locale === "es" ? "Google OAuth (Dominio Institucional)" : "Google OAuth (School Domain)"}
-                </span>
-                <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/30 font-bold">
-                  IE ONLY
-                </span>
-              </div>
-              <p className="text-[11px] sm:text-xs text-zinc-400 leading-relaxed">
-                {locale === "es"
-                  ? "Acceso restringido únicamente a estudiantes de la institución educativa mediante autenticación Google OAuth y control estricto de dominio institucional."
-                  : "Access restricted exclusively to active students of the institution via Google OAuth and strict domain verification."}
-              </p>
-            </div>
-            <div className="grid grid-cols-3 gap-2 sm:gap-2.5 text-center text-[10px] sm:text-xs font-mono">
-              <div className="p-1.5 sm:p-2 rounded-lg bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-semibold">1. OAuth I.E.</div>
-              <div className="p-1.5 sm:p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 font-medium">2. Incidencia</div>
-              <div className="p-1.5 sm:p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400">3. Supabase RLS</div>
-            </div>
-          </div>
-          <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-zinc-400 pt-1.5 border-t border-zinc-800/60">
-            <span>SUPABASE · GOOGLE OAUTH</span>
-            <span className="text-cyan-400 font-medium">NEXT.JS · TYPESCRIPT</span>
-          </div>
-        </div>
-      );
-
     case "papertrail-commerce":
       return (
         <div className="w-full h-full rounded-2xl bg-gradient-to-br from-emerald-950/50 via-zinc-900/95 to-[#060b13] border border-emerald-500/30 p-3.5 sm:p-4 md:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
@@ -109,92 +70,6 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
           </div>
         </div>
       );
-
-    case "solarbrain-techos":
-      return (
-        <div className="w-full h-full rounded-2xl bg-gradient-to-br from-amber-950/50 via-zinc-900/95 to-[#060b13] border border-amber-500/30 p-3.5 sm:p-4 md:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
-          <div className="flex items-center justify-between pb-2 border-b border-zinc-800/80 text-xs font-mono">
-            <span className="flex items-center gap-1.5 text-amber-400 font-bold">
-              <SunMedium className="w-3.5 h-3.5" />
-              TELEMETRY_MIDDLEWARE // HACKATHON
-            </span>
-            <span className="px-2.5 py-0.5 rounded bg-amber-950/80 text-amber-400 text-[10px] font-mono border border-amber-500/30">
-              HACKATHON
-            </span>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 my-auto py-1.5">
-            <div className="p-3 sm:p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1 sm:space-y-1.5 shadow-md">
-              <div className="text-[10px] font-mono text-amber-400 flex items-center justify-between">
-                <span>TELEMETRÍA EN VIVO</span>
-              </div>
-              <div className="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
-                <Zap className="w-4 h-4 text-amber-400" />
-                42.8 kWh · 96.4% Eficiencia
-              </div>
-              <div className="text-[10px] sm:text-[11px] text-zinc-400 font-mono">Ingesta middleware en tiempo real</div>
-            </div>
-            <div className="p-3 sm:p-3.5 rounded-xl bg-zinc-900/90 border border-amber-500/40 space-y-1 sm:space-y-1.5 shadow-md bg-amber-950/20">
-              <div className="text-[10px] font-mono text-red-400 flex items-center justify-between">
-                <span>DETECCIÓN DE FALLA</span>
-              </div>
-              <div className="text-xs font-bold text-zinc-200">
-                {locale === "es" ? "Panel #14 (Zona B) — Falla" : "Panel #14 (Zone B) — Fault"}
-              </div>
-              <div className="text-[10px] sm:text-[11px] text-emerald-300 font-mono">
-                {locale === "es" ? "Alerta y coordenadas enviadas a WhatsApp" : "Alert & coordinates sent to WhatsApp"}
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-zinc-400 pt-1.5 border-t border-zinc-800/60">
-            <span>MIDDLEWARE · PRISMA · POSTGRES</span>
-            <span className="text-amber-400 font-medium">WHATSAPP API · PDF GEN</span>
-          </div>
-        </div>
-      );
-
-    case "portfolio-engineering":
-      return (
-        <div className="w-full h-full rounded-2xl bg-gradient-to-br from-cyan-950/50 via-zinc-900/95 to-[#060b13] border border-cyan-500/30 p-3.5 sm:p-4 md:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
-          <div className="flex items-center justify-between pb-2 border-b border-zinc-800/80 text-xs font-mono">
-            <span className="flex items-center gap-1.5 text-cyan-400 font-bold">
-              <Terminal className="w-3.5 h-3.5" />
-              MATRIX_CANVAS // GSAP & THREE.JS
-            </span>
-            <span className="text-emerald-400 font-mono text-[10px] bg-emerald-950/80 px-2.5 py-0.5 rounded border border-emerald-500/30 font-bold">
-              60 FPS RENDER
-            </span>
-          </div>
-          <div className="space-y-2 sm:space-y-2.5 my-auto py-1.5">
-            <div className="p-3 sm:p-3.5 rounded-xl bg-black/85 border border-zinc-800 font-mono text-xs space-y-1.5 sm:space-y-2 shadow-inner">
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-cyan-400 font-bold flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
-                  Matrix Rain & Physics:
-                </span>
-                <span className="text-zinc-500 text-[10px]">Shockwaves + Gravity Wells</span>
-              </div>
-              <div className="text-emerald-400 text-xs font-mono leading-snug">
-                ✓ Canvas 2D / Three.js math-driven particle engine
-              </div>
-              <div className="text-zinc-400 text-xs leading-snug">
-                {locale === "es"
-                  ? "• Orquestación GSAP ScrollTrigger & timelines fluidas"
-                  : "• GSAP ScrollTrigger choreography & fluid timelines"}
-              </div>
-            </div>
-            <div className="grid grid-cols-3 gap-2 text-center text-[10px] sm:text-[11px] font-mono">
-              <div className="p-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400">Canvas 60fps</div>
-              <div className="p-1.5 rounded-lg bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-semibold">GSAP Story</div>
-              <div className="p-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-emerald-400 font-semibold">Next.js 15</div>
-            </div>
-          </div>
-          <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-zinc-500 pt-1.5 border-t border-zinc-800/60">
-            <span>CANVAS · THREE.JS · GSAP</span>
-            <span className="text-cyan-400 font-medium">100% TYPE_SAFE</span>
-          </div>
-        </div>
-      );
-
     case "quine-mccluskey-simplifier":
       return (
         <div className="w-full h-full rounded-2xl bg-gradient-to-br from-purple-950/50 via-zinc-900/95 to-[#060b13] border border-purple-500/30 p-3.5 sm:p-4 md:p-5 flex flex-col justify-between shadow-2xl relative overflow-hidden">
@@ -231,18 +106,229 @@ function ArchitecturalMockup({ project, locale }: { project: DevProject; locale:
 }
 
 // ---------------------------------------------------------------------------
+// Fullscreen Image Lightbox Modal with Carousel & Mobile Gestures
+// ---------------------------------------------------------------------------
+
+function ProjectLightboxModal({
+  isOpen,
+  slides,
+  initialIndex,
+  projectName,
+  projectType,
+  locale,
+  onClose,
+}: {
+  isOpen: boolean;
+  slides: string[];
+  initialIndex: number;
+  projectName: string;
+  projectType: string;
+  locale: string;
+  onClose: (finalIndex: number) => void;
+}) {
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStartX = useRef(0);
+  const dragDelta = useRef(0);
+
+  useEffect(() => {
+    setCurrentIndex(initialIndex);
+  }, [initialIndex, isOpen]);
+
+  // Lock body scroll when lightbox is open
+  useEffect(() => {
+    if (!isOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [isOpen]);
+
+  const prev = useCallback(() => {
+    setCurrentIndex((prevIdx) => (prevIdx > 0 ? prevIdx - 1 : slides.length - 1));
+  }, [slides.length]);
+
+  const next = useCallback(() => {
+    setCurrentIndex((prevIdx) => (prevIdx < slides.length - 1 ? prevIdx + 1 : 0));
+  }, [slides.length]);
+
+  // Keyboard navigation & ESC to close
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose(currentIndex);
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") next();
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [isOpen, currentIndex, onClose, prev, next]);
+
+  if (!isOpen || typeof document === "undefined") return null;
+
+  const onDragStart = (clientX: number) => {
+    dragStartX.current = clientX;
+    dragDelta.current = 0;
+    setIsDragging(true);
+  };
+
+  const onDragMove = (clientX: number) => {
+    if (!isDragging) return;
+    dragDelta.current = clientX - dragStartX.current;
+  };
+
+  const onDragEnd = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    if (dragDelta.current < -40) next();
+    else if (dragDelta.current > 40) prev();
+  };
+
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-2xl flex flex-col justify-between select-none animate-in fade-in duration-200"
+      onClick={() => onClose(currentIndex)}
+    >
+      {/* 1. Header Bar */}
+      <div
+        className="w-full px-4 sm:px-6 py-3.5 bg-zinc-950/90 border-b border-zinc-800/80 flex items-center justify-between z-10 backdrop-blur-md"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex flex-col min-w-0 pr-3">
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] font-mono uppercase tracking-wider text-cyan-400 font-bold truncate">
+              {projectType}
+            </span>
+          </div>
+          <h4 className="text-sm sm:text-base font-bold text-white truncate">{projectName}</h4>
+        </div>
+
+        <div className="flex items-center gap-3 shrink-0">
+          <span className="font-mono text-xs text-zinc-400 bg-zinc-900/90 px-2.5 py-1 rounded-md border border-zinc-800 font-semibold">
+            {currentIndex + 1} / {slides.length}
+          </span>
+
+          <button
+            type="button"
+            onClick={() => onClose(currentIndex)}
+            aria-label={locale === "es" ? "Cerrar visor" : "Close viewer"}
+            className="w-9 h-9 rounded-full bg-zinc-900 hover:bg-red-950/80 text-zinc-300 hover:text-red-300 border border-zinc-700/80 hover:border-red-500/50 flex items-center justify-center transition-all active:scale-90 shadow-md cursor-pointer"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+
+      {/* 2. Main Center Content (Full Image Viewport with touch gestures) */}
+      <div
+        className="relative flex-1 w-full flex items-center justify-center p-3 sm:p-6 overflow-hidden"
+        onMouseDown={(e) => onDragStart(e.clientX)}
+        onMouseMove={(e) => onDragMove(e.clientX)}
+        onMouseUp={onDragEnd}
+        onTouchStart={(e) => onDragStart(e.touches[0].clientX)}
+        onTouchMove={(e) => onDragMove(e.touches[0].clientX)}
+        onTouchEnd={onDragEnd}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          key={slides[currentIndex]}
+          src={slides[currentIndex]}
+          alt={`${projectName} screenshot ${currentIndex + 1}`}
+          className="max-w-full max-h-[72vh] sm:max-h-[76vh] w-auto h-auto object-contain rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] border border-zinc-800/80 select-none animate-in fade-in zoom-in-95 duration-200"
+          onClick={(e) => e.stopPropagation()}
+          draggable={false}
+        />
+
+        {/* Floating Side Arrows in Lightbox */}
+        {slides.length > 1 && (
+          <>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                prev();
+              }}
+              aria-label="Previous image"
+              className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-zinc-950/80 hover:bg-cyan-950 border border-zinc-700/90 text-zinc-200 hover:text-cyan-300 flex items-center justify-center backdrop-blur-md transition-all active:scale-95 z-20 shadow-2xl cursor-pointer"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                next();
+              }}
+              aria-label="Next image"
+              className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-zinc-950/80 hover:bg-cyan-950 border border-zinc-700/90 text-zinc-200 hover:text-cyan-300 flex items-center justify-center backdrop-blur-md transition-all active:scale-95 z-20 shadow-2xl cursor-pointer"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </>
+        )}
+      </div>
+
+      {/* 3. Footer Bar: Dots & Hint */}
+      <div
+        className="w-full px-4 py-3 bg-zinc-950/90 border-t border-zinc-800/80 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-xs font-mono backdrop-blur-md z-10"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <span className="text-[11px] text-zinc-400 text-center sm:text-left">
+          {locale === "es"
+            ? "Desliza o usa flechas para navegar · Toca fuera o la X para cerrar"
+            : "Swipe or use arrows to navigate · Tap outside or X to close"}
+        </span>
+
+        {slides.length > 1 && (
+          <div className="flex items-center gap-2">
+            {slides.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setCurrentIndex(idx)}
+                aria-label={`Slide ${idx + 1}`}
+                className={`transition-all duration-200 rounded-full cursor-pointer ${
+                  currentIndex === idx
+                    ? "w-6 h-2 bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.7)]"
+                    : "w-2 h-2 bg-zinc-700 hover:bg-zinc-500"
+                }`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>,
+    document.body
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Per-Project Screenshot Gallery Component
 // ---------------------------------------------------------------------------
 
 function ProjectScreenshotGallery({ project, locale }: { project: DevProject; locale: string }) {
   const imageList = (project.images && project.images.length > 0) ? project.images : (project.image ? [project.image] : []);
-  const slides = ["mockup", ...imageList];
+  const hasImages = imageList.length > 0;
+  const slides = hasImages ? imageList : ["mockup"];
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [imgError, setImgError] = useState<Record<number, boolean>>({});
   const [isDragging, setIsDragging] = useState(false);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
   const dragStartX = useRef(0);
   const dragDelta = useRef(0);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    setCurrentSlide(0);
+  }, [project.id]);
 
   const prevSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev > 0 ? prev - 1 : slides.length - 1));
@@ -270,110 +356,148 @@ function ProjectScreenshotGallery({ project, locale }: { project: DevProject; lo
     else if (dragDelta.current > 35) prevSlide();
   };
 
+  const isMockup = slides[currentSlide] === "mockup";
+
   return (
-    <div
-      className="relative w-full h-full flex flex-col justify-between rounded-2xl overflow-hidden border border-zinc-800/90 bg-[#040810] shadow-xl select-none"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === "ArrowLeft") prevSlide();
-        if (e.key === "ArrowRight") nextSlide();
-      }}
-    >
-      {/* Slide Content Viewport: Constant Height, zero layout shifts */}
+    <>
       <div
-        className="relative w-full h-[260px] sm:h-[300px] md:h-[340px] flex items-center justify-center overflow-hidden bg-[#040810]"
-        onMouseDown={(e) => onDragStart(e.clientX)}
-        onMouseMove={(e) => onDragMove(e.clientX)}
-        onMouseUp={onDragEnd}
-        onMouseLeave={onDragEnd}
-        onTouchStart={(e) => onDragStart(e.touches[0].clientX)}
-        onTouchMove={(e) => onDragMove(e.touches[0].clientX)}
-        onTouchEnd={onDragEnd}
+        className="relative w-full h-full flex flex-col justify-between rounded-2xl overflow-hidden border border-zinc-800/90 bg-[#040810] shadow-xl select-none"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowLeft") prevSlide();
+          if (e.key === "ArrowRight") nextSlide();
+        }}
       >
-        {currentSlide === 0 ? (
-          <div className="w-full h-full p-2 sm:p-2.5">
-            <ArchitecturalMockup project={project} locale={locale} />
-          </div>
-        ) : (
-          <div className="w-full h-full relative bg-[#040810] flex items-center justify-center p-2 sm:p-3 overflow-hidden">
-            {imgError[currentSlide] ? (
-              <div className="p-6 text-center space-y-2 font-mono text-xs text-zinc-400">
-                <ImageIcon className="w-8 h-8 mx-auto text-zinc-600" />
-                <p className="text-zinc-300 font-semibold">{project.name} — Screenshot {currentSlide}</p>
-                <p className="text-[10px] text-zinc-500">
-                  {locale === "es"
-                    ? `Agregar imagen real en: public${slides[currentSlide]}`
-                    : `Add screenshot image at: public${slides[currentSlide]}`}
-                </p>
-              </div>
-            ) : (
-              /* eslint-disable-next-line @next/next/no-img-element */
-              <img
-                src={slides[currentSlide]}
-                alt={`${project.name} screenshot ${currentSlide}`}
-                className="max-w-full max-h-full w-auto h-auto object-contain rounded-lg transition-all duration-300 drop-shadow-md select-none"
-                loading="lazy"
-                onError={() => setImgError((prev) => ({ ...prev, [currentSlide]: true }))}
-              />
-            )}
-          </div>
-        )}
+        {/* Slide Content Viewport: Constant Height, zero layout shifts */}
+        <div
+          className="relative w-full h-[260px] sm:h-[300px] md:h-[340px] flex items-center justify-center overflow-hidden bg-[#040810] group/img"
+          onMouseDown={(e) => onDragStart(e.clientX)}
+          onMouseMove={(e) => onDragMove(e.clientX)}
+          onMouseUp={onDragEnd}
+          onMouseLeave={onDragEnd}
+          onTouchStart={(e) => onDragStart(e.touches[0].clientX)}
+          onTouchMove={(e) => onDragMove(e.touches[0].clientX)}
+          onTouchEnd={onDragEnd}
+        >
+          {isMockup ? (
+            <div className="w-full h-full p-2 sm:p-2.5">
+              <ArchitecturalMockup project={project} locale={locale} />
+            </div>
+          ) : (
+            <div
+              className="w-full h-full relative bg-[#040810] flex items-center justify-center p-2 sm:p-3 overflow-hidden cursor-zoom-in"
+              onClick={() => {
+                if (Math.abs(dragDelta.current) < 10) {
+                  setIsLightboxOpen(true);
+                }
+              }}
+            >
+              {imgError[currentSlide] ? (
+                <div className="p-6 text-center space-y-2 font-mono text-xs text-zinc-400">
+                  <ImageIcon className="w-8 h-8 mx-auto text-zinc-600" />
+                  <p className="text-zinc-300 font-semibold">{project.name} — Screenshot {currentSlide + 1}</p>
+                  <p className="text-[10px] text-zinc-500">
+                    {locale === "es"
+                      ? `Agregar imagen real en: public${slides[currentSlide]}`
+                      : `Add screenshot image at: public${slides[currentSlide]}`}
+                  </p>
+                </div>
+              ) : (
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={slides[currentSlide]}
+                    alt={`${project.name} screenshot ${currentSlide + 1}`}
+                    className="max-w-full max-h-full w-auto h-auto object-contain rounded-lg transition-all duration-300 drop-shadow-md select-none group-hover/img:scale-[1.02]"
+                    loading="lazy"
+                    onError={() => setImgError((prev) => ({ ...prev, [currentSlide]: true }))}
+                  />
 
-        {/* Gallery Internal Arrow Controls */}
+                  {/* Visual hint pill to tap & expand */}
+                  <div className="absolute bottom-2.5 right-2.5 z-10 flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-black/80 hover:bg-cyan-950/90 border border-zinc-700/80 text-zinc-300 group-hover/img:text-cyan-300 text-[10px] sm:text-[11px] font-mono backdrop-blur-md transition-all shadow-md pointer-events-none group-hover/img:border-cyan-500/50">
+                    <Maximize2 className="w-3 h-3 text-cyan-400" />
+                    <span>{locale === "es" ? "Toca para ampliar" : "Tap to expand"}</span>
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+
+          {/* Gallery Internal Arrow Controls */}
+          {slides.length > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  prevSlide();
+                }}
+                aria-label="Previous image"
+                className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/75 hover:bg-cyan-950 border border-zinc-700/80 text-zinc-200 flex items-center justify-center backdrop-blur-md transition-all active:scale-95 z-20 cursor-pointer"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextSlide();
+                }}
+                aria-label="Next image"
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/75 hover:bg-cyan-950 border border-zinc-700/80 text-zinc-200 flex items-center justify-center backdrop-blur-md transition-all active:scale-95 z-20 cursor-pointer"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </>
+          )}
+        </div>
+
+        {/* Gallery Footer Bar */}
         {slides.length > 1 && (
-          <>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                prevSlide();
-              }}
-              aria-label="Previous image"
-              className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/75 hover:bg-cyan-950 border border-zinc-700/80 text-zinc-200 flex items-center justify-center backdrop-blur-md transition-all active:scale-95 z-20"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                nextSlide();
-              }}
-              aria-label="Next image"
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/75 hover:bg-cyan-950 border border-zinc-700/80 text-zinc-200 flex items-center justify-center backdrop-blur-md transition-all active:scale-95 z-20"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </>
+          <div className="px-3.5 py-2 bg-[#080e18] border-t border-zinc-800/90 flex items-center justify-between text-[11px] font-mono">
+            <span className="text-[10px] text-zinc-400">
+              {isMockup
+                ? (locale === "es" ? "PREVIEW ARQUITECTÓNICO" : "SYSTEM ARCHITECTURE")
+                : (locale === "es"
+                    ? `IMAGEN ${currentSlide + 1}/${slides.length}`
+                    : `SCREENSHOT ${currentSlide + 1}/${slides.length}`)}
+            </span>
+            <div className="flex items-center gap-1.5">
+              {slides.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setCurrentSlide(idx)}
+                  aria-label={`Slide ${idx + 1}`}
+                  className={`transition-all duration-200 rounded-full cursor-pointer ${
+                    currentSlide === idx
+                      ? "w-4 h-1.5 bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.6)]"
+                      : "w-1.5 h-1.5 bg-zinc-700 hover:bg-zinc-500"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
         )}
       </div>
 
-      {/* Gallery Footer Bar */}
-      {slides.length > 1 && (
-        <div className="px-3.5 py-2 bg-[#080e18] border-t border-zinc-800/90 flex items-center justify-between text-[11px] font-mono">
-          <span className="text-[10px] text-zinc-400">
-            {currentSlide === 0
-              ? (locale === "es" ? "PREVIEW ARQUITECTÓNICO" : "SYSTEM ARCHITECTURE")
-              : `SCREENSHOT ${currentSlide}/${slides.length - 1}`}
-          </span>
-          <div className="flex items-center gap-1.5">
-            {slides.map((_, idx) => (
-              <button
-                key={idx}
-                type="button"
-                onClick={() => setCurrentSlide(idx)}
-                aria-label={`Slide ${idx}`}
-                className={`transition-all duration-200 rounded-full ${currentSlide === idx
-                  ? "w-4 h-1.5 bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.6)]"
-                  : "w-1.5 h-1.5 bg-zinc-700 hover:bg-zinc-500"
-                  }`}
-              />
-            ))}
-          </div>
-        </div>
+      {/* Lightbox Modal (Portal) */}
+      {hasImages && mounted && (
+        <ProjectLightboxModal
+          isOpen={isLightboxOpen}
+          slides={slides}
+          initialIndex={currentSlide}
+          projectName={project.name}
+          projectType={project.type}
+          locale={locale}
+          onClose={(finalIndex) => {
+            setCurrentSlide(finalIndex);
+            setIsLightboxOpen(false);
+          }}
+        />
       )}
-    </div>
+    </>
   );
 }
 

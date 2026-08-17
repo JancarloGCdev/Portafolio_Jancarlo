@@ -234,8 +234,8 @@ export function ContactSection() {
                 </span>
                 <p className="text-sm text-zinc-200 font-medium leading-relaxed">
                   {locale === "es"
-                    ? "Busco incorporarme a equipos de ingeniería orientados a software real, buenas prácticas y productos escalables. Si tienes una propuesta laboral o vacante, escríbeme directamente."
-                    : "Looking to join engineering teams building real production software, high-throughput APIs, and scalable web apps. Connect with me for open roles."}
+                    ? "Busco incorporarme a equipos de ingeniería para roles de Software Engineer, Full Stack Developer, Ciberseguridad, Cloud o Inteligencia Artificial (IA). Si tienes una vacante o propuesta laboral, escríbeme directamente."
+                    : "Looking to join engineering teams for Software Engineer, Full Stack Developer, Cybersecurity, Cloud, or AI roles. Connect with me for open opportunities or collaborations."}
                 </p>
               </div>
 
@@ -310,22 +310,41 @@ export function ContactSection() {
                 </div>
               </div>
 
-              {/* GitHub secondary link */}
-              <div className="pt-2 text-xs font-mono text-zinc-400 flex items-center justify-between">
-                <span className="flex items-center gap-1">
-                  <Briefcase className="w-3.5 h-3.5 text-cyan-400" />
-                  {locale === "es" ? "Roles objetivo: Software Engineer / Full Stack" : "Target roles: Software Engineer / Full Stack"}
-                </span>
+              {/* Target Roles & Focus Areas */}
+              <div className="pt-3 border-t border-zinc-800/80 space-y-2 text-xs font-mono text-zinc-400">
+                <div className="flex items-center justify-between">
+                  <span className="flex items-center gap-1.5 text-cyan-400 font-bold text-[11px] uppercase tracking-wider">
+                    <Briefcase className="w-3.5 h-3.5 text-cyan-400" />
+                    {locale === "es" ? "Roles Objetivo & Áreas de Interés:" : "Target Roles & Focus Areas:"}
+                  </span>
 
-                <a
-                  href={githubUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1 text-cyan-400 hover:underline font-semibold"
-                >
-                  <Github className="w-3.5 h-3.5" />
-                  <span>GitHub</span>
-                </a>
+                  <a
+                    href={githubUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1 text-cyan-400 hover:underline font-semibold"
+                  >
+                    <Github className="w-3.5 h-3.5" />
+                    <span>GitHub</span>
+                  </a>
+                </div>
+
+                <div className="flex flex-wrap gap-1.5">
+                  {[
+                    { es: "Software Engineer", en: "Software Engineer" },
+                    { es: "Full Stack Developer", en: "Full Stack Developer" },
+                    { es: "Ciberseguridad & Redes", en: "Cybersecurity & Networks" },
+                    { es: "Cloud & Backend APIs", en: "Cloud & Backend APIs" },
+                    { es: "Inteligencia Artificial (IA / LLMs)", en: "Artificial Intelligence (AI / LLMs)" },
+                  ].map((item, rIdx) => (
+                    <span
+                      key={rIdx}
+                      className="px-2.5 py-1 rounded-lg bg-zinc-900/90 border border-zinc-800 text-zinc-300 hover:text-cyan-300 hover:border-cyan-500/40 text-[11px] font-mono transition-colors"
+                    >
+                      {locale === "es" ? item.es : item.en}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

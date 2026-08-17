@@ -22,7 +22,7 @@ const STORY_ES = [
   {
     icon: <Server className="w-10 h-10 md:w-12 md:h-12" strokeWidth={1.5} />,
     title: "Sistemas en producción",
-    text: "En Outsourcing S.A.S. mantuve aplicaciones empresariales críticas. Aprendí el valor de la estabilidad, a resolver incidencias bajo SLA y a ejecutar despliegues seguros.",
+    text: "Mantuve aplicaciones empresariales críticas en entornos productivos. Aprendí el valor de la estabilidad, a resolver incidencias bajo SLA y a ejecutar despliegues seguros.",
     techs: [".NET", "C#", "SQL Server", "Windows Server"],
   },
   {
@@ -56,7 +56,7 @@ const STORY_EN = [
   {
     icon: <Server className="w-10 h-10 md:w-12 md:h-12" strokeWidth={1.5} />,
     title: "Production systems",
-    text: "At Outsourcing S.A.S., I maintained mission-critical applications. I learned the value of stability, resolving SLA incidents, and executing safe deployments.",
+    text: "Maintained mission-critical enterprise applications in production environments. I learned the value of stability, resolving SLA incidents, and executing safe deployments.",
     techs: [".NET", "C#", "SQL Server", "Windows Server"],
   },
   {

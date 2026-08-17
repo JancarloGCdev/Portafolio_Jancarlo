@@ -54,10 +54,10 @@ const SI = (slug: string, color: string) => `https://cdn.simpleicons.org/${slug}
 /** Perfil profesional de Jancarlo Gallón Cano */
 export const PROFILE = {
   name: "Jancarlo Gallón Cano",
-  role: "Software Engineer | Full Stack Developer · Next.js, React, .NET (C#) & Python · Arquitectura escalable, Cloud y Ciberseguridad",
+  role: "Software Engineer | Full Stack Developer · Next.js, React, .NET (C#) & Python · Ciberseguridad, AI & Cloud",
   location: "Pereira, Risaralda, Colombia · Abierto a trabajo remoto / híbrido",
   status: "Disponible para nuevas oportunidades",
-  focus: "Construcción de aplicaciones web de alto rendimiento, backend estructurado con APIs REST, optimización de base de datos SQL y código mantenible con buenas prácticas de seguridad.",
+  focus: "Construcción de software de alto rendimiento y APIs robustas, integración de Inteligencia Artificial (LLMs), arquitecturas Cloud y aplicaciones seguras con buenas prácticas de ingeniería.",
   email: "jancarlogallonc@gmail.com",
   languages: "Español (Nativo) · Inglés (B1-B2 Conversacional)",
 } as const;
@@ -394,7 +394,7 @@ export const QUICK_LINKS = {
 
 export const CONTACT = {
   headline: "¿Tienes un reto técnico o una posición abierta? Hablemos.",
-  sub: "Estoy disponible para roles como Software Engineer o Full Stack Developer (remoto o híbrido). Mi canal preferido de contacto profesional es LinkedIn, o puedes escribirme directamente por correo electrónico.",
+  sub: "Estoy disponible para roles como Software Engineer, Full Stack Developer, Ciberseguridad, Cloud o AI (remoto o híbrido). Mi canal preferido de contacto profesional es LinkedIn, o puedes escribirme directamente por correo electrónico.",
   email: "jancarlogallonc@gmail.com",
   location: "Pereira, Risaralda, Colombia",
   links: [
