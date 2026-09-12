@@ -781,19 +781,19 @@ export function ProjectsSection() {
                     }}
                   >
                     {/* Compact 2-Column Project Card (Engineered to fit single viewport) */}
-                    <div className="relative h-full rounded-2xl border border-zinc-700/80 bg-[#09111c]/98 p-4 sm:p-5 lg:p-6 shadow-[0_15px_35px_rgba(0,0,0,0.85)] flex flex-col justify-between overflow-hidden group hover:border-zinc-500/80">
+                    <div className="relative h-full rounded-2xl border border-zinc-700/80 bg-[#09111c]/98 p-4 sm:p-5 lg:p-6 shadow-[0_15px_35px_rgba(0,0,0,0.85)] flex flex-col justify-center overflow-hidden group hover:border-zinc-500/80">
                       {/* Top cyan glow line */}
                       <div className="pointer-events-none absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
 
                       {/* 2-Column Responsive Layout: Gallery Left, Content Right */}
-                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center">
+                      <div className="w-full my-auto grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center">
                         {/* LEFT: Mockup / Screenshot Gallery */}
                         <div className="lg:col-span-5 w-full">
                           <ProjectScreenshotGallery project={project} locale={locale} />
                         </div>
 
                         {/* RIGHT: Specs, Impact & Stack */}
-                        <div className="lg:col-span-7 flex flex-col justify-between space-y-2.5 sm:space-y-3">
+                        <div className="lg:col-span-7 flex flex-col justify-center space-y-2.5 sm:space-y-3">
                           {/* Header: Type Tag, Name & Tagline */}
                           <div>
                             <div className="flex items-center justify-between gap-2">
