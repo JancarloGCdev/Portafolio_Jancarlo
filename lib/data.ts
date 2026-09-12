@@ -70,6 +70,29 @@ export const DEFAULT_ABOUT_PARAGRAPHS_ES = [
 
 export const EXPERIENCES: ExperienceEntry[] = [
   {
+    company: "Freelance | Self-Employed",
+    role: "Desarrollador Full Stack & Security Engineer",
+    location: "Remoto",
+    period: "Jul. 2025 – Presente",
+    summary:
+      "Desarrollo full stack y seguridad en aplicaciones web para clientes independientes: diseño de flujos de automatización con IA generativa, auditorías en APIs RESTful y orquestación de entornos aislados con contenedores Linux.",
+    bullets: [
+      "Desarrollé flujos de automatización de medios y contenido integrando n8n, Google AI Studio y modelos generativos (Imagen 3, Veo 3) para optimizar procesos operativos.",
+      "Ejecuté auditorías prácticas de ciberseguridad en aplicaciones web, implementando validaciones estrictas en APIs RESTful y segmentación de control de accesos.",
+      "Configuré y administré entornos de desarrollo y pruebas aislados utilizando contenedores Linux, asegurando la integridad de los datos en las fases previas al despliegue.",
+      "Diseñé arquitecturas de software adaptables para clientes independientes, documentando requerimientos técnicos y traduciéndolos en soluciones escalables.",
+    ],
+    modalTakeaways: [
+      "La automatización de procesos mediante IA generativa y orquestación en n8n reduce drásticamente el tiempo operativo y los errores manuales.",
+      "La ciberseguridad aplicada desde las fases tempranas en APIs y contenedores Linux previene brechas críticas de datos.",
+    ],
+    stack: ["n8n", "Google AI Studio", "Imagen 3 / Veo 3", "APIs RESTful", "Docker / Linux", "Ciberseguridad", "Python"],
+    insightsHeading: "Automatización & Ciberseguridad",
+    securityConsiderations: [
+      "Auditorías continuas de endpoints REST, control de accesos basado en roles (RBAC) y segmentación estricta en contenedores Linux.",
+    ],
+  },
+  {
     company: "Outsourcing S.A.S. BIC",
     role: "Desarrollador Full Stack .NET (Blazor / ASP.NET)",
     location: "Bogotá D.C., Colombia (Remoto)",
@@ -90,6 +113,29 @@ export const EXPERIENCES: ExperienceEntry[] = [
     insightsHeading: "Entornos Productivos",
     securityConsiderations: [
       "Principio de menor privilegio en credenciales de producción y ventanas controladas para despliegues.",
+    ],
+  },
+  {
+    company: "Universidad Tecnológica de Pereira",
+    role: "Monitor de Salas de Cómputo",
+    location: "Pereira, Risaralda, Colombia (Presencial)",
+    period: "Ago. 2024 – Jun. 2025",
+    summary:
+      "Responsable de la operatividad, mantenimiento y soporte de la infraestructura tecnológica de los laboratorios de computación, garantizando la disponibilidad de recursos para cientos de usuarios diarios.",
+    bullets: [
+      "Administré y garanticé la operatividad continua de más de 30 estaciones de trabajo físicas, reduciendo los tiempos de inactividad de los equipos mediante mantenimientos preventivos y correctivos.",
+      "Brindé soporte técnico de Nivel 1 y Nivel 2 a estudiantes y docentes, resolviendo más de 10 incidencias semanales relacionadas con conectividad de red, fallos de software y configuración de hardware.",
+      "Capacité a los usuarios finales en la resolución de problemas básicos y el uso adecuado del software especializado, optimizando el flujo de atención y mejorando la experiencia del usuario.",
+      "Supervisé la conectividad de red local (LAN) y la integridad de los sistemas, asegurando el cumplimiento de políticas de seguridad y disponibilidad tecnológica.",
+    ],
+    modalTakeaways: [
+      "El mantenimiento preventivo metódico y la estandarización de estaciones reducen de forma sustancial las caídas de servicio no planificadas.",
+      "La empatía y la claridad pedagógica en soporte técnico transforman incidencias complejas en experiencias satisfactorias para los usuarios.",
+    ],
+    stack: ["Soporte L1 / L2", "Redes LAN / TCP-IP", "Mantenimiento Hardware & Software", "Linux / Windows", "Help Desk", "Cisco CCNA"],
+    insightsHeading: "Soporte & Infraestructura",
+    securityConsiderations: [
+      "Políticas de uso seguro de estaciones de acceso público, protección de credenciales de red y restauración periódica de puntos limpios de sistema.",
     ],
   },
 ];

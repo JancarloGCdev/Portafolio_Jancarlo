@@ -47,6 +47,19 @@ export function getTechIconInfo(tech: string): {
   if (norm.includes("oauth")) return { slug: "google", color: "4285F4" };
   if (norm.includes("google")) return { slug: "google", color: "4285F4" };
   if (norm.includes("three")) return { slug: "threedotjs", color: "ffffff" };
+  if (norm.includes("n8n")) return { slug: "n8n", color: "EA4B71" };
+  if (norm.includes("seguridad") || norm.includes("security") || norm.includes("cyber")) {
+    return { slug: null, color: "10B981", fallback: "shield" };
+  }
+  if (norm.includes("soporte") || norm.includes("support") || norm.includes("help desk")) {
+    return { slug: null, color: "38BDF8", fallback: "terminal" };
+  }
+  if (norm.includes("redes") || norm.includes("lan") || norm.includes("tcp")) {
+    return { slug: "cisco", color: "1BA0D7", fallback: "shield" };
+  }
+  if (norm.includes("mantenimiento") || norm.includes("hardware")) {
+    return { slug: null, color: "F59E0B", fallback: "server" };
+  }
   if (norm.includes("canvas") || norm.includes("webgl")) return { slug: "webgl", color: "990000", fallback: "code" };
   if (norm.includes("entity framework")) return { slug: "dotnet", color: "512BD4" };
   if (norm.includes("ai") || norm.includes("ia") || norm.includes("embeddings")) return { slug: "openai", color: "412991" };

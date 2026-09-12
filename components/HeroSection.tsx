@@ -27,84 +27,26 @@ export function HeroSection() {
         return;
       }
 
-      const isMobile = window.innerWidth < 768;
-
       // 1. Initial Load Reveal Animation
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
       
       tl.from(".hero-portrait-anim", {
         opacity: 0,
-        y: 30,
-        duration: 1,
-        delay: 0.1,
+        y: 25,
+        duration: 0.9,
+        delay: 0.05,
       })
       .from(".hero-anim", {
         opacity: 0,
-        y: 20,
-        duration: 0.8,
-        stagger: 0.1,
-      }, "-=0.6")
+        y: 15,
+        duration: 0.7,
+        stagger: 0.08,
+      }, "-=0.5")
       .from(".hero-terminal-anim", {
         opacity: 0,
-        y: 30,
-        duration: 0.8,
-      }, "-=0.4");
-
-      // 2. Parallax Effects on Scroll (Increased Intensity)
-      gsap.to(".hero-bg-glow", {
-        y: isMobile ? 80 : 350,
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
-
-      gsap.to(".hero-shape-1", {
-        y: isMobile ? 50 : 250,
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
-
-      gsap.to(".hero-shape-2", {
-        y: isMobile ? -40 : -150,
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
-
-      gsap.to(".hero-portrait-parallax", {
-        y: isMobile ? 60 : 180,
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
-      
-      gsap.to(".hero-terminal-parallax", {
-        y: isMobile ? 40 : 120,
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
+        y: 25,
+        duration: 0.7,
+      }, "-=0.3");
     },
     { scope: containerRef }
   );
@@ -113,15 +55,15 @@ export function HeroSection() {
     <section
       ref={containerRef}
       id="hero"
-      className="relative w-full min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center overflow-hidden pt-8 pb-20 sm:pt-12 sm:pb-28 lg:pt-16 lg:pb-40 px-4 sm:px-6 lg:px-8"
+      className="relative w-full flex flex-col items-center justify-center overflow-hidden pt-4 pb-10 sm:pt-6 sm:pb-14 lg:pt-8 lg:pb-16 px-4 sm:px-6 lg:px-8"
     >
-      {/* Background ambient lighting & floating elements */}
-      <div className="hero-bg-glow pointer-events-none absolute inset-0 -z-10 flex items-center justify-center">
-        <div className="w-[500px] h-[500px] sm:w-[750px] sm:h-[750px] rounded-full bg-gradient-to-tr from-cyan-950/20 via-blue-950/15 to-emerald-950/10 blur-[140px] opacity-70" />
+      {/* Background ambient lighting & floating elements - Hardware accelerated without scroll-scrub */}
+      <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center transform-gpu">
+        <div className="w-[500px] h-[500px] sm:w-[750px] sm:h-[750px] rounded-full bg-gradient-to-tr from-cyan-950/20 via-blue-950/15 to-emerald-950/10 blur-[90px] opacity-70" />
       </div>
       
-      <div className="hero-shape-1 pointer-events-none absolute top-[15%] left-[5%] w-64 h-64 rounded-full bg-cyan-500/10 blur-[100px] -z-10" />
-      <div className="hero-shape-2 pointer-events-none absolute top-[40%] right-[5%] w-80 h-80 rounded-full bg-emerald-500/10 blur-[120px] -z-10" />
+      <div className="pointer-events-none absolute top-[15%] left-[5%] w-64 h-64 rounded-full bg-cyan-500/10 blur-[70px] -z-10 transform-gpu" />
+      <div className="pointer-events-none absolute top-[40%] right-[5%] w-80 h-80 rounded-full bg-emerald-500/10 blur-[80px] -z-10 transform-gpu" />
 
       {/* Subtle background grid */}
       <div

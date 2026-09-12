@@ -178,15 +178,47 @@ export function MatrixBackground() {
     window.addEventListener("contextmenu", handleContextMenu, { passive: false });
     window.addEventListener("resize", handleResize, { passive: true });
 
-    const render = () => {
-      // Solid fill prevents the "ghost trail" painting
+    // Pre-render glyph sprites onto mini offscreen canvases for blazing GPU hardware blitting
+    const createSprite = (char: string, color: string) => {
+      const off = document.createElement("canvas");
+      off.width = fontSize * 1.6;
+      off.height = fontSize * 1.6;
+      const offCtx = off.getContext("2d");
+      if (offCtx) {
+        offCtx.font = `600 ${fontSize}px monospace`;
+        offCtx.fillStyle = color;
+        offCtx.textBaseline = "top";
+        offCtx.fillText(char, 0, 0);
+      }
+      return off;
+    };
+
+    const sprites = {
+      white: [createSprite("0", "#ffffff"), createSprite("1", "#ffffff")],
+      cyan: [createSprite("0", "#22d3ee"), createSprite("1", "#22d3ee")],
+      amber: [createSprite("0", "#fbbf24"), createSprite("1", "#fbbf24")],
+      purple: [createSprite("0", "#a78bfa"), createSprite("1", "#a78bfa")],
+    };
+
+    let lastFrameTime = 0;
+    const targetInterval = 1000 / 60; // Smooth 60 FPS cap to avoid wasting GPU cycles on 144Hz+ monitors
+
+    const render = (now: number) => {
+      animationFrameId = requestAnimationFrame(render);
+
+      if (document.hidden) return;
+
+      const elapsed = now - lastFrameTime;
+      if (elapsed < targetInterval) return;
+      lastFrameTime = now - (elapsed % targetInterval);
+
+      // Solid background fill
       ctx.fillStyle = "#050b14";
       ctx.fillRect(0, 0, width, height);
-      ctx.font = `600 ${fontSize}px monospace`;
 
       // Advance shockwaves
       for (let i = shockwaves.length - 1; i >= 0; i--) {
-        shockwaves[i].radius += 20; 
+        shockwaves[i].radius += 20;
         if (shockwaves[i].radius > 1200) {
           shockwaves.splice(i, 1);
         }
@@ -194,7 +226,7 @@ export function MatrixBackground() {
 
       // Handle persistent gravity well on right click
       if (isRightMouseDown) {
-        const well = gravityWells.find(w => w.life > 0);
+        const well = gravityWells.find((w) => w.life > 0);
         if (well) {
           well.x = mouseX;
           well.y = mouseY;
@@ -203,9 +235,8 @@ export function MatrixBackground() {
           gravityWells.push({ x: mouseX, y: mouseY, life: 1.0 });
         }
       } else {
-        // Decay wells when released
         for (let i = gravityWells.length - 1; i >= 0; i--) {
-          gravityWells[i].life -= 0.05; 
+          gravityWells[i].life -= 0.05;
           if (gravityWells[i].life <= 0) {
             gravityWells.splice(i, 1);
           }
@@ -215,12 +246,11 @@ export function MatrixBackground() {
       // 1. Advance drops and light up grid
       for (let x = 0; x < columns; x++) {
         const headY = Math.floor(drops[x]);
-        
+
         if (headY >= 0 && headY < rows) {
           const idx = headY * columns + x;
-          grid[idx] = 1.0; // max brightness for head
-          // randomize char when head passes
-          charGrid[idx] = Math.random() > 0.5 ? 1 : 0; 
+          grid[idx] = 1.0;
+          charGrid[idx] = Math.random() > 0.5 ? 1 : 0;
         }
 
         drops[x] += speeds[x];
@@ -229,109 +259,119 @@ export function MatrixBackground() {
         }
       }
 
-      // 2. Draw grid and apply physics to physical draw position
+      const hasActiveInteraction =
+        (mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height) ||
+        shockwaves.length > 0 ||
+        gravityWells.length > 0;
+
+      // 2. Draw grid and apply physics only when interacting
+      const k = 0.08;
+      const damp = 0.85;
+
       for (let y = 0; y < rows; y++) {
         for (let x = 0; x < columns; x++) {
           const idx = y * columns + x;
-          
-          if (grid[idx] > 0.02) { // only draw if visible
-            grid[idx] *= 0.92; // decay brightness (trail fade)
+
+          if (grid[idx] > 0.02) {
+            grid[idx] *= 0.92;
 
             const baseX = x * spacingX;
             const baseY = y * spacingY;
 
             let fx = 0;
             let fy = 0;
-            
             let currentOpacity = grid[idx] * opacities[x];
             let isAmber = false;
             let isPurple = false;
 
-            // Hover Repulsion
-            const hdx = baseX - mouseX;
-            const hdy = baseY - mouseY;
-            const hDist = Math.sqrt(hdx * hdx + hdy * hdy);
-            const hMaxDist = 120;
-            if (hDist < hMaxDist) {
-              const force = (hMaxDist - hDist) / hMaxDist;
-              fx += (hdx / hDist) * force * 4.0;
-              fy += (hdy / hDist) * force * 4.0;
-              currentOpacity = Math.min(1, currentOpacity + force * 0.5);
-            }
-
-            // Shockwaves (Left Click)
-            for (const wave of shockwaves) {
-              const wdx = baseX - wave.x;
-              const wdy = baseY - wave.y;
-              const wDist = Math.sqrt(wdx * wdx + wdy * wdy);
-              const thickness = 60;
-              
-              if (wDist > wave.radius - thickness && wDist < wave.radius + thickness) {
-                const force = 1 - Math.abs(wDist - wave.radius) / thickness;
-                // Push outwards strongly
-                fx += (wdx / wDist) * force * 15.0;
-                fy += (wdy / wDist) * force * 15.0;
-                currentOpacity = Math.min(1, currentOpacity + force * 1.5);
-                isAmber = true;
+            if (hasActiveInteraction) {
+              // Hover Repulsion
+              const hdx = baseX - mouseX;
+              const hdy = baseY - mouseY;
+              const hDist = Math.hypot(hdx, hdy);
+              const hMaxDist = 120;
+              if (hDist < hMaxDist && hDist > 0) {
+                const force = (hMaxDist - hDist) / hMaxDist;
+                fx += (hdx / hDist) * force * 4.0;
+                fy += (hdy / hDist) * force * 4.0;
+                currentOpacity = Math.min(1, currentOpacity + force * 0.5);
               }
-            }
 
-            // Gravity Wells (Right Click Hold)
-            for (const well of gravityWells) {
-              const gdx = baseX - well.x;
-              const gdy = baseY - well.y;
-              const gDist = Math.sqrt(gdx * gdx + gdy * gdy);
-              const gRadius = 450;
+              // Shockwaves
+              for (let w = 0; w < shockwaves.length; w++) {
+                const wave = shockwaves[w];
+                const wdx = baseX - wave.x;
+                const wdy = baseY - wave.y;
+                const wDist = Math.hypot(wdx, wdy);
+                const thickness = 60;
 
-              if (gDist < gRadius && gDist > 0) {
-                const force = Math.pow((gRadius - gDist) / gRadius, 1.5) * well.life;
-                const pull = Math.min(gDist, force * 15.0); 
-                fx -= (gdx / gDist) * pull;
-                fy -= (gdy / gDist) * pull;
-                currentOpacity = Math.min(1, currentOpacity + force * 2.0);
-                isPurple = true;
+                if (wDist > wave.radius - thickness && wDist < wave.radius + thickness) {
+                  const force = 1 - Math.abs(wDist - wave.radius) / thickness;
+                  fx += (wdx / (wDist || 1)) * force * 15.0;
+                  fy += (wdy / (wDist || 1)) * force * 15.0;
+                  currentOpacity = Math.min(1, currentOpacity + force * 1.5);
+                  isAmber = true;
+                }
               }
+
+              // Gravity Wells
+              for (let g = 0; g < gravityWells.length; g++) {
+                const well = gravityWells[g];
+                const gdx = baseX - well.x;
+                const gdy = baseY - well.y;
+                const gDist = Math.hypot(gdx, gdy);
+                const gRadius = 450;
+
+                if (gDist < gRadius && gDist > 0) {
+                  const force = Math.pow((gRadius - gDist) / gRadius, 1.5) * well.life;
+                  const pull = Math.min(gDist, force * 15.0);
+                  fx -= (gdx / gDist) * pull;
+                  fy -= (gdy / gDist) * pull;
+                  currentOpacity = Math.min(1, currentOpacity + force * 2.0);
+                  isPurple = true;
+                }
+              }
+
+              fx -= dxGrid[idx] * k;
+              fy -= dyGrid[idx] * k;
+
+              vxGrid[idx] = (vxGrid[idx] + fx) * damp;
+              vyGrid[idx] = (vyGrid[idx] + fy) * damp;
+
+              dxGrid[idx] += vxGrid[idx];
+              dyGrid[idx] += vyGrid[idx];
+            } else if (dxGrid[idx] !== 0 || dyGrid[idx] !== 0) {
+              // Smooth return to rest
+              dxGrid[idx] *= 0.85;
+              dyGrid[idx] *= 0.85;
+              if (Math.abs(dxGrid[idx]) < 0.01) dxGrid[idx] = 0;
+              if (Math.abs(dyGrid[idx]) < 0.01) dyGrid[idx] = 0;
             }
-
-            // Spring Physics simulation for smooth particle movement
-            const k = 0.08; // Spring stiffness (lower = more bouncy, higher = snaps faster)
-            const damp = 0.85; // Damping/friction (lower = less bouncy, higher = jelly)
-
-            fx -= dxGrid[idx] * k; // Spring force pulling back to 0
-            fy -= dyGrid[idx] * k;
-
-            vxGrid[idx] = (vxGrid[idx] + fx) * damp;
-            vyGrid[idx] = (vyGrid[idx] + fy) * damp;
-
-            dxGrid[idx] += vxGrid[idx];
-            dyGrid[idx] += vyGrid[idx];
 
             const drawX = baseX + dxGrid[idx];
             const drawY = baseY + dyGrid[idx];
+            const charBit = charGrid[idx] === 1 ? 1 : 0;
 
-            // Color selection
+            let sprite = sprites.cyan[charBit];
             if (grid[idx] > 0.9) {
-              // Bright head
-              ctx.fillStyle = `rgba(255, 255, 255, ${currentOpacity + 0.3})`;
+              sprite = sprites.white[charBit];
+              currentOpacity = Math.min(1, currentOpacity + 0.3);
             } else if (isAmber) {
-              ctx.fillStyle = `rgba(251, 191, 36, ${currentOpacity})`;
+              sprite = sprites.amber[charBit];
             } else if (isPurple) {
-              ctx.fillStyle = `rgba(167, 139, 250, ${currentOpacity})`;
-            } else {
-              // Trail
-              ctx.fillStyle = `rgba(34, 211, 238, ${currentOpacity})`;
+              sprite = sprites.purple[charBit];
             }
 
-            const char = charGrid[idx] === 1 ? "1" : "0";
-            ctx.fillText(char, drawX, drawY);
+            ctx.globalAlpha = Math.min(1, Math.max(0, currentOpacity));
+            ctx.drawImage(sprite, drawX, drawY);
           }
         }
       }
 
-      animationFrameId = requestAnimationFrame(render);
+      ctx.globalAlpha = 1.0;
     };
 
-    render();
+    animationFrameId = requestAnimationFrame(render);
 
     return () => {
       cancelAnimationFrame(animationFrameId);
@@ -348,7 +388,7 @@ export function MatrixBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none w-full h-full -z-50"
+      className="fixed inset-0 pointer-events-none w-full h-full -z-50 transform-gpu will-change-transform"
       style={{ touchAction: "none" }}
     />
   );

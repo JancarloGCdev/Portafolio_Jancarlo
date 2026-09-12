@@ -10,7 +10,6 @@ import {
   ShoppingCart,
   FileText,
   Binary,
-  Zap,
   Code2,
   ChevronLeft,
   ChevronRight,
@@ -364,9 +363,9 @@ function ProjectScreenshotGallery({ project, locale }: { project: DevProject; lo
           if (e.key === "ArrowRight") nextSlide();
         }}
       >
-        {/* Slide Content Viewport: Constant Height, zero layout shifts */}
+        {/* Slide Content Viewport: Compact & Constant Height */}
         <div
-          className="relative w-full h-[260px] sm:h-[300px] md:h-[340px] flex items-center justify-center overflow-hidden bg-[#040810] group/img"
+          className="relative w-full h-[180px] sm:h-[210px] md:h-[240px] lg:h-[260px] flex items-center justify-center overflow-hidden bg-[#040810] group/img"
           onMouseDown={(e) => onDragStart(e.clientX)}
           onMouseMove={(e) => onDragMove(e.clientX)}
           onMouseUp={onDragEnd}
@@ -536,8 +535,8 @@ export function ProjectsSection() {
 
         gsap.to(trackRef.current, {
           x: targetX,
-          duration: prefersReduced ? 0 : 0.55,
-          ease: "power3.out",
+          duration: prefersReduced ? 0 : 0.45,
+          ease: "power2.out",
         });
 
         cardsRef.current.forEach((card, i) => {
@@ -546,16 +545,14 @@ export function ProjectsSection() {
             gsap.to(card, {
               scale: 1,
               opacity: 1,
-              filter: "blur(0px)",
-              duration: 0.5,
+              duration: 0.35,
               ease: "power2.out",
             });
           } else {
             gsap.to(card, {
-              scale: 0.92,
-              opacity: 0.45,
-              filter: "blur(2px)",
-              duration: 0.5,
+              scale: 0.95,
+              opacity: 0.35,
+              duration: 0.35,
               ease: "power2.out",
             });
           }
@@ -608,71 +605,35 @@ export function ProjectsSection() {
     else if (dragDelta.current > 45) prev();
   };
 
-  // Entrance animations and Parallax on scroll
+  // Entrance animations - Lightweight & High Performance
   useGSAP(
     () => {
       const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (prefersReduced) return;
 
-      const isMobile = window.innerWidth < 768;
-
       gsap.from(".proj-header-anim", {
         scrollTrigger: {
           trigger: containerRef.current,
-          start: "top 78%",
+          start: "top 80%",
           toggleActions: "play none none none",
         },
-        y: 25,
+        y: 15,
         opacity: 0,
-        duration: 0.75,
-        stagger: 0.12,
-        ease: "power3.out",
+        duration: 0.6,
+        stagger: 0.1,
+        ease: "power2.out",
       });
 
       gsap.from(".proj-carousel-viewport", {
         scrollTrigger: {
           trigger: containerRef.current,
-          start: "top 68%",
+          start: "top 75%",
           toggleActions: "play none none none",
         },
-        y: 35,
+        y: 20,
         opacity: 0,
-        duration: 0.8,
+        duration: 0.6,
         ease: "power2.out",
-      });
-
-      // Subtle Background Glow Parallax (Increased Intensity)
-      gsap.to(".proj-bg-glow", {
-        y: isMobile ? 80 : 300,
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
-
-      // Geometric floating shapes
-      gsap.to(".proj-shape-1", {
-        y: isMobile ? -30 : -120,
-        rotation: 45,
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
-
-      // Project Images Subtle Pan Parallax (Increased Intensity)
-      gsap.to(".proj-image-parallax", {
-        y: isMobile ? 30 : 70,
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-        },
       });
     },
     { scope: containerRef }
@@ -682,52 +643,101 @@ export function ProjectsSection() {
     <section
       ref={containerRef}
       id="projects"
-      className="relative w-full py-12 sm:py-16 lg:py-20 border-t border-zinc-900/80 overflow-hidden"
+      className="relative w-full py-6 sm:py-8 lg:py-10 border-t border-zinc-900/80 overflow-hidden scroll-mt-16 sm:scroll-mt-20"
     >
-      {/* Background Ambient Glow & Shapes */}
-      <div className="proj-bg-glow pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden">
-        <div className="w-[900px] h-[900px] rounded-full bg-gradient-to-tr from-cyan-950/20 via-purple-950/10 to-transparent blur-[160px] opacity-60" />
+      {/* Background Ambient Glow - Hardware accelerated without scroll scrub lag */}
+      <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden transform-gpu">
+        <div className="w-[700px] h-[700px] rounded-full bg-gradient-to-tr from-cyan-950/20 via-purple-950/10 to-transparent blur-[100px] opacity-50" />
       </div>
-      <div className="proj-shape-1 pointer-events-none absolute top-[20%] right-[10%] w-48 h-48 rounded-full border-[20px] border-cyan-500/5 blur-[10px] -z-10" />
 
-      <div className="w-full space-y-8 lg:space-y-12">
+      <div className="w-full space-y-4">
         {/* =========================================================================
-            1. SECTION HEADER
+            1. UNIFIED SECTION HEADER & CONTROLS (Compact single-view layout)
            ========================================================================= */}
-        <div className="max-w-3xl space-y-4 mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="proj-header-anim text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.15]">
-            {locale === "es" ? (
-              <>
-                Soluciones diseñadas para{" "}
-                <br className="hidden sm:block" />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 drop-shadow-sm">
-                  resolver problemas reales de negocio.
-                </span>
-              </>
-            ) : (
-              <>
-                Engineered solutions designed to{" "}
-                <br className="hidden sm:block" />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 drop-shadow-sm">
-                  solve real-world operational challenges.
-                </span>
-              </>
-            )}
-          </h2>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+          <div className="space-y-1">
+            <div className="proj-header-anim flex items-center gap-1.5 text-[11px] font-mono font-bold tracking-widest text-cyan-400 uppercase">
+              <Code2 className="w-3.5 h-3.5" />
+              <span>{locale === "es" ? "Proyectos Destacados" : "Featured Projects"}</span>
+            </div>
 
-          <p className="proj-header-anim text-sm sm:text-base text-zinc-400 leading-relaxed max-w-2xl mx-auto">
-            {locale === "es"
-              ? "Cada proyecto demuestra versatilidad técnica y capacidad de adaptación: desde frontend moderno y APIs backend hasta algoritmos en Python y despliegues full-stack."
-              : "Each project proves technical range and adaptability: from modern frontend and backend APIs to Python algorithms and full-stack deployments."}
-          </p>
+            <h2 className="proj-header-anim text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight leading-snug">
+              {locale === "es" ? (
+                <>
+                  Soluciones para{" "}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400">
+                    retos reales de negocio.
+                  </span>
+                </>
+              ) : (
+                <>
+                  Engineered solutions for{" "}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400">
+                    real business challenges.
+                  </span>
+                </>
+              )}
+            </h2>
+
+            <p className="proj-header-anim text-xs sm:text-[13px] text-zinc-400 leading-normal max-w-xl">
+              {locale === "es"
+                ? "Arquitectura full-stack, APIs robustas y productos web de alto impacto visual."
+                : "Full-stack architecture, robust APIs, and high visual performance web applications."}
+            </p>
+          </div>
+
+          {/* Inline Controls (Right side of header) */}
+          <div className="proj-header-anim flex items-center gap-3 shrink-0 font-mono text-xs text-zinc-400 self-end sm:self-auto bg-zinc-900/90 border border-zinc-800 rounded-full px-3 py-1.5 shadow-sm">
+            <div className="flex items-center gap-1.5">
+              {devProjects.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => goTo(idx)}
+                  aria-label={`Go to project ${idx + 1}`}
+                  className={`transition-all duration-300 rounded-full ${
+                    activeIdx === idx
+                      ? "w-5 h-2 bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.5)]"
+                      : "w-2 h-2 bg-zinc-700 hover:bg-zinc-500"
+                  }`}
+                />
+              ))}
+            </div>
+
+            <span className="text-[11px] text-zinc-400 pl-1 border-l border-zinc-800">
+              <strong className="text-white">{String(activeIdx + 1).padStart(2, "0")}</strong> / {String(total).padStart(2, "0")}
+            </span>
+
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={prev}
+                disabled={activeIdx === 0}
+                aria-label="Previous project"
+                className="w-7 h-7 rounded-full border border-zinc-700/80 bg-zinc-800 text-zinc-200 flex items-center justify-center hover:bg-cyan-950 hover:border-cyan-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95"
+              >
+                <ChevronLeft className="w-3.5 h-3.5" />
+              </button>
+
+              <button
+                type="button"
+                onClick={next}
+                disabled={activeIdx === total - 1}
+                aria-label="Next project"
+                className="w-7 h-7 rounded-full border border-zinc-700/80 bg-zinc-800 text-zinc-200 flex items-center justify-center hover:bg-cyan-950 hover:border-cyan-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95"
+              >
+                <ChevronRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* =========================================================================
-            2. HORIZONTAL CAROUSEL — PERFECTLY CENTERED ACTIVE CARD WITH PROMINENT SIDE PEEKS
+            2. HORIZONTAL CAROUSEL — COMPACT 2-COLUMN SINGLE-VIEW PROJECT CARD
            ========================================================================= */}
         <div
           ref={viewportRef}
-          className="proj-carousel-viewport relative w-full overflow-hidden space-y-8 select-none"
+          className="proj-carousel-viewport relative w-full overflow-hidden select-none"
         >
           {/* Main Track Viewport */}
           <div
@@ -741,10 +751,10 @@ export function ProjectsSection() {
             onTouchEnd={onDragEnd}
             style={{ cursor: isDragging ? "grabbing" : "grab" }}
           >
-            {/* Sliding Track containing ALL 5 Projects */}
+            {/* Sliding Track containing Projects */}
             <div
               ref={trackRef}
-              className="flex items-stretch gap-6 md:gap-8 lg:gap-10 will-change-transform py-4"
+              className="relative flex items-stretch gap-4 sm:gap-6 lg:gap-8 will-change-transform transform-gpu py-1"
             >
               {devProjects.map((project, idx) => {
                 const liveLink =
@@ -759,154 +769,102 @@ export function ProjectsSection() {
                     ref={(el) => {
                       cardsRef.current[idx] = el;
                     }}
-                    className="proj-slide-card shrink-0 w-[90vw] sm:w-[84vw] md:w-[78vw] lg:w-[68vw] xl:w-[58vw] 2xl:w-[50vw] max-w-3xl transition-all duration-300"
+                    onClick={() => {
+                      if (!isActive) goTo(idx);
+                    }}
+                    className={`proj-slide-card shrink-0 w-[92vw] sm:w-[86vw] md:w-[80vw] lg:w-[74vw] max-w-4xl transition-all duration-300 transform-gpu ${
+                      !isActive ? "cursor-pointer hover:opacity-60" : ""
+                    }`}
                     style={{
-                      opacity: isActive ? 1 : 0.45,
-                      transform: isActive ? "scale(1)" : "scale(0.92)",
+                      opacity: isActive ? 1 : 0.35,
+                      transform: isActive ? "scale(1)" : "scale(0.95)",
                     }}
                   >
-                    {/* High-Contrast Card Panel (Tinder-Style Vertical Stack Matching Skills Dimensions) */}
-                    <div className="relative h-full rounded-3xl border border-zinc-700/80 bg-[#09111c]/95 backdrop-blur-2xl p-6 sm:p-8 shadow-[0_25px_60px_rgba(0,0,0,0.9)] flex flex-col justify-between overflow-hidden group hover:border-zinc-500/80 space-y-6">
+                    {/* Compact 2-Column Project Card (Engineered to fit single viewport) */}
+                    <div className="relative h-full rounded-2xl border border-zinc-700/80 bg-[#09111c]/98 p-4 sm:p-5 lg:p-6 shadow-[0_15px_35px_rgba(0,0,0,0.85)] flex flex-col justify-between overflow-hidden group hover:border-zinc-500/80">
                       {/* Top cyan glow line */}
                       <div className="pointer-events-none absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
 
-                      {/* Project Index Badge */}
-                      <div className="absolute top-5 right-5 z-20 font-mono text-xs text-zinc-400 font-bold bg-zinc-900/90 px-3 py-1 rounded-md border border-zinc-800 backdrop-blur-md shadow-md">
-                        {String(idx + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
-                      </div>
-
-                      {/* 1. TOP ROW: SCREENSHOT / MOCKUP GALLERY (IMÁGENES ARRIBA) */}
-                      <div className="w-full">
-                        <ProjectScreenshotGallery project={project} locale={locale} />
-                      </div>
-
-                      {/* 2. MIDDLE ROW: PROJECT NARRATIVE & SPECS (CONTENIDO DE TEXTO ABAJO) */}
-                      <div className="w-full flex flex-col justify-between space-y-4">
-                        <div className="space-y-3">
-                          <span className="text-xs font-mono uppercase tracking-widest text-cyan-400 flex items-center gap-1.5 font-bold">
-                            <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
-                            {project.type}
-                          </span>
-
-                          <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
-                            {project.name}
-                          </h3>
-
-                          <p className="text-sm sm:text-base text-zinc-300 font-medium leading-relaxed">
-                            {project.tagline}
-                          </p>
-
-                          {/* Logros & Aprendizaje */}
-                          <div className="space-y-3.5 pt-1">
-                            <div className="space-y-1.5">
-                              <span className="text-[11px] font-mono uppercase tracking-widest text-emerald-400 flex items-center gap-1.5 font-bold">
-                                <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-                                {locale === "es" ? "Lo que logré:" : "What I achieved:"}
-                              </span>
-                              <ul className="space-y-1.5 text-xs sm:text-sm text-zinc-300">
-                                {project.features.slice(0, 2).map((feat, fIdx) => (
-                                  <li key={fIdx} className="flex items-start gap-2 leading-relaxed">
-                                    <span className="text-emerald-400 font-bold mt-0.5">✓</span>
-                                    <span>{feat}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-
-                            <div className="space-y-1.5">
-                              <span className="text-[11px] font-mono uppercase tracking-widest text-purple-400 flex items-center gap-1.5 font-bold">
-                                <Zap className="w-3.5 h-3.5 text-purple-400" />
-                                {locale === "es" ? "Lo que aprendí:" : "What I learned:"}
-                              </span>
-                              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed border-l-2 border-purple-500/40 pl-3 bg-purple-950/10 py-1.5 rounded-r">
-                                {project.learned}
-                              </p>
-                            </div>
-                          </div>
+                      {/* 2-Column Responsive Layout: Gallery Left, Content Right */}
+                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center">
+                        {/* LEFT: Mockup / Screenshot Gallery */}
+                        <div className="lg:col-span-5 w-full">
+                          <ProjectScreenshotGallery project={project} locale={locale} />
                         </div>
 
-                        {/* Action Links */}
-                        {liveLink && (
-                          <div className="flex flex-wrap items-center gap-3 pt-2">
-                            <a
-                              href={liveLink.href}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-950/80 border border-emerald-500/40 hover:border-emerald-400 text-xs sm:text-sm font-semibold text-emerald-300 transition-all active:scale-[0.98]"
-                            >
-                              <ExternalLink className="w-4 h-4 text-emerald-400" />
-                              <span>{liveLink.label || "Ver Demo"}</span>
-                            </a>
-                          </div>
-                        )}
-                      </div>
+                        {/* RIGHT: Specs, Impact & Stack */}
+                        <div className="lg:col-span-7 flex flex-col justify-between space-y-2.5 sm:space-y-3">
+                          {/* Header: Type Tag, Name & Tagline */}
+                          <div>
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest text-cyan-400 flex items-center gap-1 font-bold">
+                                <Sparkles className="w-3 h-3 text-cyan-300" />
+                                {project.type}
+                              </span>
+                              <span className="font-mono text-xs text-zinc-500 font-bold">
+                                {String(idx + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+                              </span>
+                            </div>
 
-                      {/* 3. BOTTOM ROW: FULL-WIDTH CONTAINER FOR TECHNOLOGIES & TOOLS (DEBIDAS TOOLS) */}
-                      <div className="pt-4 border-t border-zinc-800/80 space-y-2.5 bg-[#060b13]/60 p-4 rounded-2xl border border-zinc-800/90">
-                        <span className="text-[11px] font-mono uppercase tracking-widest text-cyan-400 block font-bold flex items-center gap-1.5">
-                          <Code2 className="w-4 h-4 text-cyan-400" />
-                          {locale === "es" ? "Stack Tecnológico & Herramientas:" : "Technology Stack & Tools:"}
-                        </span>
-                        <div className="flex flex-wrap gap-2">
-                          {project.stack.map((tech, tIdx) => (
-                            <TechBadge key={tIdx} tech={tech} size="md" />
-                          ))}
+                            <h3 className="text-lg sm:text-xl lg:text-2xl font-extrabold text-white tracking-tight leading-tight mt-0.5">
+                              {project.name}
+                            </h3>
+
+                            <p className="text-xs sm:text-[13px] text-zinc-300 leading-relaxed font-normal mt-1 line-clamp-2">
+                              {project.tagline}
+                            </p>
+                          </div>
+
+                          {/* Achievements & Learning takeaway */}
+                          <div className="space-y-2">
+                            <ul className="space-y-1 text-xs text-zinc-300">
+                              {project.features.slice(0, 2).map((feat, fIdx) => (
+                                <li key={fIdx} className="flex items-start gap-1.5 leading-snug">
+                                  <span className="text-emerald-400 font-bold shrink-0 mt-0.5">✓</span>
+                                  <span className="line-clamp-2">{feat}</span>
+                                </li>
+                              ))}
+                            </ul>
+
+                            <div className="text-[11px] sm:text-xs text-zinc-300 leading-relaxed border-l-2 border-purple-500/60 pl-2.5 py-1.5 bg-purple-950/25 rounded-r">
+                              <span className="text-purple-300 font-semibold block mb-0.5 text-[10px] uppercase font-mono tracking-wider">
+                                {locale === "es" ? "Aprendizaje clave:" : "Key takeaway:"}
+                              </span>
+                              <p className="text-zinc-200 font-normal leading-relaxed">{project.learned}</p>
+                            </div>
+                          </div>
+
+                          {/* Technologies Badges & Action Link */}
+                          <div className="pt-2 border-t border-zinc-800/80 flex flex-wrap items-center justify-between gap-2">
+                            <div className="flex flex-wrap gap-1.5 items-center">
+                              {project.stack.slice(0, 5).map((tech, tIdx) => (
+                                <TechBadge key={tIdx} tech={tech} size="sm" />
+                              ))}
+                              {project.stack.length > 5 && (
+                                <span className="px-1.5 py-0.5 text-[10px] rounded bg-zinc-900 border border-zinc-800 text-zinc-400 font-mono">
+                                  +{project.stack.length - 5}
+                                </span>
+                              )}
+                            </div>
+
+                            {liveLink && (
+                              <a
+                                href={liveLink.href}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-950/80 border border-emerald-500/40 hover:border-emerald-400 text-xs font-semibold text-emerald-300 transition-all active:scale-[0.98] shrink-0 shadow-sm"
+                              >
+                                <ExternalLink className="w-3.5 h-3.5 text-emerald-400" />
+                                <span>{liveLink.label || "Demo"}</span>
+                              </a>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 );
               })}
-            </div>
-          </div>
-
-          {/* =========================================================================
-              3. CAROUSEL CONTROLS BAR [ ← ] [ Dots / Counter ] [ → ]
-             ========================================================================= */}
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 pt-2">
-            {/* Dots */}
-            <div className="flex items-center gap-2">
-              {devProjects.map((_, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => goTo(idx)}
-                  aria-label={`Go to project ${idx + 1}`}
-                  className={`transition-all duration-300 rounded-full ${activeIdx === idx
-                    ? "w-7 h-2.5 bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)]"
-                    : "w-2 h-2 bg-zinc-700 hover:bg-zinc-500"
-                    }`}
-                />
-              ))}
-            </div>
-
-            {/* Navigation Arrows & Counter */}
-            <div className="flex items-center gap-3 font-mono text-xs text-zinc-400">
-              <span>
-                <strong className="text-white">{String(activeIdx + 1).padStart(2, "0")}</strong> / {String(total).padStart(2, "0")}
-              </span>
-
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={prev}
-                  disabled={activeIdx === 0}
-                  aria-label="Previous project"
-                  className="w-10 h-10 rounded-full border border-zinc-700/80 bg-zinc-900 text-zinc-200 flex items-center justify-center hover:bg-cyan-950 hover:border-cyan-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95 shadow-md"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-
-                <button
-                  type="button"
-                  onClick={next}
-                  disabled={activeIdx === total - 1}
-                  aria-label="Next project"
-                  className="w-10 h-10 rounded-full border border-zinc-700/80 bg-zinc-900 text-zinc-200 flex items-center justify-center hover:bg-cyan-950 hover:border-cyan-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95 shadow-md"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-              </div>
             </div>
           </div>
         </div>

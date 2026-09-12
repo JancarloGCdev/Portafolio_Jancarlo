@@ -22,6 +22,29 @@ export const DEFAULT_ABOUT_PARAGRAPHS_EN = [
 
 export const EXPERIENCES: ExperienceEntry[] = [
   {
+    company: "Freelance | Self-Employed",
+    role: "Full Stack Developer & Security Engineer",
+    location: "Remote",
+    period: "Jul 2025 – Present",
+    summary:
+      "Full stack development and cybersecurity for independent clients: generative AI media automation pipelines, RESTful API security audits, and isolated Linux container environments.",
+    bullets: [
+      "Built media and content automation pipelines integrating n8n, Google AI Studio, and generative models (Imagen 3, Veo 3) to optimize operational workflows.",
+      "Conducted cybersecurity audits on web applications, implementing strict validations across RESTful APIs and access control segmentation.",
+      "Configured and managed isolated staging and development environments using Linux containers, ensuring data integrity prior to deployment.",
+      "Architected adaptable software solutions for independent clients, translating technical requirements into scalable, reliable architectures.",
+    ],
+    modalTakeaways: [
+      "Process automation via generative AI and n8n orchestration drastically reduces operational overhead and manual error rates.",
+      "Embedding cybersecurity early into REST APIs and Linux containers protects data integrity and prevents critical vulnerabilities.",
+    ],
+    stack: ["n8n", "Google AI Studio", "Imagen 3 / Veo 3", "RESTful APIs", "Docker / Linux", "Cybersecurity", "Python"],
+    insightsHeading: "Automation & Security",
+    securityConsiderations: [
+      "Continuous REST endpoint audits, least-privilege access control (RBAC), and strict network segmentation in Linux containers.",
+    ],
+  },
+  {
     company: "Outsourcing S.A.S. BIC",
     role: "Full Stack .NET Developer (Blazor / ASP.NET)",
     location: "Bogotá D.C., Colombia (Remote)",
@@ -42,6 +65,29 @@ export const EXPERIENCES: ExperienceEntry[] = [
     insightsHeading: "Production Environments",
     securityConsiderations: [
       "Least privilege principles for production database credentials and controlled release schedules.",
+    ],
+  },
+  {
+    company: "Universidad Tecnológica de Pereira",
+    role: "Computer Lab Administrator & Tech Support",
+    location: "Pereira, Risaralda, Colombia (On-site)",
+    period: "Aug 2024 – Jun 2025",
+    summary:
+      "Responsible for the operation, maintenance, and support of computer lab technology infrastructure, guaranteeing high resource availability for hundreds of daily users.",
+    bullets: [
+      "Administered and ensured continuous uptime across 30+ physical workstations, minimizing equipment downtime through preventive and corrective maintenance.",
+      "Delivered Tier 1 and Tier 2 technical support to students and faculty, resolving 10+ weekly incidents involving network connectivity, software faults, and hardware configurations.",
+      "Trained end users on basic troubleshooting protocols and specialized software operation, streamlining support throughput and improving user experience.",
+      "Monitored local area network (LAN) connectivity and workstation health, enforcing security policies and continuous technology availability.",
+    ],
+    modalTakeaways: [
+      "Disciplined preventive maintenance and workstation standardization substantially reduce unplanned downtime.",
+      "Clear technical communication and active empathy during support turn complex incidents into positive user experiences.",
+    ],
+    stack: ["Tier 1 & Tier 2 Support", "LAN / TCP-IP Networks", "Hardware & Software Maintenance", "Linux / Windows", "Help Desk", "Cisco CCNA"],
+    insightsHeading: "Support & Infrastructure",
+    securityConsiderations: [
+      "Public workstation security policies, network credential protection, and regular rollback to verified clean system restore points.",
     ],
   },
 ];
